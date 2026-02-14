@@ -43,7 +43,7 @@ export function renderSettings(state) {
 
       ${sectionCard(
         "Project Data",
-        `<p class="text-sm opacity-80 mb-3">Primary persistence is JSON import/export per language project.</p>
+        `<p class="text-sm opacity-80 mb-3">Progress auto-saves in this browser (localStorage). Import/export is still available for backup and moving to another device.</p>
          <div class="flex flex-wrap gap-2">
            <button id="export-progress" class="btn btn-sm btn-primary">Export ProgressData</button>
            <button id="import-progress-trigger" class="btn btn-sm btn-outline">Import ProgressData</button>
