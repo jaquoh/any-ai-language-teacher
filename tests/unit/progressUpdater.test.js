@@ -19,6 +19,7 @@ describe("progressUpdater", () => {
     expect(updated.knowledgeLedger.verbs.length).toBe(1);
     expect(updated.knowledgeLedger.grammar.length).toBe(1);
     expect(updated.importedResultIds).toContain("result-0001");
+    expect(entry.durationMin).toBe(lessonResult.durationMin);
     expect(entry.aiSource).toEqual({
       model: "ChatGPT-5",
       company: "OpenAI",

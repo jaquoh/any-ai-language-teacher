@@ -28,11 +28,21 @@ function sanitizeAiSource(aiSource) {
   };
 }
 
+function sanitizeDurationMin(durationMin) {
+  const value = Number(durationMin);
+  if (Number.isInteger(value) && value > 0 && value <= 240) {
+    return value;
+  }
+  return null;
+}
+
 export function hydrateLessonHistoryAiSource(lessonHistory = []) {
   return lessonHistory.map((entry) => {
     const { timeSpentMin: _timeSpentMin, resultAddedAt: _resultAddedAt, ...rest } = entry;
+    const durationMin = sanitizeDurationMin(entry.durationMin);
     return {
       ...rest,
+      ...(durationMin ? { durationMin } : {}),
       aiSource: sanitizeAiSource(entry.aiSource),
     };
   });
@@ -160,6 +170,7 @@ export function applyLessonResult(progress, lessonResult, plan) {
 
   const importedAt = isoNow();
   const aiSource = sanitizeAiSource(lessonResult.aiSource);
+  const durationMin = sanitizeDurationMin(lessonResult.durationMin);
   const draft = structuredClone(progress);
 
   draft.importedResultIds.push(lessonResult.resultId);
@@ -194,6 +205,7 @@ export function applyLessonResult(progress, lessonResult, plan) {
   draft.lessonHistory.push({
     resultId: lessonResult.resultId,
     timestamp: lessonResult.lessonTimestamp,
+    ...(durationMin ? { durationMin } : {}),
     aiSource,
     moduleId: lessonResult.moduleId,
     topic: lessonResult.topic,
