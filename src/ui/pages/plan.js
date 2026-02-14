@@ -1,5 +1,6 @@
 import { sectionCard } from "../components/layout.js";
 import { summarizeModuleProgress } from "../../core/topicSelector.js";
+import { getModuleTopicLabels } from "../../core/planModel.js";
 
 function renderList(items) {
   return `<ul class="list-disc pl-5 text-sm space-y-1">${items.map((item) => `<li>${item}</li>`).join("")}</ul>`;
@@ -56,7 +57,7 @@ export function renderPlan(state) {
           </div>
           <div class="mt-2">
             <h4 class="font-semibold text-sm">Topic Rotation</h4>
-            ${renderList(module.vocabThemes)}
+            ${renderList(getModuleTopicLabels(module))}
           </div>
           <div class="mt-2">
             <h4 class="font-semibold text-sm">Grammar Targets</h4>

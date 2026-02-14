@@ -6,6 +6,7 @@ import {
   shouldSkipGrammarForTopic,
 } from "./topicSelector.js";
 import { isoNow, uniqStrings } from "./normalizers.js";
+import { getModuleTopicLabels } from "./planModel.js";
 
 function buildLessonResultTemplate({ projectId, moduleId, topic }) {
   return {
@@ -100,7 +101,7 @@ export function buildNextLessonPacket(progress, plan) {
   const nextModuleId = selectNextModuleId(plan, progress);
   const module = (plan.modules || []).find((item) => item.moduleId === nextModuleId) || plan.modules?.[0];
 
-  const moduleTopics = uniqStrings(module?.vocabThemes || []);
+  const moduleTopics = uniqStrings(getModuleTopicLabels(module));
   const topic = selectNextTopic({
     module,
     moduleId: nextModuleId,

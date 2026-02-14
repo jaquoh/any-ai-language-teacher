@@ -73,4 +73,43 @@ describe("topicSelector", () => {
 
     expect(moduleId).toBe("de-a1-2");
   });
+
+  it("supports structured module topics with aliases and ids", () => {
+    const topic = selectNextTopic({
+      moduleId: "de-a1-1",
+      module: {
+        moduleId: "de-a1-1",
+        lessonCadence: {
+          targetLessons: 20,
+          lessonsPerTopic: 2,
+        },
+        topics: [
+          {
+            id: "office-topic",
+            label: "office",
+            aliases: ["workplace"],
+          },
+          {
+            id: "market-topic",
+            label: "supermarket",
+            aliases: ["grocery shopping"],
+          },
+          {
+            id: "transport-topic",
+            label: "public transportation",
+            aliases: ["bus and train"],
+          },
+        ],
+      },
+      lessonHistory: [
+        { moduleId: "de-a1-1", topic: "workplace" },
+        { moduleId: "de-a1-1", topic: "office-topic" },
+        { moduleId: "de-a1-1", topic: "grocery shopping" },
+      ],
+      mistakePatterns: [],
+      recommendedTopic: "",
+    });
+
+    expect(topic).toBe("public transportation");
+  });
 });

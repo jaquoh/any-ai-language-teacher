@@ -333,7 +333,82 @@
       "lessonCadence": {
         "targetLessons": 20,
         "lessonsPerTopic": 2
-      }
+      },
+      "moduleVersion": "1.0.0",
+      "topics": [
+        {
+          "id": "de-a1-1-love-and-valentines-day",
+          "label": "love and valentines day",
+          "aliases": [
+            "love and valentines day"
+          ]
+        },
+        {
+          "id": "de-a1-1-relationship",
+          "label": "relationship",
+          "aliases": [
+            "relationship"
+          ]
+        },
+        {
+          "id": "de-a1-1-friends-and-dating",
+          "label": "friends and dating",
+          "aliases": [
+            "friends and dating"
+          ]
+        },
+        {
+          "id": "de-a1-1-introducing-yourself",
+          "label": "introducing yourself",
+          "aliases": [
+            "introducing yourself"
+          ]
+        },
+        {
+          "id": "de-a1-1-family",
+          "label": "family",
+          "aliases": [
+            "family"
+          ]
+        },
+        {
+          "id": "de-a1-1-supermarket",
+          "label": "supermarket",
+          "aliases": [
+            "supermarket"
+          ]
+        },
+        {
+          "id": "de-a1-1-food-and-drinks",
+          "label": "food and drinks",
+          "aliases": [
+            "food and drinks"
+          ]
+        },
+        {
+          "id": "de-a1-1-activities",
+          "label": "activities",
+          "aliases": [
+            "activities"
+          ]
+        },
+        {
+          "id": "de-a1-1-weekend-plans",
+          "label": "weekend plans",
+          "aliases": [
+            "weekend plans"
+          ]
+        },
+        {
+          "id": "de-a1-1-weather-small-talk",
+          "label": "weather small talk",
+          "aliases": [
+            "weather small talk"
+          ]
+        }
+      ],
+      "metadata": {},
+      "extensions": {}
     },
     {
       "moduleId": "de-a1-2",
@@ -654,7 +729,82 @@
       "lessonCadence": {
         "targetLessons": 20,
         "lessonsPerTopic": 2
-      }
+      },
+      "moduleVersion": "1.0.0",
+      "topics": [
+        {
+          "id": "de-a1-2-supermarket",
+          "label": "supermarket",
+          "aliases": [
+            "supermarket"
+          ]
+        },
+        {
+          "id": "de-a1-2-office",
+          "label": "office",
+          "aliases": [
+            "office"
+          ]
+        },
+        {
+          "id": "de-a1-2-public-transportation",
+          "label": "public transportation",
+          "aliases": [
+            "public transportation"
+          ]
+        },
+        {
+          "id": "de-a1-2-animals",
+          "label": "animals",
+          "aliases": [
+            "animals"
+          ]
+        },
+        {
+          "id": "de-a1-2-appointments",
+          "label": "appointments",
+          "aliases": [
+            "appointments"
+          ]
+        },
+        {
+          "id": "de-a1-2-home-and-furniture",
+          "label": "home and furniture",
+          "aliases": [
+            "home and furniture"
+          ]
+        },
+        {
+          "id": "de-a1-2-health-and-pharmacy",
+          "label": "health and pharmacy",
+          "aliases": [
+            "health and pharmacy"
+          ]
+        },
+        {
+          "id": "de-a1-2-bank-and-post-office",
+          "label": "bank and post office",
+          "aliases": [
+            "bank and post office"
+          ]
+        },
+        {
+          "id": "de-a1-2-daily-routines",
+          "label": "daily routines",
+          "aliases": [
+            "daily routines"
+          ]
+        },
+        {
+          "id": "de-a1-2-weather",
+          "label": "weather",
+          "aliases": [
+            "weather"
+          ]
+        }
+      ],
+      "metadata": {},
+      "extensions": {}
     },
     {
       "moduleId": "de-a2-1",
@@ -975,7 +1125,82 @@
       "lessonCadence": {
         "targetLessons": 20,
         "lessonsPerTopic": 2
-      }
+      },
+      "moduleVersion": "1.0.0",
+      "topics": [
+        {
+          "id": "de-a2-1-vacation",
+          "label": "vacation",
+          "aliases": [
+            "vacation"
+          ]
+        },
+        {
+          "id": "de-a2-1-public-transportation",
+          "label": "public transportation",
+          "aliases": [
+            "public transportation"
+          ]
+        },
+        {
+          "id": "de-a2-1-job-search",
+          "label": "job search",
+          "aliases": [
+            "job search"
+          ]
+        },
+        {
+          "id": "de-a2-1-activities",
+          "label": "activities",
+          "aliases": [
+            "activities"
+          ]
+        },
+        {
+          "id": "de-a2-1-city-navigation",
+          "label": "city navigation",
+          "aliases": [
+            "city navigation"
+          ]
+        },
+        {
+          "id": "de-a2-1-hotel-and-accommodation",
+          "label": "hotel and accommodation",
+          "aliases": [
+            "hotel and accommodation"
+          ]
+        },
+        {
+          "id": "de-a2-1-phone-and-internet",
+          "label": "phone and internet",
+          "aliases": [
+            "phone and internet"
+          ]
+        },
+        {
+          "id": "de-a2-1-emergencies",
+          "label": "emergencies",
+          "aliases": [
+            "emergencies"
+          ]
+        },
+        {
+          "id": "de-a2-1-cultural-events",
+          "label": "cultural events",
+          "aliases": [
+            "cultural events"
+          ]
+        },
+        {
+          "id": "de-a2-1-weekend-trips",
+          "label": "weekend trips",
+          "aliases": [
+            "weekend trips"
+          ]
+        }
+      ],
+      "metadata": {},
+      "extensions": {}
     },
     {
       "moduleId": "de-a2-2",
@@ -1296,7 +1521,82 @@
       "lessonCadence": {
         "targetLessons": 20,
         "lessonsPerTopic": 2
-      }
+      },
+      "moduleVersion": "1.0.0",
+      "topics": [
+        {
+          "id": "de-a2-2-office",
+          "label": "office",
+          "aliases": [
+            "office"
+          ]
+        },
+        {
+          "id": "de-a2-2-relationship",
+          "label": "relationship",
+          "aliases": [
+            "relationship"
+          ]
+        },
+        {
+          "id": "de-a2-2-friends",
+          "label": "friends",
+          "aliases": [
+            "friends"
+          ]
+        },
+        {
+          "id": "de-a2-2-business",
+          "label": "business",
+          "aliases": [
+            "business"
+          ]
+        },
+        {
+          "id": "de-a2-2-teamwork",
+          "label": "teamwork",
+          "aliases": [
+            "teamwork"
+          ]
+        },
+        {
+          "id": "de-a2-2-conflict-resolution",
+          "label": "conflict resolution",
+          "aliases": [
+            "conflict resolution"
+          ]
+        },
+        {
+          "id": "de-a2-2-housing-and-landlords",
+          "label": "housing and landlords",
+          "aliases": [
+            "housing and landlords"
+          ]
+        },
+        {
+          "id": "de-a2-2-parenting-and-school",
+          "label": "parenting and school",
+          "aliases": [
+            "parenting and school"
+          ]
+        },
+        {
+          "id": "de-a2-2-health-and-wellbeing",
+          "label": "health and wellbeing",
+          "aliases": [
+            "health and wellbeing"
+          ]
+        },
+        {
+          "id": "de-a2-2-civic-services",
+          "label": "civic services",
+          "aliases": [
+            "civic services"
+          ]
+        }
+      ],
+      "metadata": {},
+      "extensions": {}
     },
     {
       "moduleId": "de-b1-1",
@@ -1617,7 +1917,82 @@
       "lessonCadence": {
         "targetLessons": 20,
         "lessonsPerTopic": 2
-      }
+      },
+      "moduleVersion": "1.0.0",
+      "topics": [
+        {
+          "id": "de-b1-1-job-search",
+          "label": "job search",
+          "aliases": [
+            "job search"
+          ]
+        },
+        {
+          "id": "de-b1-1-business",
+          "label": "business",
+          "aliases": [
+            "business"
+          ]
+        },
+        {
+          "id": "de-b1-1-public-transportation",
+          "label": "public transportation",
+          "aliases": [
+            "public transportation"
+          ]
+        },
+        {
+          "id": "de-b1-1-office",
+          "label": "office",
+          "aliases": [
+            "office"
+          ]
+        },
+        {
+          "id": "de-b1-1-bureaucracy",
+          "label": "bureaucracy",
+          "aliases": [
+            "bureaucracy"
+          ]
+        },
+        {
+          "id": "de-b1-1-banking-and-finance",
+          "label": "banking and finance",
+          "aliases": [
+            "banking and finance"
+          ]
+        },
+        {
+          "id": "de-b1-1-insurance",
+          "label": "insurance",
+          "aliases": [
+            "insurance"
+          ]
+        },
+        {
+          "id": "de-b1-1-contracts-and-forms",
+          "label": "contracts and forms",
+          "aliases": [
+            "contracts and forms"
+          ]
+        },
+        {
+          "id": "de-b1-1-news-and-media",
+          "label": "news and media",
+          "aliases": [
+            "news and media"
+          ]
+        },
+        {
+          "id": "de-b1-1-community-life",
+          "label": "community life",
+          "aliases": [
+            "community life"
+          ]
+        }
+      ],
+      "metadata": {},
+      "extensions": {}
     },
     {
       "moduleId": "de-b1-2",
@@ -1938,7 +2313,88 @@
       "lessonCadence": {
         "targetLessons": 20,
         "lessonsPerTopic": 2
-      }
+      },
+      "moduleVersion": "1.0.0",
+      "topics": [
+        {
+          "id": "de-b1-2-business",
+          "label": "business",
+          "aliases": [
+            "business"
+          ]
+        },
+        {
+          "id": "de-b1-2-office",
+          "label": "office",
+          "aliases": [
+            "office"
+          ]
+        },
+        {
+          "id": "de-b1-2-relationship",
+          "label": "relationship",
+          "aliases": [
+            "relationship"
+          ]
+        },
+        {
+          "id": "de-b1-2-vacation",
+          "label": "vacation",
+          "aliases": [
+            "vacation"
+          ]
+        },
+        {
+          "id": "de-b1-2-negotiation-and-conflict-resolution",
+          "label": "negotiation and conflict resolution",
+          "aliases": [
+            "negotiation and conflict resolution"
+          ]
+        },
+        {
+          "id": "de-b1-2-customer-service",
+          "label": "customer service",
+          "aliases": [
+            "customer service"
+          ]
+        },
+        {
+          "id": "de-b1-2-project-planning",
+          "label": "project planning",
+          "aliases": [
+            "project planning"
+          ]
+        },
+        {
+          "id": "de-b1-2-civic-participation",
+          "label": "civic participation",
+          "aliases": [
+            "civic participation"
+          ]
+        },
+        {
+          "id": "de-b1-2-education-and-upskilling",
+          "label": "education and upskilling",
+          "aliases": [
+            "education and upskilling"
+          ]
+        },
+        {
+          "id": "de-b1-2-future-goals",
+          "label": "future goals",
+          "aliases": [
+            "future goals"
+          ]
+        }
+      ],
+      "metadata": {},
+      "extensions": {}
     }
-  ]
+  ],
+  "planMeta": {
+    "structureVersion": "1.1.0",
+    "notes": "Forward-compatible shape: keep legacy vocabThemes and add structured topics + extensions.",
+    "extensions": {}
+  },
+  "extensions": {}
 }

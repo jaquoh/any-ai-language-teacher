@@ -1,4 +1,4 @@
-import { uniqStrings } from "./normalizers.js";
+import { getModuleTopicEntries, getModuleTopicLabels, findTopicEntry, normalizeTopicToken } from "./planModel.js";
 
 export const IMMIGRATION_TOPIC_ROTATION = [
   "office",
@@ -14,10 +14,7 @@ export const IMMIGRATION_TOPIC_ROTATION = [
 ];
 
 export function normalizeTopic(value) {
-  return String(value || "")
-    .trim()
-    .toLowerCase()
-    .replaceAll(/\s+/g, " ");
+  return normalizeTopicToken(value);
 }
 
 function asPositiveInt(value) {
@@ -28,8 +25,13 @@ function asPositiveInt(value) {
   return parsed;
 }
 
-function normalizePool(moduleTopics = []) {
-  return uniqStrings(moduleTopics.map((topic) => String(topic || "").trim()).filter(Boolean));
+function buildTopicPool({ module = null, moduleTopics = [] }) {
+  const fallbackModule = {
+    moduleId: module?.moduleId || "fallback",
+    vocabThemes: moduleTopics.length ? moduleTopics : IMMIGRATION_TOPIC_ROTATION,
+  };
+  const entries = getModuleTopicEntries(module || fallbackModule, fallbackModule.vocabThemes);
+  return entries.length ? entries : getModuleTopicEntries(fallbackModule, fallbackModule.vocabThemes);
 }
 
 export function resolveModuleCadence(module = {}, moduleTopicCount = 0) {
@@ -46,34 +48,30 @@ export function resolveModuleCadence(module = {}, moduleTopicCount = 0) {
   };
 }
 
-function buildTopicCounts({ moduleId = "", moduleTopics = [], lessonHistory = [] }) {
-  const map = new Map(moduleTopics.map((topic) => [normalizeTopic(topic), 0]));
+function buildTopicCounts({ moduleId = "", topicEntries = [], lessonHistory = [] }) {
+  const map = new Map(topicEntries.map((entry) => [entry.id, 0]));
 
-  for (const entry of lessonHistory) {
-    if (moduleId && entry.moduleId !== moduleId) {
+  for (const historyEntry of lessonHistory) {
+    if (moduleId && historyEntry.moduleId !== moduleId) {
       continue;
     }
-    const key = normalizeTopic(entry.topic);
-    if (!map.has(key)) {
+    const matchedEntry = findTopicEntry(topicEntries, historyEntry.topic);
+    if (!matchedEntry) {
       continue;
     }
-    map.set(key, (map.get(key) || 0) + 1);
+    map.set(matchedEntry.id, (map.get(matchedEntry.id) || 0) + 1);
   }
 
   return map;
 }
 
-export function getTopicIndex(moduleTopics = [], topic = "") {
-  const normalized = normalizeTopic(topic);
-  if (!normalized) {
+export function getTopicIndex(moduleTopics = [], topic = "", module = null) {
+  const topicEntries = buildTopicPool({ module, moduleTopics });
+  const matched = findTopicEntry(topicEntries, topic);
+  if (!matched) {
     return 0;
   }
-  const pool = normalizePool(moduleTopics);
-  if (!pool.length) {
-    return 0;
-  }
-  const index = pool.findIndex((item) => normalizeTopic(item) === normalized);
-  return index === -1 ? 0 : index;
+  return topicEntries.findIndex((entry) => entry.id === matched.id);
 }
 
 function circularSlice(items = [], start = 0, count = 0) {
@@ -88,23 +86,29 @@ function circularSlice(items = [], start = 0, count = 0) {
 }
 
 export function buildDefaultFocusForTopic({ module = {}, topic = "" }) {
-  const topics = normalizePool(module?.vocabThemes || []);
-  const topicIndex = getTopicIndex(topics, topic);
+  const topics = getModuleTopicLabels(module);
+  const topicIndex = getTopicIndex(topics, topic, module);
 
-  const vocabularyFocus = uniqStrings([
-    topic,
-    ...circularSlice(topics, topicIndex, Math.min(5, topics.length)),
-  ]).slice(0, 5);
+  const vocabularyFocus = [topic, ...circularSlice(topics, topicIndex, Math.min(5, topics.length))]
+    .map((value) => String(value || "").trim())
+    .filter(Boolean)
+    .filter((value, index, array) => array.findIndex((item) => normalizeTopic(item) === normalizeTopic(value)) === index)
+    .slice(0, 5);
 
-  const verbTargets = uniqStrings((module?.verbTargets || []).map((item) => item.infinitive).filter(Boolean));
+  const verbTargets = (module?.verbTargets || [])
+    .map((item) => item.infinitive)
+    .filter(Boolean)
+    .filter((value, index, array) => array.indexOf(value) === index);
   const verbsPerTopic = topics.length ? Math.max(2, Math.floor(verbTargets.length / topics.length)) : 2;
   const verbStart = topicIndex * verbsPerTopic;
-  const verbFocus = uniqStrings([
-    ...verbTargets.slice(verbStart, verbStart + verbsPerTopic),
-    ...circularSlice(verbTargets, 0, 2),
-  ]).slice(0, Math.max(2, verbsPerTopic));
+  const verbFocus = [...verbTargets.slice(verbStart, verbStart + verbsPerTopic), ...circularSlice(verbTargets, 0, 2)]
+    .filter((value, index, array) => array.indexOf(value) === index)
+    .slice(0, Math.max(2, verbsPerTopic));
 
-  const grammarTargets = uniqStrings((module?.grammarTargets || []).map((item) => item.id).filter(Boolean));
+  const grammarTargets = (module?.grammarTargets || [])
+    .map((item) => item.id)
+    .filter(Boolean)
+    .filter((value, index, array) => array.indexOf(value) === index);
   const grammarFocus = grammarTargets.length ? [grammarTargets[topicIndex % grammarTargets.length]] : [];
 
   return {
@@ -114,17 +118,22 @@ export function buildDefaultFocusForTopic({ module = {}, topic = "" }) {
   };
 }
 
-export function topicPracticeCount({ moduleId = "", topic = "", lessonHistory = [] }) {
-  const normalized = normalizeTopic(topic);
-  if (!normalized) {
+export function topicPracticeCount({ module = {}, moduleId = "", topic = "", lessonHistory = [] }) {
+  const topicEntries = buildTopicPool({ module, moduleTopics: getModuleTopicLabels(module) });
+  const matchedTarget = findTopicEntry(topicEntries, topic);
+  if (!matchedTarget) {
     return 0;
   }
 
-  return lessonHistory.reduce((count, entry) => {
-    if (moduleId && entry.moduleId !== moduleId) {
+  return lessonHistory.reduce((count, historyEntry) => {
+    if (moduleId && historyEntry.moduleId !== moduleId) {
       return count;
     }
-    return normalizeTopic(entry.topic) === normalized ? count + 1 : count;
+    const matchedHistoryTopic = findTopicEntry(topicEntries, historyEntry.topic);
+    if (!matchedHistoryTopic) {
+      return count;
+    }
+    return matchedHistoryTopic.id === matchedTarget.id ? count + 1 : count;
   }, 0);
 }
 
@@ -134,20 +143,27 @@ export function shouldSkipGrammarForTopic({
   topic = "",
   lessonHistory = [],
 }) {
-  const lessonsPerTopic = resolveModuleCadence(module, normalizePool(module?.vocabThemes || []).length).lessonsPerTopic;
+  const lessonsPerTopic = resolveModuleCadence(module, getModuleTopicLabels(module).length).lessonsPerTopic;
   if (lessonsPerTopic <= 1) {
     return false;
   }
 
-  const practiced = topicPracticeCount({ moduleId, topic, lessonHistory });
+  const practiced = topicPracticeCount({ module, moduleId, topic, lessonHistory });
   return practiced > 0 && practiced % 2 === 1;
 }
 
-function topicAppearsInMistake(topic, mistakePatterns = []) {
-  const lower = topic.toLowerCase();
-  return mistakePatterns.some(
-    (pattern) => pattern.needsPractice && String(pattern.key || "").toLowerCase().includes(lower),
-  );
+function topicAppearsInMistake(topicEntry, mistakePatterns = []) {
+  const candidates = [topicEntry.label, ...(topicEntry.aliases || [])]
+    .map((value) => normalizeTopic(value))
+    .filter(Boolean);
+
+  return mistakePatterns.some((pattern) => {
+    if (!pattern.needsPractice) {
+      return false;
+    }
+    const key = normalizeTopic(pattern.key || "");
+    return candidates.some((candidate) => key.includes(candidate));
+  });
 }
 
 export function selectNextTopic({
@@ -159,41 +175,45 @@ export function selectNextTopic({
   recommendedTopic = "",
   lessonsPerTopic = null,
 }) {
-  const pool = normalizePool(moduleTopics).length ? normalizePool(moduleTopics) : IMMIGRATION_TOPIC_ROTATION;
+  const topicEntries = buildTopicPool({ module, moduleTopics });
   const resolvedModuleId = moduleId || module?.moduleId || "";
   const resolvedLessonsPerTopic =
-    asPositiveInt(lessonsPerTopic) || resolveModuleCadence(module || {}, pool.length).lessonsPerTopic;
+    asPositiveInt(lessonsPerTopic) || resolveModuleCadence(module || {}, topicEntries.length).lessonsPerTopic;
   const topicCounts = buildTopicCounts({
     moduleId: resolvedModuleId,
-    moduleTopics: pool,
+    topicEntries,
     lessonHistory,
   });
-  const underTarget = pool.filter(
-    (topic) => (topicCounts.get(normalizeTopic(topic)) || 0) < resolvedLessonsPerTopic,
+  const underTarget = topicEntries.filter(
+    (entry) => (topicCounts.get(entry.id) || 0) < resolvedLessonsPerTopic,
   );
-  const candidatePool = underTarget.length ? underTarget : pool;
-  const recentTopics = lessonHistory.slice(-2).map((entry) => String(entry.topic || "").toLowerCase());
-  const recommendedLower = String(recommendedTopic || "").toLowerCase();
+  const candidatePool = underTarget.length ? underTarget : topicEntries;
+  const recentTopicIds = lessonHistory
+    .slice(-2)
+    .map((entry) => findTopicEntry(topicEntries, entry.topic))
+    .filter(Boolean)
+    .map((entry) => entry.id);
+  const recommendedEntry = findTopicEntry(topicEntries, recommendedTopic);
+  const recommendedId = recommendedEntry?.id || "";
 
-  let bestTopic = candidatePool[0] || pool[0] || "office";
+  let bestTopic = candidatePool[0] || topicEntries[0] || { id: "office", label: "office", aliases: [] };
   let bestScore = Number.NEGATIVE_INFINITY;
 
-  const maxCount = pool.reduce(
-    (max, topic) => Math.max(max, topicCounts.get(normalizeTopic(topic)) || 0),
+  const maxCount = topicEntries.reduce(
+    (max, entry) => Math.max(max, topicCounts.get(entry.id) || 0),
     0,
   );
 
-  for (const topic of candidatePool) {
-    const lower = topic.toLowerCase();
-    const topicCount = topicCounts.get(normalizeTopic(topic)) || 0;
-    const index = pool.findIndex((item) => item === topic);
-    let score = (maxCount - topicCount) * 6 + (pool.length - index) * 0.01;
+  for (const entry of candidatePool) {
+    const topicCount = topicCounts.get(entry.id) || 0;
+    const index = topicEntries.findIndex((item) => item.id === entry.id);
+    let score = (maxCount - topicCount) * 6 + (topicEntries.length - index) * 0.01;
     if (topicCount < resolvedLessonsPerTopic) {
       score += 40;
     }
 
-    const remediate = topicAppearsInMistake(topic, mistakePatterns);
-    if (recommendedLower && lower === recommendedLower) {
+    const remediate = topicAppearsInMistake(entry, mistakePatterns);
+    if (recommendedId && entry.id === recommendedId) {
       score += 50;
     }
     if (remediate) {
@@ -202,34 +222,34 @@ export function selectNextTopic({
 
     if (
       candidatePool.length > 1 &&
-      recentTopics.includes(lower) &&
+      recentTopicIds.includes(entry.id) &&
       !remediate &&
-      lower !== recommendedLower
+      entry.id !== recommendedId
     ) {
       score -= 100;
     }
 
     if (score > bestScore) {
       bestScore = score;
-      bestTopic = topic;
+      bestTopic = entry;
     }
   }
 
-  return bestTopic;
+  return bestTopic.label;
 }
 
 export function summarizeModuleProgress(module, lessonHistory = []) {
-  const topics = normalizePool(module?.vocabThemes || []);
-  const cadence = resolveModuleCadence(module, topics.length);
+  const topicEntries = getModuleTopicEntries(module, IMMIGRATION_TOPIC_ROTATION);
+  const cadence = resolveModuleCadence(module, topicEntries.length);
   const topicCounts = buildTopicCounts({
     moduleId: module?.moduleId || "",
-    moduleTopics: topics,
+    topicEntries,
     lessonHistory,
   });
   const moduleLessons = lessonHistory.filter((entry) => entry.moduleId === module?.moduleId).length;
-  const targetTopicLessons = topics.length * cadence.lessonsPerTopic;
-  const completedTopicLessons = topics.reduce(
-    (acc, topic) => acc + Math.min(topicCounts.get(normalizeTopic(topic)) || 0, cadence.lessonsPerTopic),
+  const targetTopicLessons = topicEntries.length * cadence.lessonsPerTopic;
+  const completedTopicLessons = topicEntries.reduce(
+    (acc, entry) => acc + Math.min(topicCounts.get(entry.id) || 0, cadence.lessonsPerTopic),
     0,
   );
   const topicCoverageComplete =

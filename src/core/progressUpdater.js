@@ -7,6 +7,7 @@ import {
   selectNextTopic,
   shouldSkipGrammarForTopic,
 } from "./topicSelector.js";
+import { getModuleTopicLabels } from "./planModel.js";
 
 const UNKNOWN_AI_SOURCE = {
   model: "unknown",
@@ -238,14 +239,15 @@ export function applyLessonResult(progress, lessonResult, plan) {
   draft.planRef.currentModuleId = nextModuleId;
 
   const module = (plan.modules || []).find((item) => item.moduleId === nextModuleId) || plan.modules[0];
+  const moduleTopics = getModuleTopicLabels(module);
   const selectedTopic = selectNextTopic({
     module,
     moduleId: nextModuleId,
-    moduleTopics: module?.vocabThemes || [],
+    moduleTopics,
     lessonHistory: draft.lessonHistory,
     mistakePatterns: draft.mistakePatterns,
     recommendedTopic: lessonResult.recommendedNextFocus.topic,
-    lessonsPerTopic: resolveModuleCadence(module, (module?.vocabThemes || []).length).lessonsPerTopic,
+    lessonsPerTopic: resolveModuleCadence(module, moduleTopics.length).lessonsPerTopic,
   });
   const defaultFocus = buildDefaultFocusForTopic({ module, topic: selectedTopic });
   const skipGrammar = shouldSkipGrammarForTopic({
