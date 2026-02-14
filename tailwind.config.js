@@ -1,11 +1,21 @@
-import daisyui from "daisyui";
-
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,html}"],
+  darkMode: "class",
+  content: [
+    "./index.html",
+    "./src/**/*.{js,html}",
+    "./node_modules/preline/dist/*.js",
+  ],
   theme: {
     extend: {
       colors: {
+        base: {
+          100: "rgb(var(--color-base-100) / <alpha-value>)",
+          200: "rgb(var(--color-base-200) / <alpha-value>)",
+        },
+        neutral: "rgb(var(--color-neutral) / <alpha-value>)",
+        success: "rgb(var(--color-success) / <alpha-value>)",
+        error: "rgb(var(--color-error) / <alpha-value>)",
         brand: {
           50: "#fff5f7",
           100: "#ffe3ea",
@@ -21,23 +31,5 @@ export default {
       }
     }
   },
-  plugins: [daisyui],
-  daisyui: {
-    themes: [
-      {
-        teacherlight: {
-          "primary": "#e11d48",
-          "secondary": "#0f766e",
-          "accent": "#fb7185",
-          "neutral": "#1f2430",
-          "base-100": "#fffafc",
-          "base-200": "#fff1f5",
-          "info": "#0ea5e9",
-          "success": "#10b981",
-          "warning": "#f59e0b",
-          "error": "#ef4444"
-        }
-      }
-    ]
-  }
+  plugins: [],
 };

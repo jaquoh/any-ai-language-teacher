@@ -20,6 +20,7 @@ import { applyScoreWeights, hydrateLessonHistoryAiSource } from "./core/progress
 import { buildNextLessonPacket, renderNextLessonPrompt } from "./core/promptGenerator.js";
 import { importLessonResult } from "./core/importEngine.js";
 import { speakText } from "./core/speech.js";
+import { getCurrentTheme, initTheme, toggleTheme } from "./core/theme.js";
 import { validateBySchema } from "./core/validator.js";
 
 const root = document.querySelector("#app");
@@ -280,12 +281,23 @@ function renderApp() {
   const state = getState();
   const route = getCurrentRoute();
   const page = renderRouteContent(route, state);
-  root.innerHTML = renderShell(route, page.html);
+  root.innerHTML = renderShell(route, page.html, getCurrentTheme() === "dark");
   if (page.bind) {
     page.bind(root);
   }
+  bindShellEvents();
+}
+
+function bindShellEvents() {
+  const themeButton = root.querySelector("#theme-toggle");
+  themeButton?.addEventListener("click", () => {
+    const theme = toggleTheme();
+    themeButton.textContent = theme === "dark" ? "Light mode" : "Dark mode";
+    themeButton.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+  });
 }
 
 window.addEventListener("hashchange", renderApp);
+initTheme();
 subscribe(renderApp);
 renderApp();
