@@ -4,6 +4,12 @@
   "projectId": "project-demo-german",
   "lessonTimestamp": "2026-02-13T10:15:00.000Z",
   "durationMin": 12,
+  "timeSpentMin": 14,
+  "resultAddedAt": "2026-02-13T10:31:00.000Z",
+  "aiSource": {
+    "name": "ChatGPT",
+    "company": "OpenAI"
+  },
   "moduleId": "de-a1-1",
   "topic": "supermarket",
   "lessonCoverage": {

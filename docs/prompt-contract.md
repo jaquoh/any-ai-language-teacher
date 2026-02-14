@@ -21,4 +21,5 @@ Always end with this order:
 - AI must self-check key presence and value types before outputting final JSON.
 - Prompt must include an embedded `LessonResultData` JSON template directly in the prompt body.
 - AI must not rely on external file paths or schema links from the target chat environment.
+- AI should include `aiSource` (its name/model and company/provider), `timeSpentMin`, and `resultAddedAt` in `LessonResultData`.
 - App performs strict validation and can generate a repair prompt if needed.

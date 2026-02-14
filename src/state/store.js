@@ -1,5 +1,6 @@
 import sampleProgress from "../../examples/progress-data.sample.json";
 import germanPlan from "../../data/learning-plan/de/german-a1-b1.v1.json";
+import { hydrateLessonHistoryMetadata } from "../core/progressUpdater.js";
 import { validateBySchema } from "../core/validator.js";
 
 const PROGRESS_STORAGE_KEY = "any-ai-teacher.progressData.v1";
@@ -28,13 +29,13 @@ function clearStoredProgress(storage) {
 function readStoredProgress() {
   const storage = getStorage();
   if (!storage) {
-    return structuredClone(sampleProgress);
+    return normalizeProgressMetadata(structuredClone(sampleProgress));
   }
 
   try {
     const raw = storage.getItem(PROGRESS_STORAGE_KEY);
     if (!raw) {
-      return structuredClone(sampleProgress);
+      return normalizeProgressMetadata(structuredClone(sampleProgress));
     }
 
     const parsed = JSON.parse(raw);
@@ -42,14 +43,20 @@ function readStoredProgress() {
 
     if (!validation.valid) {
       clearStoredProgress(storage);
-      return structuredClone(sampleProgress);
+      return normalizeProgressMetadata(structuredClone(sampleProgress));
     }
 
-    return parsed;
+    return normalizeProgressMetadata(parsed);
   } catch (_) {
     clearStoredProgress(storage);
-    return structuredClone(sampleProgress);
+    return normalizeProgressMetadata(structuredClone(sampleProgress));
   }
+}
+
+function normalizeProgressMetadata(progress) {
+  const draft = structuredClone(progress);
+  draft.lessonHistory = hydrateLessonHistoryMetadata(draft.lessonHistory, draft.updatedAt);
+  return draft;
 }
 
 function persistProgress(progress) {
@@ -88,6 +95,7 @@ export function getState() {
 export function updateState(patch) {
   Object.assign(state, patch);
   if (Object.prototype.hasOwnProperty.call(patch, "progress")) {
+    state.progress = normalizeProgressMetadata(state.progress);
     persistProgress(state.progress);
   }
   emitState();
@@ -99,7 +107,7 @@ export function subscribe(listener) {
 }
 
 export function resetToSample() {
-  state.progress = structuredClone(sampleProgress);
+  state.progress = normalizeProgressMetadata(structuredClone(sampleProgress));
   state.importStatus = null;
   state.repairPrompt = "";
   persistProgress(state.progress);

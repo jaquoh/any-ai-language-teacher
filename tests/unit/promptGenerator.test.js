@@ -14,6 +14,9 @@ describe("promptGenerator", () => {
     expect(packet.teacherContract.openingGuidance).toContain("your own words");
     expect(packet.teacherContract.lessonLengthMin.min).toBe(15);
     expect(packet.teacherContract.lessonLengthMin.max).toBe(20);
+    expect(packet.responseContract.lessonResultTemplate.aiSource).toBeDefined();
+    expect(packet.responseContract.lessonResultTemplate.timeSpentMin).toBeTypeOf("number");
+    expect(packet.responseContract.lessonResultTemplate.resultAddedAt).toContain("YYYY-MM-DD");
   });
 
   it("renders strict ending instructions", () => {
@@ -24,7 +27,11 @@ describe("promptGenerator", () => {
     expect(prompt).toContain("One fenced JSON block with LessonResultData");
     expect(prompt).toContain("Embedded LessonResultData JSON Template");
     expect(prompt).toContain("\"lessonCoverage\"");
+    expect(prompt).toContain("\"aiSource\"");
+    expect(prompt).toContain("\"timeSpentMin\"");
+    expect(prompt).toContain("\"resultAddedAt\"");
     expect(prompt).toContain("Do NOT reference external files");
+    expect(prompt).toContain("Set aiSource");
     expect(prompt).toContain("Lesson Opening");
     expect(prompt).toContain("4 to 7 varied activities");
   });

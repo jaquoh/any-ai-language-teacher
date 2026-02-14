@@ -26,3 +26,4 @@ Before finishing, use this exact ending:
 
 Do not reference external files or schema URLs.
 Use the embedded JSON template from the prompt body as the source of truth for structure and key names.
+Include `aiSource` (name/company), `timeSpentMin`, and `resultAddedAt` in your final LessonResultData JSON.

@@ -31,6 +31,16 @@ describe("validator", () => {
     expect(result.valid).toBe(true);
   });
 
+  it("accepts legacy lesson result without metadata fields", () => {
+    const legacy = structuredClone(validLessonResult);
+    delete legacy.aiSource;
+    delete legacy.timeSpentMin;
+    delete legacy.resultAddedAt;
+
+    const result = validateBySchema("lessonResult", legacy);
+    expect(result.valid).toBe(true);
+  });
+
   it("rejects invalid lesson result", () => {
     const result = validateBySchema("lessonResult", invalidLessonResult);
     expect(result.valid).toBe(false);
