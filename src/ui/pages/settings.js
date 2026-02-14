@@ -1,36 +1,142 @@
 import { sectionCard } from "../components/layout.js";
 import { normalizeWeights } from "../../core/scoringEngine.js";
 
-function asPercent(value) {
-  return `${Math.round(value * 100)}%`;
+const WEIGHT_KEYS = ["grammar", "verbs", "vocabulary", "fluency"];
+
+function clampPercent(value) {
+  if (!Number.isFinite(value)) {
+    return 0;
+  }
+  return Math.max(0, Math.min(100, Math.round(value)));
+}
+
+export function toPercentWeights(weights) {
+  const normalized = normalizeWeights(weights);
+  const raw = WEIGHT_KEYS.map((key) => ({
+    key,
+    value: normalized[key] * 100,
+  }));
+
+  const next = {};
+  let used = 0;
+
+  for (const entry of raw) {
+    const whole = Math.floor(entry.value);
+    next[entry.key] = whole;
+    used += whole;
+  }
+
+  let remaining = 100 - used;
+  raw.sort((a, b) => {
+    const aFrac = a.value - Math.floor(a.value);
+    const bFrac = b.value - Math.floor(b.value);
+    return bFrac - aFrac;
+  });
+
+  let cursor = 0;
+  while (remaining > 0) {
+    next[raw[cursor % raw.length].key] += 1;
+    remaining -= 1;
+    cursor += 1;
+  }
+
+  return next;
+}
+
+function distributeByShare(targetTotal, keys, getShare) {
+  const raw = keys.map((key) => ({
+    key,
+    value: Math.max(0, getShare(key) * targetTotal),
+  }));
+  const next = {};
+  let used = 0;
+
+  for (const entry of raw) {
+    const whole = Math.floor(entry.value);
+    next[entry.key] = whole;
+    used += whole;
+  }
+
+  let remaining = targetTotal - used;
+  raw.sort((a, b) => {
+    const aFrac = a.value - Math.floor(a.value);
+    const bFrac = b.value - Math.floor(b.value);
+    return bFrac - aFrac;
+  });
+
+  let cursor = 0;
+  while (remaining > 0) {
+    next[raw[cursor % raw.length].key] += 1;
+    remaining -= 1;
+    cursor += 1;
+  }
+
+  return next;
+}
+
+export function rebalancePercentWeights(currentPercentWeights, activeKey, requestedPercent) {
+  const active = clampPercent(requestedPercent);
+  const otherKeys = WEIGHT_KEYS.filter((key) => key !== activeKey);
+  const remaining = 100 - active;
+
+  if (!otherKeys.length) {
+    return { [activeKey]: active };
+  }
+
+  const otherTotal = otherKeys.reduce(
+    (sum, key) => sum + clampPercent(currentPercentWeights[key] ?? 0),
+    0,
+  );
+
+  const rebalanced =
+    otherTotal > 0
+      ? distributeByShare(remaining, otherKeys, (key) => {
+          const current = clampPercent(currentPercentWeights[key] ?? 0);
+          return current / otherTotal;
+        })
+      : distributeByShare(remaining, otherKeys, () => 1 / otherKeys.length);
+
+  return {
+    ...rebalanced,
+    [activeKey]: active,
+  };
+}
+
+function toRatioWeights(percentWeights) {
+  const next = {};
+  for (const key of WEIGHT_KEYS) {
+    next[key] = clampPercent(percentWeights[key] ?? 0) / 100;
+  }
+  return next;
 }
 
 export function renderSettings(state) {
-  const weights = normalizeWeights(state.progress.scoreConfig.weights);
+  const weights = toPercentWeights(state.progress.scoreConfig.weights);
 
-  const sliderBlock = ["grammar", "verbs", "vocabulary", "fluency"]
+  const sliderBlock = WEIGHT_KEYS
     .map(
       (key) => `
       <label class="form-control mb-4">
         <div class="label">
           <span class="label-text capitalize">${key}</span>
-          <span class="label-text-alt" id="weight-value-${key}">${asPercent(weights[key])}</span>
+          <span class="label-text-alt" id="weight-value-${key}">${weights[key]}%</span>
         </div>
-        <input type="range" min="0" max="100" value="${Math.round(weights[key] * 100)}" data-weight-key="${key}" class="range range-primary" />
+        <input type="range" min="0" max="100" value="${weights[key]}" data-weight-key="${key}" class="range range-primary" />
       </label>
     `,
     )
     .join("");
 
-  const contributionHtml = Object.entries(weights)
-    .map(([key, value]) => `<li class="capitalize">${key}: ${asPercent(value)}</li>`)
+  const contributionHtml = WEIGHT_KEYS.map(
+    (key) => `<li class="capitalize" id="weight-contribution-${key}">${key}: ${weights[key]}%</li>`,
+  )
     .join("");
 
   return `
     <div class="grid gap-4 lg:grid-cols-2">
       ${sectionCard(
         "Scoring Focus",
-        `<p class="mb-2 text-sm opacity-80">Adjust weighting by factor. All historical scores are recomputed immediately.</p>
+        `<p class="mb-2 text-sm opacity-80">Weights are linked. Drag one slider and the others rebalance live.</p>
          ${sliderBlock}
          <button id="reset-weights" class="btn btn-sm btn-outline">Reset to defaults</button>`,
       )}
@@ -61,17 +167,46 @@ export function renderSettings(state) {
 }
 
 export function bindSettingsEvents(root, state, actions) {
-  const sliders = root.querySelectorAll("input[data-weight-key]");
-  sliders.forEach((slider) => {
+  const sliderEntries = WEIGHT_KEYS.map((key) => ({
+    key,
+    slider: root.querySelector(`input[data-weight-key="${key}"]`),
+    label: root.querySelector(`#weight-value-${key}`),
+    contribution: root.querySelector(`#weight-contribution-${key}`),
+  })).filter((entry) => entry.slider);
+
+  let percentWeights = {};
+  sliderEntries.forEach(({ key, slider }) => {
+    percentWeights[key] = clampPercent(Number(slider.value));
+  });
+
+  function syncUi(activeKey = null) {
+    sliderEntries.forEach(({ key, slider, label, contribution }) => {
+      const value = clampPercent(percentWeights[key] ?? 0);
+
+      if (key !== activeKey || clampPercent(Number(slider.value)) !== value) {
+        slider.value = String(value);
+      }
+
+      if (label) {
+        label.textContent = `${value}%`;
+      }
+
+      if (contribution) {
+        contribution.textContent = `${key}: ${value}%`;
+      }
+    });
+  }
+
+  sliderEntries.forEach(({ key, slider }) => {
     slider.addEventListener("input", () => {
-      const next = { ...state.progress.scoreConfig.weights };
+      percentWeights = rebalancePercentWeights(percentWeights, key, Number(slider.value));
+      syncUi(key);
+    });
 
-      sliders.forEach((currentSlider) => {
-        const key = currentSlider.getAttribute("data-weight-key");
-        next[key] = Number(currentSlider.value) / 100;
-      });
-
-      actions.onScoreWeightsChange(next);
+    slider.addEventListener("change", () => {
+      actions.onScoreWeightsChange(toRatioWeights(percentWeights));
+      percentWeights = toPercentWeights(state.progress.scoreConfig.weights);
+      syncUi();
     });
   });
 
