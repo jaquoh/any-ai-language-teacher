@@ -17,7 +17,7 @@ test("navigates pages without runtime errors", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Validate and Import" })).toBeVisible();
 
   await page.click("a[href='#/lessons']");
-  await expect(page.getByText("No lessons imported yet.")).toBeVisible();
+  await expect(page.getByText("Current Pending Lesson")).toBeVisible();
 
   await page.click("a[href='#/knowledge']");
   await expect(page.getByText("No vocabulary imported yet.")).toBeVisible();

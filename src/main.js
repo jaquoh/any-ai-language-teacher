@@ -108,16 +108,6 @@ function celebrateImportSuccess() {
   }
 }
 
-function notify(message, ok = true) {
-  updateState({
-    importStatus: {
-      ok,
-      message,
-      errors: [],
-    },
-  });
-}
-
 async function copyText(content) {
   if (!content) {
     return false;
@@ -173,8 +163,7 @@ const actions = {
   },
 
   async onCopyPrompt() {
-    const success = await copyText(getState().promptText);
-    notify(success ? "Prompt copied to clipboard." : "Could not copy prompt automatically.", success);
+    return copyText(getState().promptText);
   },
 
   onImportResult(input) {
@@ -199,6 +188,7 @@ const actions = {
 
     const nextLessonLoop = {
       ...state.lessonLoop,
+      promptReady: true,
       lessonDone: true,
       resultImported: true,
     };
@@ -239,8 +229,7 @@ const actions = {
   },
 
   async onCopyRepairPrompt() {
-    const success = await copyText(getState().repairPrompt);
-    notify(success ? "Repair prompt copied." : "Could not copy repair prompt.", success);
+    return copyText(getState().repairPrompt);
   },
 
   onExportProgress() {

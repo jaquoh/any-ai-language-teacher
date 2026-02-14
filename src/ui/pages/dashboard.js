@@ -208,6 +208,12 @@ export function renderDashboard(state) {
   const { scorecard, lessonHistory, nextLesson } = state.progress;
   const factors = latestFactors(state.progress);
   const insights = insightList(state.progress).map((line) => `<li>${line}</li>`).join("");
+  const loop = state.lessonLoop || {};
+  const loopComplete = Boolean(loop.promptReady && loop.lessonDone && loop.resultImported);
+  const highlightImport = Boolean(loop.promptReady) && !loopComplete;
+  const highlightGenerate = !highlightImport;
+  const generateBtnClass = highlightGenerate ? "btn btn-primary btn-sm" : "btn btn-outline btn-sm";
+  const importBtnClass = highlightImport ? "btn btn-primary btn-sm" : "btn btn-outline btn-sm";
 
   return `
     <section class="rounded-3xl border border-brand-200 bg-gradient-to-r from-brand-50 via-base-100 to-sky-50 p-5 shadow-sm dark:border-slate-800 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900">
@@ -215,8 +221,8 @@ export function renderDashboard(state) {
         <h2 class="text-2xl font-bold tracking-tight">Keep Your Language Momentum Going</h2>
         <p class="max-w-3xl text-sm text-slate-600 dark:text-slate-300">${motivationalMessage(state.progress)}</p>
         <div class="flex flex-wrap gap-2">
-          <a class="btn btn-primary btn-sm" href="#/prompt">Generate Prompt</a>
-          <a class="btn btn-outline btn-sm" href="#/import">Import Result</a>
+          <a class="${generateBtnClass}" href="#/prompt">Generate Prompt</a>
+          <a class="${importBtnClass}" href="#/import">Import Result</a>
           <a class="btn btn-outline btn-sm" href="#/lessons">View Timeline</a>
         </div>
       </div>
