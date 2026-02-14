@@ -11,11 +11,38 @@ function standardizeErrors(errors) {
   }));
 }
 
+function normalizeLessonResultForCompatibility(input) {
+  if (!input || typeof input !== "object") {
+    return input;
+  }
+
+  const normalized = structuredClone(input);
+  delete normalized.timeSpentMin;
+  delete normalized.resultAddedAt;
+
+  if (normalized.aiSource && typeof normalized.aiSource === "object") {
+    const model = String(normalized.aiSource.model || normalized.aiSource.name || "").trim();
+    const company = String(normalized.aiSource.company || "").trim();
+
+    if (!model && !company) {
+      delete normalized.aiSource;
+    } else {
+      normalized.aiSource = {
+        model: model || "unknown",
+        company: company || "unknown",
+      };
+    }
+  }
+
+  return normalized;
+}
+
 export function importLessonResult({ rawInput, progress, plan }) {
   let parsed;
 
   try {
     parsed = parseJsonMaybeFenced(rawInput);
+    parsed = normalizeLessonResultForCompatibility(parsed);
   } catch (error) {
     const errors = [{ path: "/", message: error.message, keyword: "parse" }];
     return {

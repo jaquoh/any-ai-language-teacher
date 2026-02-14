@@ -15,8 +15,7 @@ describe("promptGenerator", () => {
     expect(packet.teacherContract.lessonLengthMin.min).toBe(15);
     expect(packet.teacherContract.lessonLengthMin.max).toBe(20);
     expect(packet.responseContract.lessonResultTemplate.aiSource).toBeDefined();
-    expect(packet.responseContract.lessonResultTemplate.timeSpentMin).toBeTypeOf("number");
-    expect(packet.responseContract.lessonResultTemplate.resultAddedAt).toContain("YYYY-MM-DD");
+    expect(packet.responseContract.lessonResultTemplate.aiSource.model).toContain("model");
   });
 
   it("renders strict ending instructions", () => {
@@ -28,10 +27,11 @@ describe("promptGenerator", () => {
     expect(prompt).toContain("Embedded LessonResultData JSON Template");
     expect(prompt).toContain("\"lessonCoverage\"");
     expect(prompt).toContain("\"aiSource\"");
-    expect(prompt).toContain("\"timeSpentMin\"");
-    expect(prompt).toContain("\"resultAddedAt\"");
+    expect(prompt).toContain("\"model\"");
     expect(prompt).toContain("Do NOT reference external files");
-    expect(prompt).toContain("Set aiSource");
+    expect(prompt).toContain("Set aiSource with your exact AI model name");
+    expect(prompt).toContain("Mandatory Interaction Protocol");
+    expect(prompt).toContain("If the user writes `focus`");
     expect(prompt).toContain("Lesson Opening");
     expect(prompt).toContain("4 to 7 varied activities");
   });

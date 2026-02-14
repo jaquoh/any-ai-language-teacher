@@ -16,7 +16,7 @@ import { renderAbout } from "./ui/pages/about.js";
 
 import { getState, subscribe, updateState, resetToSample } from "./state/store.js";
 import { DEFAULT_WEIGHTS, normalizeWeights } from "./core/scoringEngine.js";
-import { applyScoreWeights } from "./core/progressUpdater.js";
+import { applyScoreWeights, hydrateLessonHistoryAiSource } from "./core/progressUpdater.js";
 import { buildNextLessonPacket, renderNextLessonPrompt } from "./core/promptGenerator.js";
 import { importLessonResult } from "./core/importEngine.js";
 import { speakText } from "./core/speech.js";
@@ -192,7 +192,14 @@ const actions = {
     reader.onload = () => {
       try {
         const payload = JSON.parse(String(reader.result || "{}"));
-        const validation = validateBySchema("progressData", payload);
+        const normalizedPayload =
+          payload && typeof payload === "object"
+            ? {
+                ...payload,
+                lessonHistory: hydrateLessonHistoryAiSource(payload.lessonHistory),
+              }
+            : payload;
+        const validation = validateBySchema("progressData", normalizedPayload);
 
         if (!validation.valid) {
           updateState({
@@ -205,7 +212,7 @@ const actions = {
           return;
         }
 
-        updateState({ progress: payload, importStatus: null, repairPrompt: "" });
+        updateState({ progress: normalizedPayload, importStatus: null, repairPrompt: "" });
       } catch (error) {
         updateState({
           importStatus: {

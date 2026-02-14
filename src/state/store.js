@@ -1,6 +1,6 @@
 import sampleProgress from "../../examples/progress-data.sample.json";
 import germanPlan from "../../data/learning-plan/de/german-a1-b1.v1.json";
-import { hydrateLessonHistoryMetadata } from "../core/progressUpdater.js";
+import { hydrateLessonHistoryAiSource } from "../core/progressUpdater.js";
 import { validateBySchema } from "../core/validator.js";
 
 const PROGRESS_STORAGE_KEY = "any-ai-teacher.progressData.v1";
@@ -38,7 +38,7 @@ function readStoredProgress() {
       return normalizeProgressMetadata(structuredClone(sampleProgress));
     }
 
-    const parsed = JSON.parse(raw);
+    const parsed = normalizeProgressMetadata(JSON.parse(raw));
     const validation = validateBySchema("progressData", parsed);
 
     if (!validation.valid) {
@@ -46,7 +46,7 @@ function readStoredProgress() {
       return normalizeProgressMetadata(structuredClone(sampleProgress));
     }
 
-    return normalizeProgressMetadata(parsed);
+    return parsed;
   } catch (_) {
     clearStoredProgress(storage);
     return normalizeProgressMetadata(structuredClone(sampleProgress));
@@ -55,7 +55,7 @@ function readStoredProgress() {
 
 function normalizeProgressMetadata(progress) {
   const draft = structuredClone(progress);
-  draft.lessonHistory = hydrateLessonHistoryMetadata(draft.lessonHistory, draft.updatedAt);
+  draft.lessonHistory = hydrateLessonHistoryAiSource(draft.lessonHistory);
   return draft;
 }
 

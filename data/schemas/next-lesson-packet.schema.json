@@ -95,8 +95,6 @@
             "projectId",
             "lessonTimestamp",
             "durationMin",
-            "timeSpentMin",
-            "resultAddedAt",
             "aiSource",
             "moduleId",
             "topic",
@@ -114,14 +112,12 @@
             "projectId": { "type": "string", "minLength": 3 },
             "lessonTimestamp": { "type": "string", "minLength": 4 },
             "durationMin": { "type": "number", "minimum": 1 },
-            "timeSpentMin": { "type": "number", "minimum": 1 },
-            "resultAddedAt": { "type": "string", "minLength": 4 },
             "aiSource": {
               "type": "object",
               "additionalProperties": true,
-              "required": ["name", "company"],
+              "required": ["model", "company"],
               "properties": {
-                "name": { "type": "string", "minLength": 2 },
+                "model": { "type": "string", "minLength": 2 },
                 "company": { "type": "string", "minLength": 2 }
               }
             },

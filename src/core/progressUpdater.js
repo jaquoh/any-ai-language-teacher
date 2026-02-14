@@ -2,10 +2,8 @@ import { clamp, isoNow, normalizeKey } from "./normalizers.js";
 import { recomputeHistoryWithWeights } from "./scoringEngine.js";
 import { selectNextModuleId, selectNextTopic } from "./topicSelector.js";
 
-const DEFAULT_TIME_SPENT_MIN = 15;
-const TIMELINE_STEP_MS = 60 * 1000;
 const UNKNOWN_AI_SOURCE = {
-  name: "unknown",
+  model: "unknown",
   company: "unknown",
 };
 
@@ -16,76 +14,28 @@ export class DuplicateLessonResultError extends Error {
   }
 }
 
-function parseDateMs(value) {
-  const ms = Date.parse(String(value || ""));
-  return Number.isFinite(ms) ? ms : null;
-}
-
 function sanitizeAiSource(aiSource) {
-  const name = String(aiSource?.name || "").trim();
+  const model = String(aiSource?.model || aiSource?.name || "").trim();
   const company = String(aiSource?.company || "").trim();
 
-  if (!name && !company) {
+  if (!model && !company) {
     return { ...UNKNOWN_AI_SOURCE };
   }
 
   return {
-    name: name || UNKNOWN_AI_SOURCE.name,
+    model: model || UNKNOWN_AI_SOURCE.model,
     company: company || UNKNOWN_AI_SOURCE.company,
   };
 }
 
-function sanitizeTimeSpentMin(rawValue, fallback = DEFAULT_TIME_SPENT_MIN) {
-  const value = Number(rawValue);
-  if (Number.isFinite(value) && value > 0) {
-    return clamp(1, 240, Math.round(value));
-  }
-  return clamp(1, 240, Math.round(fallback));
-}
-
-function inferAddedTimelineIso(lessonHistory = [], fallbackTimestamp = isoNow()) {
-  const fallbackMs = parseDateMs(fallbackTimestamp) ?? Date.now();
-  const values = new Array(lessonHistory.length);
-  let nextKnownMs = null;
-
-  for (let index = lessonHistory.length - 1; index >= 0; index -= 1) {
-    const entry = lessonHistory[index];
-    const explicitMs = parseDateMs(entry.resultAddedAt);
-
-    if (explicitMs !== null) {
-      values[index] = explicitMs;
-      nextKnownMs = explicitMs;
-      continue;
-    }
-
-    if (nextKnownMs !== null) {
-      const inferredMs = nextKnownMs - TIMELINE_STEP_MS;
-      values[index] = inferredMs;
-      nextKnownMs = inferredMs;
-      continue;
-    }
-
-    const lessonMs = parseDateMs(entry.timestamp);
-    const inferredMs = lessonMs ?? fallbackMs - (lessonHistory.length - index - 1) * TIMELINE_STEP_MS;
-    values[index] = inferredMs;
-    nextKnownMs = inferredMs;
-  }
-
-  return values.map((ms) => new Date(ms).toISOString());
-}
-
-export function hydrateLessonHistoryMetadata(lessonHistory = [], fallbackTimestamp = isoNow()) {
-  const enriched = lessonHistory.map((entry) => ({
-    ...entry,
-    aiSource: sanitizeAiSource(entry.aiSource),
-    timeSpentMin: sanitizeTimeSpentMin(entry.timeSpentMin),
-  }));
-  const inferredAddedAt = inferAddedTimelineIso(enriched, fallbackTimestamp);
-
-  return enriched.map((entry, index) => ({
-    ...entry,
-    resultAddedAt: inferredAddedAt[index],
-  }));
+export function hydrateLessonHistoryAiSource(lessonHistory = []) {
+  return lessonHistory.map((entry) => {
+    const { timeSpentMin: _timeSpentMin, resultAddedAt: _resultAddedAt, ...rest } = entry;
+    return {
+      ...rest,
+      aiSource: sanitizeAiSource(entry.aiSource),
+    };
+  });
 }
 
 function scoreDeltaFromMistakes(mistakes, category) {
@@ -189,7 +139,7 @@ function updateMistakePatterns(existingPatterns, mistakes, timestamp) {
 export function applyScoreWeights(progress, nextWeights) {
   const draft = structuredClone(progress);
   draft.scoreConfig.weights = nextWeights;
-  draft.lessonHistory = hydrateLessonHistoryMetadata(draft.lessonHistory, draft.updatedAt);
+  draft.lessonHistory = hydrateLessonHistoryAiSource(draft.lessonHistory);
 
   const recomputed = recomputeHistoryWithWeights(draft.lessonHistory, nextWeights);
   draft.lessonHistory = recomputed.history;
@@ -209,10 +159,6 @@ export function applyLessonResult(progress, lessonResult, plan) {
   }
 
   const importedAt = isoNow();
-  const timeSpentMin = sanitizeTimeSpentMin(
-    lessonResult.timeSpentMin,
-    sanitizeTimeSpentMin(lessonResult.durationMin),
-  );
   const aiSource = sanitizeAiSource(lessonResult.aiSource);
   const draft = structuredClone(progress);
 
@@ -248,8 +194,6 @@ export function applyLessonResult(progress, lessonResult, plan) {
   draft.lessonHistory.push({
     resultId: lessonResult.resultId,
     timestamp: lessonResult.lessonTimestamp,
-    resultAddedAt: lessonResult.resultAddedAt || importedAt,
-    timeSpentMin,
     aiSource,
     moduleId: lessonResult.moduleId,
     topic: lessonResult.topic,
@@ -262,7 +206,7 @@ export function applyLessonResult(progress, lessonResult, plan) {
     lessonScore: lessonResult.scoring.composite,
     summary: lessonResult.teacherFeedback.summary,
   });
-  draft.lessonHistory = hydrateLessonHistoryMetadata(draft.lessonHistory, importedAt);
+  draft.lessonHistory = hydrateLessonHistoryAiSource(draft.lessonHistory);
 
   const recomputed = recomputeHistoryWithWeights(draft.lessonHistory, draft.scoreConfig.weights);
   draft.lessonHistory = recomputed.history;

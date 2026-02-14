@@ -31,11 +31,9 @@ describe("validator", () => {
     expect(result.valid).toBe(true);
   });
 
-  it("accepts legacy lesson result without metadata fields", () => {
+  it("accepts lesson result when aiSource is omitted", () => {
     const legacy = structuredClone(validLessonResult);
     delete legacy.aiSource;
-    delete legacy.timeSpentMin;
-    delete legacy.resultAddedAt;
 
     const result = validateBySchema("lessonResult", legacy);
     expect(result.valid).toBe(true);

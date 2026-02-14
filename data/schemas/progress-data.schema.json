@@ -174,16 +174,14 @@
         "properties": {
           "resultId": { "type": "string", "minLength": 3 },
           "timestamp": { "type": "string", "format": "date-time" },
-          "resultAddedAt": { "type": "string", "format": "date-time" },
-          "timeSpentMin": { "type": "integer", "minimum": 1, "maximum": 240 },
           "aiSource": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "name": { "type": "string", "minLength": 2 },
+              "model": { "type": "string", "minLength": 2 },
               "company": { "type": "string", "minLength": 2 }
             },
-            "anyOf": [{ "required": ["name"] }, { "required": ["company"] }]
+            "required": ["model", "company"]
           },
           "moduleId": { "type": "string", "minLength": 3 },
           "topic": { "type": "string", "minLength": 2 },

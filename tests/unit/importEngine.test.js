@@ -27,4 +27,26 @@ describe("importEngine", () => {
     expect(report.ok).toBe(false);
     expect(report.repairPrompt).toContain("Validation errors");
   });
+
+  it("accepts legacy aiSource.name and removed time fields", () => {
+    const legacy = structuredClone(validResult);
+    legacy.timeSpentMin = 18;
+    legacy.resultAddedAt = "2026-02-13T10:31:00.000Z";
+    legacy.aiSource = {
+      name: "Legacy Tutor",
+      company: "Legacy AI",
+    };
+
+    const report = importLessonResult({
+      rawInput: JSON.stringify(legacy),
+      progress: progressSample,
+      plan,
+    });
+
+    expect(report.ok).toBe(true);
+    expect(report.updatedProgress.lessonHistory[0].aiSource).toEqual({
+      model: "Legacy Tutor",
+      company: "Legacy AI",
+    });
+  });
 });
