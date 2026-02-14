@@ -1,6 +1,12 @@
 import { clamp, isoNow, normalizeKey } from "./normalizers.js";
 import { recomputeHistoryWithWeights } from "./scoringEngine.js";
-import { selectNextModuleId, selectNextTopic } from "./topicSelector.js";
+import {
+  buildDefaultFocusForTopic,
+  resolveModuleCadence,
+  selectNextModuleId,
+  selectNextTopic,
+  shouldSkipGrammarForTopic,
+} from "./topicSelector.js";
 
 const UNKNOWN_AI_SOURCE = {
   model: "unknown",
@@ -233,27 +239,39 @@ export function applyLessonResult(progress, lessonResult, plan) {
 
   const module = (plan.modules || []).find((item) => item.moduleId === nextModuleId) || plan.modules[0];
   const selectedTopic = selectNextTopic({
+    module,
+    moduleId: nextModuleId,
     moduleTopics: module?.vocabThemes || [],
     lessonHistory: draft.lessonHistory,
     mistakePatterns: draft.mistakePatterns,
     recommendedTopic: lessonResult.recommendedNextFocus.topic,
+    lessonsPerTopic: resolveModuleCadence(module, (module?.vocabThemes || []).length).lessonsPerTopic,
+  });
+  const defaultFocus = buildDefaultFocusForTopic({ module, topic: selectedTopic });
+  const skipGrammar = shouldSkipGrammarForTopic({
+    module,
+    moduleId: nextModuleId,
+    topic: selectedTopic,
+    lessonHistory: draft.lessonHistory,
   });
 
   draft.nextLesson = {
-    moduleId: lessonResult.recommendedNextFocus.moduleId || nextModuleId,
+    moduleId: nextModuleId,
     topic: selectedTopic,
     grammarFocus:
-      lessonResult.recommendedNextFocus.grammar?.length
+      skipGrammar
+        ? []
+        : lessonResult.recommendedNextFocus.grammar?.length
         ? lessonResult.recommendedNextFocus.grammar
-        : (module?.grammarTargets || []).slice(0, 2).map((item) => item.id),
+        : defaultFocus.grammarFocus,
     verbFocus:
       lessonResult.recommendedNextFocus.verbs?.length
         ? lessonResult.recommendedNextFocus.verbs
-        : (module?.verbTargets || []).slice(0, 2).map((item) => item.infinitive),
+        : defaultFocus.verbFocus,
     vocabularyFocus:
       lessonResult.recommendedNextFocus.vocabulary?.length
         ? lessonResult.recommendedNextFocus.vocabulary
-        : (module?.vocabThemes || []).slice(0, 5),
+        : defaultFocus.vocabularyFocus,
     notes: lessonResult.recommendedNextFocus.notes,
   };
 

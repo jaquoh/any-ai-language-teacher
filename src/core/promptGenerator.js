@@ -1,4 +1,10 @@
-import { selectNextModuleId, selectNextTopic } from "./topicSelector.js";
+import {
+  buildDefaultFocusForTopic,
+  resolveModuleCadence,
+  selectNextModuleId,
+  selectNextTopic,
+  shouldSkipGrammarForTopic,
+} from "./topicSelector.js";
 import { isoNow, uniqStrings } from "./normalizers.js";
 
 function buildLessonResultTemplate({ projectId, moduleId, topic }) {
@@ -96,11 +102,24 @@ export function buildNextLessonPacket(progress, plan) {
 
   const moduleTopics = uniqStrings(module?.vocabThemes || []);
   const topic = selectNextTopic({
+    module,
+    moduleId: nextModuleId,
     moduleTopics,
     lessonHistory: progress.lessonHistory,
     mistakePatterns: progress.mistakePatterns,
     recommendedTopic: progress.nextLesson?.topic,
+    lessonsPerTopic: resolveModuleCadence(module, moduleTopics.length).lessonsPerTopic,
   });
+  const defaultFocus = buildDefaultFocusForTopic({ module, topic });
+  const skipGrammar = shouldSkipGrammarForTopic({
+    module,
+    moduleId: nextModuleId,
+    topic,
+    lessonHistory: progress.lessonHistory,
+  });
+  const hasStoredGrammarFocus = Array.isArray(progress.nextLesson?.grammarFocus);
+  const hasStoredVerbFocus = Array.isArray(progress.nextLesson?.verbFocus);
+  const hasStoredVocabularyFocus = Array.isArray(progress.nextLesson?.vocabularyFocus);
 
   const weakAreas = (progress.mistakePatterns || [])
     .filter((item) => item.needsPractice)
@@ -146,15 +165,19 @@ export function buildNextLessonPacket(progress, plan) {
     lessonContext: {
       moduleId: nextModuleId,
       topic,
-      grammarFocus: progress.nextLesson?.grammarFocus?.length
+      grammarFocus: skipGrammar
+        ? []
+        : hasStoredGrammarFocus && progress.nextLesson.grammarFocus.length
         ? progress.nextLesson.grammarFocus
-        : (module?.grammarTargets || []).slice(0, 2).map((item) => item.id),
-      verbFocus: progress.nextLesson?.verbFocus?.length
-        ? progress.nextLesson.verbFocus
-        : (module?.verbTargets || []).slice(0, 2).map((item) => item.infinitive),
-      vocabularyFocus: progress.nextLesson?.vocabularyFocus?.length
-        ? progress.nextLesson.vocabularyFocus
-        : (module?.vocabThemes || []).slice(0, 5),
+        : defaultFocus.grammarFocus,
+      verbFocus:
+        hasStoredVerbFocus && progress.nextLesson.verbFocus.length
+          ? progress.nextLesson.verbFocus
+          : defaultFocus.verbFocus,
+      vocabularyFocus:
+        hasStoredVocabularyFocus && progress.nextLesson.vocabularyFocus.length
+          ? progress.nextLesson.vocabularyFocus
+          : defaultFocus.vocabularyFocus,
       weakAreas,
     },
     responseContract: {
@@ -202,6 +225,7 @@ export function renderNextLessonPrompt(packet) {
     `- Off-topic policy: ${packet.teacherContract.offTopicPolicy}`,
     "- Include one fun micro-element linked to the topic (tip, mnemonic, short riddle, quote, or joke).",
     "- Keep the flow practical and interactive with enough learner turns before closing.",
+    "- If grammar focus is `none`, run a fluency-first lesson using verbs and vocabulary only.",
     "",
     "## Lesson Context",
     `- Project: ${packet.projectSnapshot.projectId}`,

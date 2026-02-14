@@ -1,14 +1,8 @@
 import { sectionCard } from "../components/layout.js";
+import { summarizeModuleProgress } from "../../core/topicSelector.js";
 
 function renderList(items) {
   return `<ul class="list-disc pl-5 text-sm space-y-1">${items.map((item) => `<li>${item}</li>`).join("")}</ul>`;
-}
-
-function normalizeTopic(value) {
-  return String(value || "")
-    .trim()
-    .toLowerCase()
-    .replaceAll(/\s+/g, " ");
 }
 
 function formatConjugation(verb) {
@@ -17,32 +11,14 @@ function formatConjugation(verb) {
 }
 
 function moduleProgress(module, lessonHistory) {
-  const themes = (module.vocabThemes || []).map((topic) => normalizeTopic(topic));
-  const required = new Set(themes);
-
-  if (!required.size) {
-    return {
-      completed: 0,
-      total: 0,
-      mastered: false,
-    };
-  }
-
-  const covered = new Set();
-  for (const entry of lessonHistory) {
-    if (entry.moduleId !== module.moduleId) {
-      continue;
-    }
-    const normalizedTopic = normalizeTopic(entry.topic);
-    if (required.has(normalizedTopic)) {
-      covered.add(normalizedTopic);
-    }
-  }
-
+  const summary = summarizeModuleProgress(module, lessonHistory);
   return {
-    completed: covered.size,
-    total: required.size,
-    mastered: covered.size >= required.size,
+    lessonsCompleted: summary.lessonsCompleted,
+    targetLessons: summary.targetLessons,
+    completedTopicLessons: summary.completedTopicLessons,
+    targetTopicLessons: summary.targetTopicLessons,
+    lessonsPerTopic: summary.lessonsPerTopic,
+    mastered: summary.moduleComplete,
   };
 }
 
@@ -68,7 +44,8 @@ export function renderPlan(state) {
             <div class="flex items-start justify-between gap-3">
               <div class="min-w-0">
                 <p class="text-sm opacity-80">Module ID: ${module.moduleId}</p>
-                <p class="text-xs font-medium ${mastered ? "text-emerald-700 dark:text-emerald-300" : "text-slate-600 dark:text-slate-300"}">Topic coverage: ${progress.completed}/${progress.total}</p>
+                <p class="text-xs font-medium ${mastered ? "text-emerald-700 dark:text-emerald-300" : "text-slate-600 dark:text-slate-300"}">Lesson cadence: ${progress.lessonsCompleted}/${progress.targetLessons}</p>
+                <p class="text-xs font-medium ${mastered ? "text-emerald-700 dark:text-emerald-300" : "text-slate-600 dark:text-slate-300"}">Topic repetitions: ${progress.completedTopicLessons}/${progress.targetTopicLessons} (${progress.lessonsPerTopic} per topic)</p>
               </div>
               <div class="shrink-0">${badge}</div>
             </div>

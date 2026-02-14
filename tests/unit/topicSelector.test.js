@@ -26,13 +26,48 @@ describe("topicSelector", () => {
     expect(topic).toBe("office");
   });
 
-  it("moves to next module when recent scores are strong and no active weakness", () => {
+  it("balances repetitions before reusing a topic beyond cadence", () => {
+    const topic = selectNextTopic({
+      moduleId: "de-a1-1",
+      moduleTopics: ["office", "supermarket", "public transportation"],
+      lessonHistory: [
+        { moduleId: "de-a1-1", topic: "office" },
+        { moduleId: "de-a1-1", topic: "office" },
+        { moduleId: "de-a1-1", topic: "supermarket" },
+      ],
+      mistakePatterns: [],
+      recommendedTopic: "",
+      lessonsPerTopic: 2,
+    });
+
+    expect(topic).toBe("public transportation");
+  });
+
+  it("stays in current module before cadence completion", () => {
     const moduleId = selectNextModuleId(plan, {
       planRef: { currentModuleId: "de-a1-1" },
-      lessonHistory: [
-        { moduleId: "de-a1-1", lessonScore: 72 },
-        { moduleId: "de-a1-1", lessonScore: 75 },
-      ],
+      lessonHistory: Array.from({ length: 12 }, (_, index) => ({
+        moduleId: "de-a1-1",
+        topic: `topic-${index}`,
+        lessonScore: 90,
+      })),
+      mistakePatterns: [],
+    });
+
+    expect(moduleId).toBe("de-a1-1");
+  });
+
+  it("moves to next module after 20 lessons and 2 topic reps each", () => {
+    const topics = plan.modules.find((module) => module.moduleId === "de-a1-1").vocabThemes;
+    const history = [...topics, ...topics].map((topic) => ({
+      moduleId: "de-a1-1",
+      topic,
+      lessonScore: 78,
+    }));
+
+    const moduleId = selectNextModuleId(plan, {
+      planRef: { currentModuleId: "de-a1-1" },
+      lessonHistory: history,
       mistakePatterns: [],
     });
 
