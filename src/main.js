@@ -25,6 +25,16 @@ import { getCurrentTheme, initTheme, toggleTheme } from "./core/theme.js";
 import { validateBySchema } from "./core/validator.js";
 
 const root = document.querySelector("#app");
+let isCoreLoopCollapsed = false;
+let coreLoopFeedback = null;
+
+function setCoreLoopFeedback(message, ok = true) {
+  coreLoopFeedback = {
+    message,
+    ok,
+    at: Date.now(),
+  };
+}
 
 function emptyLessonLoop() {
   return {
@@ -152,6 +162,7 @@ const actions = {
     }
 
     const promptText = renderNextLessonPrompt(packet);
+    setCoreLoopFeedback("Prompt step completed.", true);
     updateState({
       promptText,
       lessonLoop: {
@@ -196,6 +207,12 @@ const actions = {
       nextLessonLoop.lastCompletedAt = new Date().toISOString();
     }
 
+    setCoreLoopFeedback(
+      isLessonLoopComplete(nextLessonLoop)
+        ? "Great loop completion. Start the next lesson by generating a fresh prompt."
+        : "Import step completed.",
+      true,
+    );
     updateState({
       progress: report.updatedProgress,
       repairPrompt: "",
@@ -273,6 +290,7 @@ const actions = {
           importStatus: null,
           repairPrompt: "",
         });
+        coreLoopFeedback = null;
       } catch (error) {
         updateState({
           importStatus: {
@@ -289,22 +307,50 @@ const actions = {
 
   onResetProject() {
     resetToSample();
+    coreLoopFeedback = null;
   },
 
-  onMarkLessonDone() {
-    const loopState = getState().lessonLoop;
-    if (!loopState?.promptReady) {
-      notify("Generate a prompt first, then complete the lesson.", false);
+  onToggleLessonDone() {
+    const loopState = getState().lessonLoop || emptyLessonLoop();
+    if (!loopState.promptReady) {
+      setCoreLoopFeedback("Complete step 1 first: generate the prompt.", false);
+      renderApp();
+      return;
+    }
+    if (isLessonLoopComplete(loopState)) {
       return;
     }
 
+    const nextDone = !Boolean(loopState.lessonDone);
+    const nextLessonLoop = {
+      ...loopState,
+      lessonDone: nextDone,
+    };
+
+    if (!nextDone) {
+      nextLessonLoop.resultImported = false;
+      nextLessonLoop.lastCompletedAt = null;
+    } else if (isLessonLoopComplete(nextLessonLoop)) {
+      nextLessonLoop.lastCompletedAt = new Date().toISOString();
+    }
+
+    setCoreLoopFeedback(nextDone ? "Lesson step marked done." : "Lesson step reset to not done.", true);
     updateState({
-      lessonLoop: {
-        ...loopState,
-        lessonDone: true,
-      },
+      lessonLoop: nextLessonLoop,
     });
-    notify("Lesson marked done. Now import the final result JSON.", true);
+  },
+
+  onStartNextLoop() {
+    coreLoopFeedback = null;
+    updateState({
+      lessonLoop: emptyLessonLoop(),
+      promptText: "",
+    });
+    if (window.location.hash !== "#/prompt") {
+      window.location.hash = "#/prompt";
+    } else {
+      renderApp();
+    }
   },
 
   onSpeakText(text, targetLang) {
@@ -359,6 +405,9 @@ function renderApp() {
   root.innerHTML = renderShell(route, page.html, {
     isDarkMode: getCurrentTheme() === "dark",
     lessonLoop: state.lessonLoop,
+    nextLesson: state.progress?.nextLesson || null,
+    coreLoopCollapsed: isCoreLoopCollapsed,
+    coreLoopFeedback,
   });
   if (page.bind) {
     page.bind(root);
@@ -428,8 +477,21 @@ function bindShellEvents() {
     link.addEventListener("click", closeMobileMenu);
   });
 
-  root.querySelector("#mark-lesson-done")?.addEventListener("click", () => {
-    actions.onMarkLessonDone();
+  root.querySelector("#core-loop-toggle")?.addEventListener("click", () => {
+    isCoreLoopCollapsed = !isCoreLoopCollapsed;
+    renderApp();
+  });
+
+  root.querySelectorAll("[data-mark-lesson-done]").forEach((button) => {
+    button.addEventListener("click", () => {
+      actions.onToggleLessonDone();
+    });
+  });
+
+  root.querySelectorAll("[data-start-next-loop]").forEach((button) => {
+    button.addEventListener("click", () => {
+      actions.onStartNextLoop();
+    });
   });
 }
 

@@ -1,5 +1,14 @@
 import { sectionCard } from "../components/layout.js";
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
 function renderErrors(errors = []) {
   if (!errors.length) {
     return "";
@@ -23,6 +32,8 @@ function renderErrors(errors = []) {
 }
 
 export function renderImportResult(state) {
+  const next = state.progress?.nextLesson || {};
+  const lessonLabel = `${next.topic || "next topic"} ${next.moduleId ? `(${next.moduleId})` : ""}`.trim();
   const status = state.importStatus;
   const statusHtml = status
     ? `<p class="mt-3 text-sm ${status.ok ? "text-success" : "text-error"}">${status.message}</p>`
@@ -37,7 +48,7 @@ export function renderImportResult(state) {
     : "";
 
   return sectionCard(
-    "Import LessonResultData",
+    `Import LessonResultData - ${escapeHtml(lessonLabel)}`,
     `
     <p class="text-sm opacity-80">Paste the lesson ending block (including optional recap text). The app extracts the final \`json\` fenced block and validates strictly.</p>
     <div class="mt-4 flex flex-wrap gap-2">

@@ -11,6 +11,15 @@ const LINKS = [
   { href: "#/about", id: "about", label: "About" },
 ];
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
 function renderSideNav(activeRoute) {
   const links = LINKS.map((link) => {
     const active = activeRoute === link.id;
@@ -76,39 +85,117 @@ function stepIcon(done, number) {
   return `<span class="inline-flex size-7 items-center justify-center rounded-full bg-emerald-500 text-sm font-semibold text-white shadow-sm shadow-emerald-800/20">&#10003;</span>`;
 }
 
-function renderLoopStepper(loopState) {
+function renderCompactStep(label, state, stepNumber, href = null, isAction = false, isDisabled = false) {
+  const stateClasses =
+    state === "done"
+      ? "border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-800/60 dark:bg-emerald-950 dark:text-emerald-300"
+      : state === "current"
+        ? "border-brand-300 bg-brand-50 text-brand-700 dark:border-brand-700/60 dark:bg-brand-950 dark:text-brand-300"
+        : "border-slate-300 bg-slate-50 text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300";
+  const hoverClasses =
+    state === "done"
+      ? "hover:border-emerald-300 hover:bg-emerald-100 dark:hover:border-emerald-700/70 dark:hover:bg-emerald-900/45"
+      : state === "current"
+        ? "hover:border-brand-300 hover:bg-brand-100 dark:hover:border-brand-600/70 dark:hover:bg-brand-900/50"
+        : "hover:border-slate-300 hover:bg-slate-100 dark:hover:border-slate-600 dark:hover:bg-slate-800/80";
+
+  const icon =
+    state === "done"
+      ? `<span class="inline-flex size-5 items-center justify-center rounded-full bg-emerald-500 text-[10px] font-semibold text-white">&#10003;</span>`
+      : `<span class="inline-flex size-5 items-center justify-center rounded-full border border-current text-[10px] font-semibold">${stepNumber}</span>`;
+
+  const content = `${icon}<span class="text-xs font-medium">${label}</span>`;
+  const interactionClasses = isDisabled
+    ? "transition duration-150"
+    : `transition duration-150 hover:-translate-y-px hover:shadow-sm ${hoverClasses}`;
+
+  if (href) {
+    return `<a class="inline-flex shrink-0 items-center gap-2 rounded-full border px-2.5 py-1.5 ${interactionClasses} ${stateClasses}" href="${href}">${content}</a>`;
+  }
+
+  if (isAction) {
+    return `<button type="button" data-mark-lesson-done class="inline-flex shrink-0 items-center gap-2 rounded-full border px-2.5 py-1.5 text-left ${isDisabled ? "cursor-not-allowed opacity-70" : "cursor-pointer"} ${interactionClasses} ${stateClasses}" ${isDisabled ? "disabled" : ""}>${content}</button>`;
+  }
+
+  return `<span class="inline-flex shrink-0 items-center gap-2 rounded-full border px-2.5 py-1.5 ${stateClasses}">${content}</span>`;
+}
+
+function renderLoopStepper(loopState, nextLesson = null, isCollapsed = false, feedback = null) {
   const step1 = Boolean(loopState?.promptReady);
   const step2 = Boolean(loopState?.lessonDone);
   const step3 = Boolean(loopState?.resultImported);
   const completed = step1 && step2 && step3;
+  const step2Locked = !step1 || completed;
+  const currentStep = !step1 ? 1 : !step2 ? 2 : !step3 ? 3 : 0;
+  const statusLabel = completed ? "Completed" : "In progress";
+  const statusClass = completed
+    ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+    : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300";
+  const lessonLabel = nextLesson
+    ? `${escapeHtml(nextLesson.topic || "next topic")} ${escapeHtml(nextLesson.moduleId || "")}`.trim()
+    : "next lesson";
+  const stepOneDescription = `Generate and copy your next lesson packet for: ${lessonLabel}.`;
+  const completionMessage = "Great loop completion. Start the next lesson by generating a fresh prompt.";
 
   const stepClass = (done, active) =>
-    `group flex min-w-0 flex-1 flex-col items-start gap-2 rounded-2xl border p-3 transition ${
+    `group flex min-w-0 flex-1 flex-col items-start gap-2 rounded-2xl border p-3 transition duration-150 hover:-translate-y-px hover:shadow-sm ${
       done
-        ? "border-emerald-200 bg-emerald-50/90 dark:border-emerald-800/40 dark:bg-emerald-950/20"
+        ? "border-emerald-200 bg-emerald-50 hover:bg-emerald-100 dark:border-emerald-800/50 dark:bg-emerald-950 dark:hover:bg-emerald-900/50"
         : active
-          ? "border-brand-200 bg-brand-50/80 dark:border-brand-800/40 dark:bg-brand-950/20"
-          : "border-slate-200 bg-white/80 dark:border-slate-800 dark:bg-slate-900/60"
+          ? "border-brand-200 bg-brand-50 hover:border-brand-300 hover:bg-brand-100 dark:border-brand-700/50 dark:bg-brand-950 dark:hover:border-brand-600/70 dark:hover:bg-brand-900/50"
+          : "border-slate-200 bg-slate-50 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
     }`;
+
+  if (isCollapsed) {
+    const s1 = step1 ? "done" : currentStep === 1 ? "current" : "pending";
+    const s2 = step2 ? "done" : currentStep === 2 ? "current" : "pending";
+    const s3 = step3 ? "done" : currentStep === 3 ? "current" : "pending";
+
+    return `
+      <section class="card border-slate-200 bg-base-100/95 dark:border-slate-800">
+        <div class="card-body p-3">
+          <div class="flex items-center justify-between gap-3">
+            <div class="inline-flex items-center gap-2">
+              <h2 class="text-sm font-semibold tracking-wide text-slate-800 dark:text-slate-100">Core Lesson Loop</h2>
+              <span class="rounded-full px-2.5 py-1 text-[11px] font-medium ${statusClass}">${statusLabel}</span>
+            </div>
+            <div class="inline-flex items-center gap-2">
+              ${completed ? '<button data-start-next-loop type="button" class="inline-flex items-center rounded-lg border border-emerald-300 px-2 py-1 text-[11px] font-medium text-emerald-700 hover:bg-emerald-100 dark:border-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-900/50">Start Next Loop</button>' : ""}
+              <button id="core-loop-toggle" type="button" class="inline-flex items-center rounded-lg border border-slate-300 px-2 py-1 text-[11px] font-medium text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">Expand</button>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 overflow-x-auto pt-1">
+            ${renderCompactStep("Prompt", s1, 1, "#/prompt")}
+            ${renderCompactStep("Lesson", s2, 2, null, true, step2Locked)}
+            ${renderCompactStep("Import", s3, 3, "#/import")}
+          </div>
+        </div>
+      </section>
+    `;
+  }
 
   return `
     <section class="card border-slate-200 bg-base-100/95 dark:border-slate-800">
-      <div class="card-body p-4">
+      <div class="card-body p-3">
         <div class="flex items-center justify-between gap-3">
-          <h2 class="text-sm font-semibold tracking-wide text-slate-800 dark:text-slate-100">Core Lesson Loop</h2>
-          <span class="rounded-full px-2.5 py-1 text-[11px] font-medium ${completed ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}">
-            ${completed ? "Completed" : "In progress"}
-          </span>
+          <div class="inline-flex items-center gap-2">
+            <h2 class="text-sm font-semibold tracking-wide text-slate-800 dark:text-slate-100">Core Lesson Loop</h2>
+            <span class="rounded-full px-2.5 py-1 text-[11px] font-medium ${statusClass}">${statusLabel}</span>
+          </div>
+          <div class="inline-flex items-center gap-2">
+            ${completed ? '<button data-start-next-loop type="button" class="inline-flex items-center rounded-lg border border-emerald-300 px-2 py-1 text-[11px] font-medium text-emerald-700 hover:bg-emerald-100 dark:border-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-900/50">Start Next Loop</button>' : ""}
+            <button id="core-loop-toggle" type="button" class="inline-flex items-center rounded-lg border border-slate-300 px-2 py-1 text-[11px] font-medium text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">Collapse</button>
+          </div>
         </div>
 
-        <div class="grid gap-3 sm:grid-cols-3">
+        <div class="mt-2 grid gap-3 sm:grid-cols-3">
           <a class="${stepClass(step1, !step1)}" href="#/prompt">
             ${stepIcon(step1, 1)}
             <p class="text-sm font-medium">Create Prompt</p>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Generate and copy your next lesson packet.</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">${stepOneDescription}</p>
           </a>
 
-          <button id="mark-lesson-done" type="button" class="${stepClass(step2, step1 && !step2)} text-left ${step2 ? "" : "hover:border-brand-300 hover:bg-brand-50 dark:hover:border-brand-700"}" ${step2 ? "disabled" : ""}>
+          <button data-mark-lesson-done type="button" class="${stepClass(step2, step1 && !step2)} ${step2Locked ? "cursor-not-allowed opacity-70" : "cursor-pointer"} text-left" ${step2Locked ? "disabled" : ""}>
             ${stepIcon(step2, 2)}
             <p class="text-sm font-medium">Do Lesson</p>
             <p class="text-xs text-slate-500 dark:text-slate-400">Run the interactive lesson in your AI chat, then mark done here.</p>
@@ -121,7 +208,11 @@ function renderLoopStepper(loopState) {
           </a>
         </div>
 
-        ${completed ? "<p class='text-xs font-medium text-emerald-700 dark:text-emerald-300'>Great loop completion. Start the next lesson by generating a fresh prompt.</p>" : ""}
+        ${
+          feedback || completed
+            ? `<p class="mt-2 rounded-xl border px-3 py-2 text-xs font-medium ${(feedback?.ok ?? completed) ? "border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-800/60 dark:bg-emerald-950 dark:text-emerald-300" : "border-amber-300 bg-amber-50 text-amber-700 dark:border-amber-800/60 dark:bg-amber-950 dark:text-amber-300"}">${escapeHtml(feedback?.message || completionMessage)}</p>`
+            : ""
+        }
       </div>
     </section>
   `;
@@ -130,6 +221,9 @@ function renderLoopStepper(loopState) {
 export function renderShell(activeRoute, contentHtml, options = {}) {
   const isDarkMode = Boolean(options.isDarkMode);
   const lessonLoop = options.lessonLoop || {};
+  const nextLesson = options.nextLesson || null;
+  const coreLoopCollapsed = Boolean(options.coreLoopCollapsed);
+  const coreLoopFeedback = options.coreLoopFeedback || null;
   const themeLabel = isDarkMode ? "Light mode" : "Dark mode";
 
   return `
@@ -157,7 +251,7 @@ export function renderShell(activeRoute, contentHtml, options = {}) {
       <main class="lg:ps-72">
         <div class="mx-auto w-full max-w-6xl space-y-4 px-4 py-4 sm:px-6 sm:py-6">
           ${renderBreadcrumbs(activeRoute)}
-          ${renderLoopStepper(lessonLoop)}
+          ${renderLoopStepper(lessonLoop, nextLesson, coreLoopCollapsed, coreLoopFeedback)}
           ${contentHtml}
         </div>
       </main>

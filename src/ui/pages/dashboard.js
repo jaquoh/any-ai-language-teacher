@@ -210,7 +210,7 @@ export function renderDashboard(state) {
   const insights = insightList(state.progress).map((line) => `<li>${line}</li>`).join("");
 
   return `
-    <section class="rounded-3xl border border-brand-200 bg-gradient-to-r from-brand-50 via-base-100 to-sky-50 p-5 shadow-sm dark:border-brand-800/40 dark:from-brand-950/30 dark:via-slate-950 dark:to-slate-900">
+    <section class="rounded-3xl border border-brand-200 bg-gradient-to-r from-brand-50 via-base-100 to-sky-50 p-5 shadow-sm dark:border-slate-800 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900">
       <div class="space-y-3">
         <h2 class="text-2xl font-bold tracking-tight">Keep Your Language Momentum Going</h2>
         <p class="max-w-3xl text-sm text-slate-600 dark:text-slate-300">${motivationalMessage(state.progress)}</p>
