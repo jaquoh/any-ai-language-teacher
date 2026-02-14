@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectId": "project-demo-german",
+  "createdAt": "2026-02-13T10:00:00.000Z",
+  "updatedAt": "2026-02-13T10:00:00.000Z",
+  "learnerProfile": {
+    "nativeLanguage": "English",
+    "targetLanguage": "German",
+    "goals": [
+      "Handle everyday immigration conversations.",
+      "Reach B1 confidence for work and public services."
+    ],
+    "timeBudgetMin": 15
+  },
+  "planRef": {
+    "planId": "de-a1-b1-core",
+    "planVersion": "1.0.0",
+    "currentModuleId": "de-a1-1"
+  },
+  "scoreConfig": {
+    "weights": {
+      "grammar": 0.35,
+      "verbs": 0.25,
+      "vocabulary": 0.2,
+      "fluency": 0.2
+    }
+  },
+  "scorecard": {
+    "overallScore": 20,
+    "cefrEstimate": {
+      "band": "A1.1",
+      "confidence": 0.5
+    },
+    "trend": "flat"
+  },
+  "knowledgeLedger": {
+    "vocabulary": [],
+    "verbs": [],
+    "grammar": []
+  },
+  "mistakePatterns": [],
+  "lessonHistory": [],
+  "importedResultIds": [],
+  "nextLesson": {
+    "moduleId": "de-a1-1",
+    "topic": "love and valentines day",
+    "grammarFocus": [
+      "word-order-main",
+      "articles-basic"
+    ],
+    "verbFocus": [
+      "sein",
+      "haben"
+    ],
+    "vocabularyFocus": [
+      "Liebe",
+      "Date",
+      "Blumen",
+      "Einladung",
+      "Kompliment"
+    ],
+    "notes": "Keep it warm, playful, and practical with Valentine's themed mini-dialogues."
+  }
+}

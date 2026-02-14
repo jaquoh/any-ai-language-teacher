@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://any-ai-teacher.local/schemas/next-lesson-packet.schema.json",
+  "title": "NextLessonPromptPacket",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "packetVersion",
+    "generatedAt",
+    "projectSnapshot",
+    "teacherContract",
+    "lessonContext",
+    "responseContract"
+  ],
+  "properties": {
+    "packetVersion": { "type": "string", "const": "1.0.0" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "projectSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["projectId", "targetLanguage", "currentModuleId", "overallScore", "cefrEstimate"],
+      "properties": {
+        "projectId": { "type": "string", "minLength": 3 },
+        "targetLanguage": { "type": "string", "minLength": 2 },
+        "currentModuleId": { "type": "string", "minLength": 3 },
+        "overallScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "cefrEstimate": { "type": "string", "minLength": 2 }
+      }
+    },
+    "teacherContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["persona", "lessonLengthMin", "openingGuidance", "contentBreadth", "offTopicPolicy", "closingFormat", "resultGuarantee"],
+      "properties": {
+        "persona": { "type": "string", "minLength": 4 },
+        "lessonLengthMin": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["min", "max"],
+          "properties": {
+            "min": { "type": "integer", "minimum": 12, "maximum": 20 },
+            "max": { "type": "integer", "minimum": 15, "maximum": 25 }
+          }
+        },
+        "openingGuidance": { "type": "string", "minLength": 8 },
+        "contentBreadth": { "type": "string", "minLength": 8 },
+        "offTopicPolicy": { "type": "string", "minLength": 8 },
+        "closingFormat": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": { "type": "string", "minLength": 3 }
+        },
+        "resultGuarantee": { "type": "string", "minLength": 8 }
+      }
+    },
+    "lessonContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["moduleId", "topic", "grammarFocus", "verbFocus", "vocabularyFocus", "weakAreas"],
+      "properties": {
+        "moduleId": { "type": "string", "minLength": 3 },
+        "topic": { "type": "string", "minLength": 2 },
+        "grammarFocus": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 2 }
+        },
+        "verbFocus": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 2 }
+        },
+        "vocabularyFocus": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "weakAreas": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 2 }
+        }
+      }
+    },
+    "responseContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "jsonSchemaRef", "lessonResultTemplate", "mustInclude", "mustNotInclude"],
+      "properties": {
+        "format": { "type": "string", "const": "fenced-json" },
+        "jsonSchemaRef": { "type": "string", "minLength": 3 },
+        "lessonResultTemplate": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": [
+            "schemaVersion",
+            "resultId",
+            "projectId",
+            "lessonTimestamp",
+            "durationMin",
+            "moduleId",
+            "topic",
+            "lessonCoverage",
+            "exercisePerformance",
+            "mistakes",
+            "teacherFeedback",
+            "recommendedNextFocus",
+            "scoring",
+            "cefrEstimate"
+          ],
+          "properties": {
+            "schemaVersion": { "type": "string", "const": "1.0.0" },
+            "resultId": { "type": "string", "minLength": 3 },
+            "projectId": { "type": "string", "minLength": 3 },
+            "lessonTimestamp": { "type": "string", "minLength": 4 },
+            "durationMin": { "type": "number", "minimum": 1 },
+            "moduleId": { "type": "string", "minLength": 3 },
+            "topic": { "type": "string", "minLength": 2 }
+          }
+        },
+        "mustInclude": {
+          "type": "array",
+          "minItems": 3,
+          "items": { "type": "string", "minLength": 2 }
+        },
+        "mustNotInclude": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 2 }
+        }
+      }
+    }
+  }
+}

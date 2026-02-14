@@ -1,0 +1,447 @@
+{
+  "schemaVersion": "1.0.0",
+  "planId": "de-a1-b1-core",
+  "planVersion": "1.0.0",
+  "targetLanguage": "German",
+  "uiLanguage": "English",
+  "cefrRange": {
+    "from": "A1.1",
+    "to": "B1.2"
+  },
+  "teachingPrinciples": [
+    "Keep each lesson between 15 and 20 minutes and finish with a strict result block.",
+    "Focus on practical life and immigration-relevant communication topics.",
+    "Correct mistakes immediately, kindly, and with one concise explanation.",
+    "Rotate exercises to combine recall, guided production, and free production.",
+    "Always end with a mini recap and next-focus hints before the JSON result."
+  ],
+  "modules": [
+    {
+      "moduleId": "de-a1-1",
+      "order": 1,
+      "cefr": "A1.1",
+      "title": "Foundations of Connection: Love, Valentine's Day, and warm introductions",
+      "durationMin": {
+        "min": 15,
+        "max": 20
+      },
+      "prerequisites": [],
+      "lessonObjectives": [
+        "Introduce yourself warmly in a romantic or friendly Valentine's context.",
+        "Use present tense forms of sein and haben to express feelings and preferences.",
+        "Build simple sentences about affection, compliments, invitations, and plans."
+      ],
+      "grammarTargets": [
+        {
+          "id": "word-order-main",
+          "name": "Main clause word order",
+          "example": "Ich wohne in Berlin."
+        },
+        {
+          "id": "articles-basic",
+          "name": "Definite and indefinite articles",
+          "example": "Das ist ein Freund."
+        }
+      ],
+      "verbTargets": [
+        {
+          "infinitive": "sein",
+          "present": {
+            "ich": "bin",
+            "du": "bist",
+            "er_sie_es": "ist",
+            "wir": "sind",
+            "ihr": "seid",
+            "sie_Sie": "sind"
+          }
+        },
+        {
+          "infinitive": "haben",
+          "present": {
+            "ich": "habe",
+            "du": "hast",
+            "er_sie_es": "hat",
+            "wir": "haben",
+            "ihr": "habt",
+            "sie_Sie": "haben"
+          }
+        }
+      ],
+      "vocabThemes": [
+        "love and valentines day",
+        "relationship",
+        "friends and dating",
+        "supermarket",
+        "activities"
+      ],
+      "exercisePatterns": [
+        "Fill in missing verb forms with romantic mini-dialogues.",
+        "Choose correct article and adjective in compliment sentences.",
+        "Answer invitation and date-planning prompts with new vocabulary."
+      ],
+      "funBreakIdeas": [
+        "Word of the day tied to love and relationships.",
+        "Short Valentine's themed tongue twister."
+      ],
+      "completionChecks": [
+        "Learner can produce five correct affection and invitation sentences.",
+        "Learner can ask and answer three Valentine's themed personal questions."
+      ]
+    },
+    {
+      "moduleId": "de-a1-2",
+      "order": 2,
+      "cefr": "A1.2",
+      "title": "Daily life: shopping, schedules, and local services",
+      "durationMin": {
+        "min": 15,
+        "max": 20
+      },
+      "prerequisites": ["de-a1-1"],
+      "lessonObjectives": [
+        "Handle common supermarket and appointment conversations.",
+        "Use modal verbs in short requests.",
+        "Describe weekday plans and routines."
+      ],
+      "grammarTargets": [
+        {
+          "id": "modal-verbs-basic",
+          "name": "Modal verbs in present tense",
+          "example": "Ich muss heute einkaufen."
+        },
+        {
+          "id": "accusative-basic",
+          "name": "Accusative object basics",
+          "example": "Ich kaufe einen Apfel."
+        }
+      ],
+      "verbTargets": [
+        {
+          "infinitive": "mussen",
+          "present": {
+            "ich": "muss",
+            "du": "musst",
+            "er_sie_es": "muss",
+            "wir": "mussen",
+            "ihr": "musst",
+            "sie_Sie": "mussen"
+          }
+        },
+        {
+          "infinitive": "kaufen",
+          "present": {
+            "ich": "kaufe",
+            "du": "kaufst",
+            "er_sie_es": "kauft",
+            "wir": "kaufen",
+            "ihr": "kauft",
+            "sie_Sie": "kaufen"
+          }
+        }
+      ],
+      "vocabThemes": [
+        "supermarket",
+        "office",
+        "public transportation",
+        "animals"
+      ],
+      "exercisePatterns": [
+        "Build request sentences with modal verbs.",
+        "Complete shopping dialogues.",
+        "Correct article and case in product lists."
+      ],
+      "funBreakIdeas": [
+        "Tip of the day about common checkout phrases.",
+        "Short tongue twister with supermarket words."
+      ],
+      "completionChecks": [
+        "Learner can ask for products and prices naturally.",
+        "Learner can use mussen and konnen in five examples."
+      ]
+    },
+    {
+      "moduleId": "de-a2-1",
+      "order": 3,
+      "cefr": "A2.1",
+      "title": "Mobility and travel: appointments, vacation, and city life",
+      "durationMin": {
+        "min": 15,
+        "max": 20
+      },
+      "prerequisites": ["de-a1-2"],
+      "lessonObjectives": [
+        "Manage travel and city navigation conversations.",
+        "Use separable verbs in common mobility contexts.",
+        "Describe past experiences with Perfekt basics."
+      ],
+      "grammarTargets": [
+        {
+          "id": "separable-verbs",
+          "name": "Separable verbs in present",
+          "example": "Ich steige um 8 Uhr ein."
+        },
+        {
+          "id": "perfekt-intro",
+          "name": "Perfekt with haben",
+          "example": "Ich habe ein Ticket gekauft."
+        }
+      ],
+      "verbTargets": [
+        {
+          "infinitive": "einsteigen",
+          "present": {
+            "ich": "steige ein",
+            "du": "steigst ein",
+            "er_sie_es": "steigt ein",
+            "wir": "steigen ein",
+            "ihr": "steigt ein",
+            "sie_Sie": "steigen ein"
+          }
+        },
+        {
+          "infinitive": "fahren",
+          "present": {
+            "ich": "fahre",
+            "du": "fahrst",
+            "er_sie_es": "fahrt",
+            "wir": "fahren",
+            "ihr": "fahrt",
+            "sie_Sie": "fahren"
+          }
+        }
+      ],
+      "vocabThemes": [
+        "vacation",
+        "public transportation",
+        "job search",
+        "activities"
+      ],
+      "exercisePatterns": [
+        "Station dialogue roleplay.",
+        "Build Perfekt sentences from prompts.",
+        "Choose correct separable verb forms."
+      ],
+      "funBreakIdeas": [
+        "Travel quote in easy German.",
+        "Mini riddle using transport vocabulary."
+      ],
+      "completionChecks": [
+        "Learner can ask for routes and schedules.",
+        "Learner can report three past actions in Perfekt."
+      ]
+    },
+    {
+      "moduleId": "de-a2-2",
+      "order": 4,
+      "cefr": "A2.2",
+      "title": "Work and social life: office routines and relationships",
+      "durationMin": {
+        "min": 15,
+        "max": 20
+      },
+      "prerequisites": ["de-a2-1"],
+      "lessonObjectives": [
+        "Discuss office routines and social plans.",
+        "Use subordinate clauses with weil and dass.",
+        "Practice reflexive verbs in daily contexts."
+      ],
+      "grammarTargets": [
+        {
+          "id": "subordinate-clauses",
+          "name": "Subordinate clauses with weil/dass",
+          "example": "Ich bleibe zu Hause, weil ich krank bin."
+        },
+        {
+          "id": "reflexive-verbs",
+          "name": "Reflexive verbs in present",
+          "example": "Ich interessiere mich fur Musik."
+        }
+      ],
+      "verbTargets": [
+        {
+          "infinitive": "sich treffen",
+          "present": {
+            "ich": "treffe mich",
+            "du": "triffst dich",
+            "er_sie_es": "trifft sich",
+            "wir": "treffen uns",
+            "ihr": "trefft euch",
+            "sie_Sie": "treffen sich"
+          }
+        },
+        {
+          "infinitive": "arbeiten",
+          "present": {
+            "ich": "arbeite",
+            "du": "arbeitest",
+            "er_sie_es": "arbeitet",
+            "wir": "arbeiten",
+            "ihr": "arbeitet",
+            "sie_Sie": "arbeiten"
+          }
+        }
+      ],
+      "vocabThemes": [
+        "office",
+        "relationship",
+        "friends",
+        "business"
+      ],
+      "exercisePatterns": [
+        "Combine clauses with weil/dass.",
+        "Correct reflexive pronoun choices.",
+        "Answer scenario questions about office and relationships."
+      ],
+      "funBreakIdeas": [
+        "Memory saying for verb-final clauses.",
+        "Light joke related to office communication."
+      ],
+      "completionChecks": [
+        "Learner can justify choices using weil.",
+        "Learner can describe work and social plans coherently."
+      ]
+    },
+    {
+      "moduleId": "de-b1-1",
+      "order": 5,
+      "cefr": "B1.1",
+      "title": "Independence: narratives, opinions, and practical bureaucracy",
+      "durationMin": {
+        "min": 15,
+        "max": 20
+      },
+      "prerequisites": ["de-a2-2"],
+      "lessonObjectives": [
+        "Narrate experiences with stronger cohesion.",
+        "Express and defend opinions in everyday topics.",
+        "Prepare for administrative and job-related interactions."
+      ],
+      "grammarTargets": [
+        {
+          "id": "connectors-b1",
+          "name": "Connectors for argument flow",
+          "example": "Einerseits ..., andererseits ..."
+        },
+        {
+          "id": "past-refinement",
+          "name": "Perfekt vs Prateritum awareness",
+          "example": "Ich war gestern im Buro."
+        }
+      ],
+      "verbTargets": [
+        {
+          "infinitive": "bewerben",
+          "present": {
+            "ich": "bewerbe",
+            "du": "bewirbst",
+            "er_sie_es": "bewirbt",
+            "wir": "bewerben",
+            "ihr": "bewerbt",
+            "sie_Sie": "bewerben"
+          }
+        },
+        {
+          "infinitive": "erklaren",
+          "present": {
+            "ich": "erklare",
+            "du": "erklarst",
+            "er_sie_es": "erklart",
+            "wir": "erklaren",
+            "ihr": "erklart",
+            "sie_Sie": "erklaren"
+          }
+        }
+      ],
+      "vocabThemes": [
+        "job search",
+        "business",
+        "public transportation",
+        "office"
+      ],
+      "exercisePatterns": [
+        "Opinion prompt and concise defense.",
+        "Reorder mixed narrative sentences.",
+        "Targeted correction on connectors."
+      ],
+      "funBreakIdeas": [
+        "Nerdy fact about German compound words.",
+        "Quote of the day about persistence."
+      ],
+      "completionChecks": [
+        "Learner can present one reasoned opinion with connectors.",
+        "Learner can narrate a practical past event clearly."
+      ]
+    },
+    {
+      "moduleId": "de-b1-2",
+      "order": 6,
+      "cefr": "B1.2",
+      "title": "Applied confidence: nuanced communication for life and work",
+      "durationMin": {
+        "min": 15,
+        "max": 20
+      },
+      "prerequisites": ["de-b1-1"],
+      "lessonObjectives": [
+        "Handle nuanced work and civic communication.",
+        "Use passive intro and modal nuance in practical scenarios.",
+        "Sustain longer but clear responses with fewer errors."
+      ],
+      "grammarTargets": [
+        {
+          "id": "passive-intro",
+          "name": "Passive voice introduction",
+          "example": "Der Termin wird verschoben."
+        },
+        {
+          "id": "modal-nuance",
+          "name": "Nuanced modal intent",
+          "example": "Das konnte hilfreich sein."
+        }
+      ],
+      "verbTargets": [
+        {
+          "infinitive": "verschieben",
+          "present": {
+            "ich": "verschiebe",
+            "du": "verschiebst",
+            "er_sie_es": "verschiebt",
+            "wir": "verschieben",
+            "ihr": "verschiebt",
+            "sie_Sie": "verschieben"
+          }
+        },
+        {
+          "infinitive": "verhandeln",
+          "present": {
+            "ich": "verhandle",
+            "du": "verhandelst",
+            "er_sie_es": "verhandelt",
+            "wir": "verhandeln",
+            "ihr": "verhandelt",
+            "sie_Sie": "verhandeln"
+          }
+        }
+      ],
+      "vocabThemes": [
+        "business",
+        "office",
+        "relationship",
+        "vacation"
+      ],
+      "exercisePatterns": [
+        "Convert active to passive.",
+        "Choose nuanced modal expression.",
+        "Scenario dialogue for workplace resolution."
+      ],
+      "funBreakIdeas": [
+        "Philosophic thought linked to communication choices.",
+        "Short proverb adapted to lesson vocabulary."
+      ],
+      "completionChecks": [
+        "Learner can respond appropriately in a professional scenario.",
+        "Learner can produce two correct passive constructions."
+      ]
+    }
+  ]
+}

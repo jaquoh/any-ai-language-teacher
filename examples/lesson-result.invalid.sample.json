@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "1.0.0",
+  "resultId": "result-bad-1",
+  "projectId": "project-demo-german",
+  "lessonTimestamp": "2026-02-13T10:15:00.000Z",
+  "durationMin": "12",
+  "moduleId": "de-a1-1",
+  "topic": "supermarket",
+  "lessonCoverage": {
+    "topics": [
+      "supermarket"
+    ],
+    "grammar": [],
+    "verbs": [],
+    "vocabulary": []
+  }
+}

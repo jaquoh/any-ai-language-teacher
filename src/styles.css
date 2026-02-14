@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: "Avenir Next", "Nunito", "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(225, 29, 72, 0.12), transparent 42%),
+    radial-gradient(circle at 90% 15%, rgba(251, 113, 133, 0.16), transparent 38%),
+    radial-gradient(circle at 40% 85%, rgba(15, 118, 110, 0.12), transparent 44%),
+    linear-gradient(180deg, #fffafc 0%, #fff3f7 100%);
+}
+
+.app-shell .card {
+  border-radius: 1.1rem;
+  box-shadow:
+    0 12px 28px rgba(204, 24, 81, 0.08),
+    0 3px 9px rgba(17, 24, 39, 0.05);
+}
+
+.app-shell .card-title {
+  letter-spacing: 0.01em;
+}
+
+textarea {
+  line-height: 1.4;
+}

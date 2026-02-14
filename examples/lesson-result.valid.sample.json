@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "1.0.0",
+  "resultId": "result-0001",
+  "projectId": "project-demo-german",
+  "lessonTimestamp": "2026-02-13T10:15:00.000Z",
+  "durationMin": 12,
+  "moduleId": "de-a1-1",
+  "topic": "supermarket",
+  "lessonCoverage": {
+    "topics": [
+      "supermarket",
+      "friends"
+    ],
+    "grammar": [
+      {
+        "id": "articles-basic",
+        "name": "Definite and indefinite articles",
+        "example": "Ich kaufe einen Apfel."
+      }
+    ],
+    "verbs": [
+      {
+        "infinitive": "haben",
+        "present": {
+          "ich": "habe",
+          "du": "hast",
+          "er_sie_es": "hat",
+          "wir": "haben",
+          "ihr": "habt",
+          "sie_Sie": "haben"
+        }
+      }
+    ],
+    "vocabulary": [
+      {
+        "term": "der Apfel",
+        "translation": "apple",
+        "context": "Ich kaufe einen Apfel im Supermarkt."
+      }
+    ]
+  },
+  "exercisePerformance": [
+    {
+      "exerciseType": "fill-in-the-blank",
+      "prompt": "Ich ___ einen Apfel.",
+      "userAnswer": "habe",
+      "correctAnswer": "habe",
+      "isCorrect": true
+    },
+    {
+      "exerciseType": "article-choice",
+      "prompt": "Ich nehme __ Banane.",
+      "userAnswer": "ein",
+      "correctAnswer": "eine",
+      "isCorrect": false
+    }
+  ],
+  "mistakes": [
+    {
+      "key": "article-gender-banane",
+      "category": "grammar",
+      "severity": "major",
+      "message": "Wrong article gender for Banane.",
+      "correction": "Use eine Banane.",
+      "needsPractice": true
+    }
+  ],
+  "teacherFeedback": {
+    "summary": "You are using present tense clearly and improving quickly.",
+    "strengths": [
+      "Good recall of haben forms.",
+      "Strong willingness to self-correct."
+    ],
+    "improvementFocus": [
+      "Practice feminine noun articles.",
+      "Use one more complete sentence per answer."
+    ]
+  },
+  "recommendedNextFocus": {
+    "moduleId": "de-a1-1",
+    "topic": "public transportation",
+    "grammar": [
+      "articles-basic"
+    ],
+    "verbs": [
+      "sein"
+    ],
+    "vocabulary": [
+      "Bahnhof",
+      "Ticket",
+      "Linie"
+    ],
+    "notes": "Keep examples practical for commuting and appointments."
+  },
+  "scoring": {
+    "grammar": 68,
+    "verbs": 80,
+    "vocabulary": 72,
+    "fluency": 70,
+    "composite": 72
+  },
+  "cefrEstimate": {
+    "band": "A1.1",
+    "confidence": 0.62
+  }
+}

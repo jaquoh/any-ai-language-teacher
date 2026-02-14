@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://any-ai-teacher.local/schemas/progress-data.schema.json",
+  "title": "ProgressData",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "projectId",
+    "createdAt",
+    "updatedAt",
+    "learnerProfile",
+    "planRef",
+    "scoreConfig",
+    "scorecard",
+    "knowledgeLedger",
+    "mistakePatterns",
+    "lessonHistory",
+    "importedResultIds",
+    "nextLesson"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "1.0.0" },
+    "projectId": { "type": "string", "minLength": 3 },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "learnerProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nativeLanguage", "targetLanguage", "goals", "timeBudgetMin"],
+      "properties": {
+        "nativeLanguage": { "type": "string", "minLength": 2 },
+        "targetLanguage": { "type": "string", "minLength": 2 },
+        "goals": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 3 }
+        },
+        "timeBudgetMin": { "type": "integer", "minimum": 5, "maximum": 120 }
+      }
+    },
+    "planRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["planId", "planVersion", "currentModuleId"],
+      "properties": {
+        "planId": { "type": "string", "minLength": 3 },
+        "planVersion": { "type": "string", "minLength": 1 },
+        "currentModuleId": { "type": "string", "minLength": 3 }
+      }
+    },
+    "scoreConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["weights"],
+      "properties": {
+        "weights": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["grammar", "verbs", "vocabulary", "fluency"],
+          "properties": {
+            "grammar": { "type": "number", "minimum": 0, "maximum": 1 },
+            "verbs": { "type": "number", "minimum": 0, "maximum": 1 },
+            "vocabulary": { "type": "number", "minimum": 0, "maximum": 1 },
+            "fluency": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        }
+      }
+    },
+    "scorecard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["overallScore", "cefrEstimate", "trend"],
+      "properties": {
+        "overallScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "cefrEstimate": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["band", "confidence"],
+          "properties": {
+            "band": { "type": "string", "minLength": 2 },
+            "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "trend": {
+          "type": "string",
+          "enum": ["up", "flat", "down"]
+        }
+      }
+    },
+    "knowledgeLedger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["vocabulary", "verbs", "grammar"],
+      "properties": {
+        "vocabulary": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["term", "translation", "mastery", "lastSeen"],
+            "properties": {
+              "term": { "type": "string", "minLength": 1 },
+              "translation": { "type": "string", "minLength": 1 },
+              "mastery": { "type": "number", "minimum": 0, "maximum": 100 },
+              "lastSeen": { "type": "string", "format": "date-time" }
+            }
+          }
+        },
+        "verbs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["infinitive", "present", "mastery", "lastSeen"],
+            "properties": {
+              "infinitive": { "type": "string", "minLength": 1 },
+              "present": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["ich", "du", "er_sie_es", "wir", "ihr", "sie_Sie"],
+                "properties": {
+                  "ich": { "type": "string", "minLength": 1 },
+                  "du": { "type": "string", "minLength": 1 },
+                  "er_sie_es": { "type": "string", "minLength": 1 },
+                  "wir": { "type": "string", "minLength": 1 },
+                  "ihr": { "type": "string", "minLength": 1 },
+                  "sie_Sie": { "type": "string", "minLength": 1 }
+                }
+              },
+              "mastery": { "type": "number", "minimum": 0, "maximum": 100 },
+              "lastSeen": { "type": "string", "format": "date-time" }
+            }
+          }
+        },
+        "grammar": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "name", "mastery", "lastSeen", "example"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "name": { "type": "string", "minLength": 1 },
+              "example": { "type": "string", "minLength": 3 },
+              "mastery": { "type": "number", "minimum": 0, "maximum": 100 },
+              "lastSeen": { "type": "string", "format": "date-time" }
+            }
+          }
+        }
+      }
+    },
+    "mistakePatterns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["key", "category", "count", "lastSeen", "needsPractice"],
+        "properties": {
+          "key": { "type": "string", "minLength": 2 },
+          "category": { "type": "string", "minLength": 2 },
+          "count": { "type": "integer", "minimum": 1 },
+          "lastSeen": { "type": "string", "format": "date-time" },
+          "needsPractice": { "type": "boolean" }
+        }
+      }
+    },
+    "lessonHistory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["resultId", "timestamp", "moduleId", "topic", "factors", "lessonScore", "summary"],
+        "properties": {
+          "resultId": { "type": "string", "minLength": 3 },
+          "timestamp": { "type": "string", "format": "date-time" },
+          "moduleId": { "type": "string", "minLength": 3 },
+          "topic": { "type": "string", "minLength": 2 },
+          "factors": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["grammar", "verbs", "vocabulary", "fluency"],
+            "properties": {
+              "grammar": { "type": "number", "minimum": 0, "maximum": 100 },
+              "verbs": { "type": "number", "minimum": 0, "maximum": 100 },
+              "vocabulary": { "type": "number", "minimum": 0, "maximum": 100 },
+              "fluency": { "type": "number", "minimum": 0, "maximum": 100 }
+            }
+          },
+          "lessonScore": { "type": "number", "minimum": 0, "maximum": 100 },
+          "summary": { "type": "string", "minLength": 3 }
+        }
+      }
+    },
+    "importedResultIds": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 }
+    },
+    "nextLesson": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["moduleId", "topic", "grammarFocus", "verbFocus", "vocabularyFocus", "notes"],
+      "properties": {
+        "moduleId": { "type": "string", "minLength": 3 },
+        "topic": { "type": "string", "minLength": 2 },
+        "grammarFocus": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "verbFocus": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "vocabularyFocus": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "notes": { "type": "string", "minLength": 2 }
+      }
+    }
+  }
+}
