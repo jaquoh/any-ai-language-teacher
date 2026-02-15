@@ -1,14 +1,33 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@source "../index.html";
+@source "./**/*.{js,html}";
+@source "../node_modules/preline/dist/*.js";
 
 :root {
   font-family: "Avenir Next", "Nunito", "Segoe UI", sans-serif;
+  color-scheme: light;
+  --color-base-100: 255 250 252;
+  --color-base-200: 255 241 245;
+  --color-neutral: 31 36 48;
+  --color-success: 5 150 105;
+  --color-error: 220 38 38;
+}
+
+html.dark {
+  color-scheme: dark;
+  --color-base-100: 15 23 42;
+  --color-base-200: 30 41 59;
+  --color-neutral: 241 245 249;
+  --color-success: 52 211 153;
+  --color-error: 248 113 113;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
+  color: rgb(var(--color-neutral));
   background:
     radial-gradient(circle at 10% 10%, rgba(225, 29, 72, 0.12), transparent 42%),
     radial-gradient(circle at 90% 15%, rgba(251, 113, 133, 0.16), transparent 38%),
@@ -16,15 +35,174 @@ body {
     linear-gradient(180deg, #fffafc 0%, #fff3f7 100%);
 }
 
-.app-shell .card {
-  border-radius: 1.1rem;
-  box-shadow:
-    0 12px 28px rgba(204, 24, 81, 0.08),
-    0 3px 9px rgba(17, 24, 39, 0.05);
+html.dark body {
+  background:
+    radial-gradient(circle at 15% 12%, rgba(225, 29, 72, 0.2), transparent 38%),
+    radial-gradient(circle at 82% 18%, rgba(56, 189, 248, 0.16), transparent 40%),
+    radial-gradient(circle at 35% 90%, rgba(168, 85, 247, 0.2), transparent 44%),
+    linear-gradient(180deg, #020617 0%, #0f172a 100%);
 }
 
-.app-shell .card-title {
-  letter-spacing: 0.01em;
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-transparent px-4 py-2 text-sm font-medium transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply bg-brand-600 text-white shadow-sm hover:bg-brand-700;
+  }
+
+  .btn-outline {
+    @apply border-slate-300 bg-white text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800;
+  }
+
+  .btn-ghost {
+    @apply text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800;
+  }
+
+  .btn-sm {
+    @apply rounded-md px-3 py-1.5 text-xs;
+  }
+
+  .btn-xs {
+    @apply rounded-md px-2 py-1 text-[11px];
+  }
+
+  .card {
+    @apply rounded-2xl border border-brand-100/70 bg-base-100 text-neutral shadow-sm dark:border-slate-700/70;
+  }
+
+  .card-body {
+    @apply p-5;
+  }
+
+  .card-title {
+    @apply mb-3 text-lg font-semibold tracking-tight;
+  }
+
+  .hero {
+    @apply w-full;
+  }
+
+  .hero-content {
+    @apply mx-auto;
+  }
+
+  .table {
+    @apply min-w-full border-collapse text-left text-sm text-slate-700 dark:text-slate-200;
+  }
+
+  .table thead th {
+    @apply bg-base-200 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-600 dark:text-slate-300;
+  }
+
+  .table tbody td {
+    @apply border-t border-slate-200 px-3 py-2 align-top dark:border-slate-700;
+  }
+
+  .table-zebra tbody tr:nth-child(odd) {
+    @apply bg-slate-50/70 dark:bg-slate-900/40;
+  }
+
+  .table-sm thead th,
+  .table-sm tbody td {
+    @apply px-2.5 py-2;
+  }
+
+  .table-xs thead th,
+  .table-xs tbody td {
+    @apply px-2 py-1.5 text-xs;
+  }
+
+  .textarea {
+    @apply block w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-slate-800 shadow-sm outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-200 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:focus:ring-brand-700/60;
+  }
+
+  .textarea-bordered {
+    @apply border-slate-300 dark:border-slate-700;
+  }
+
+  .form-control {
+    @apply block;
+  }
+
+  .label {
+    @apply mb-1 flex items-center justify-between gap-3 text-xs;
+  }
+
+  .label-text {
+    @apply font-medium text-slate-700 dark:text-slate-200;
+  }
+
+  .label-text-alt {
+    @apply text-slate-500 dark:text-slate-400;
+  }
+
+  .range {
+    @apply h-2 w-full appearance-none rounded-full bg-slate-200 dark:bg-slate-700;
+  }
+
+  .range-primary {
+    @apply bg-brand-200 dark:bg-brand-900/40;
+  }
+
+  .progress {
+    @apply h-3 w-full appearance-none overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700;
+  }
+
+  .progress-primary {
+    @apply bg-brand-100 dark:bg-brand-900/50;
+  }
+
+  .app-shell .card {
+    box-shadow:
+      0 12px 28px rgba(204, 24, 81, 0.08),
+      0 3px 9px rgba(17, 24, 39, 0.05);
+  }
+}
+
+.range::-webkit-slider-thumb {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #fff;
+  border-radius: 9999px;
+  background: #e11d48;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.25);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+html.dark .range::-webkit-slider-thumb {
+  border-color: #020617;
+}
+
+.range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #fff;
+  border-radius: 9999px;
+  background: #e11d48;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.25);
+  cursor: pointer;
+}
+
+html.dark .range::-moz-range-thumb {
+  border-color: #020617;
+}
+
+.progress::-webkit-progress-bar {
+  background-color: transparent;
+}
+
+.progress::-webkit-progress-value {
+  border-radius: 9999px;
+  background-color: #e11d48;
+}
+
+.progress::-moz-progress-bar {
+  border-radius: 9999px;
+  background-color: #e11d48;
 }
 
 textarea {

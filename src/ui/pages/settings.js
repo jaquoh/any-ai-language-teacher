@@ -179,6 +179,11 @@ export function bindSettingsEvents(root, state, actions) {
     percentWeights[key] = clampPercent(Number(slider.value));
   });
 
+  root.querySelectorAll("a[href^='#/']").forEach((link) => {
+    link.addEventListener("click", persistWeightsIfChanged);
+  });
+  let lastPersistedSignature = WEIGHT_KEYS.map((key) => percentWeights[key]).join("|");
+
   function syncUi(activeKey = null) {
     sliderEntries.forEach(({ key, slider, label, contribution }) => {
       const value = clampPercent(percentWeights[key] ?? 0);
@@ -197,16 +202,29 @@ export function bindSettingsEvents(root, state, actions) {
     });
   }
 
+  function persistWeightsIfChanged() {
+    const signature = WEIGHT_KEYS.map((key) => clampPercent(percentWeights[key] ?? 0)).join("|");
+    if (signature === lastPersistedSignature) {
+      return;
+    }
+
+    lastPersistedSignature = signature;
+    actions.onScoreWeightsChange(toRatioWeights(percentWeights));
+  }
+
   sliderEntries.forEach(({ key, slider }) => {
     slider.addEventListener("input", () => {
       percentWeights = rebalancePercentWeights(percentWeights, key, Number(slider.value));
       syncUi(key);
     });
 
-    slider.addEventListener("change", () => {
-      actions.onScoreWeightsChange(toRatioWeights(percentWeights));
-      percentWeights = toPercentWeights(state.progress.scoreConfig.weights);
-      syncUi();
+    slider.addEventListener("change", persistWeightsIfChanged);
+    slider.addEventListener("mouseup", persistWeightsIfChanged);
+    slider.addEventListener("touchend", persistWeightsIfChanged, { passive: true });
+    slider.addEventListener("keyup", (event) => {
+      if (event.key.startsWith("Arrow") || event.key === "Home" || event.key === "End" || event.key === "PageUp" || event.key === "PageDown") {
+        persistWeightsIfChanged();
+      }
     });
   });
 

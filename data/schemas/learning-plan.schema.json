@@ -34,6 +34,22 @@
       "minItems": 3,
       "items": { "type": "string", "minLength": 3 }
     },
+    "planMeta": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "structureVersion": { "type": "string", "minLength": 1 },
+        "notes": { "type": "string", "minLength": 3 },
+        "extensions": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": true
+    },
     "modules": {
       "type": "array",
       "minItems": 1,
@@ -46,6 +62,7 @@
           "cefr",
           "title",
           "durationMin",
+          "lessonCadence",
           "prerequisites",
           "lessonObjectives",
           "grammarTargets",
@@ -57,6 +74,7 @@
         ],
         "properties": {
           "moduleId": { "type": "string", "minLength": 3 },
+          "moduleVersion": { "type": "string", "minLength": 1 },
           "order": { "type": "integer", "minimum": 1 },
           "cefr": { "type": "string", "minLength": 3 },
           "title": { "type": "string", "minLength": 3 },
@@ -67,6 +85,15 @@
             "properties": {
               "min": { "type": "integer", "minimum": 12, "maximum": 20 },
               "max": { "type": "integer", "minimum": 15, "maximum": 25 }
+            }
+          },
+          "lessonCadence": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["targetLessons", "lessonsPerTopic"],
+            "properties": {
+              "targetLessons": { "type": "integer", "minimum": 20, "maximum": 60 },
+              "lessonsPerTopic": { "type": "integer", "minimum": 2, "maximum": 6 }
             }
           },
           "prerequisites": {
@@ -80,7 +107,7 @@
           },
           "grammarTargets": {
             "type": "array",
-            "minItems": 1,
+            "minItems": 8,
             "items": {
               "type": "object",
               "additionalProperties": false,
@@ -88,18 +115,31 @@
               "properties": {
                 "id": { "type": "string", "minLength": 2 },
                 "name": { "type": "string", "minLength": 2 },
-                "example": { "type": "string", "minLength": 3 }
+                "example": { "type": "string", "minLength": 3 },
+                "tags": {
+                  "type": "array",
+                  "items": { "type": "string", "minLength": 1 }
+                },
+                "prerequisites": {
+                  "type": "array",
+                  "items": { "type": "string", "minLength": 1 }
+                },
+                "extensions": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
               }
             }
           },
           "verbTargets": {
             "type": "array",
-            "minItems": 1,
+            "minItems": 20,
             "items": {
               "type": "object",
               "additionalProperties": false,
               "required": ["infinitive", "present"],
               "properties": {
+                "id": { "type": "string", "minLength": 2 },
                 "infinitive": { "type": "string", "minLength": 2 },
                 "present": {
                   "type": "object",
@@ -113,14 +153,50 @@
                     "ihr": { "type": "string", "minLength": 2 },
                     "sie_Sie": { "type": "string", "minLength": 2 }
                   }
+                },
+                "tags": {
+                  "type": "array",
+                  "items": { "type": "string", "minLength": 1 }
+                },
+                "group": { "type": "string", "minLength": 2 },
+                "extensions": {
+                  "type": "object",
+                  "additionalProperties": true
                 }
               }
             }
           },
           "vocabThemes": {
             "type": "array",
-            "minItems": 1,
+            "minItems": 10,
+            "maxItems": 10,
             "items": { "type": "string", "minLength": 2 }
+          },
+          "topics": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "label"],
+              "properties": {
+                "id": { "type": "string", "minLength": 2 },
+                "label": { "type": "string", "minLength": 2 },
+                "aliases": {
+                  "type": "array",
+                  "items": { "type": "string", "minLength": 1 }
+                },
+                "tags": {
+                  "type": "array",
+                  "items": { "type": "string", "minLength": 1 }
+                },
+                "lessonHint": { "type": "string", "minLength": 2 },
+                "extensions": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
           },
           "exercisePatterns": {
             "type": "array",
@@ -136,6 +212,14 @@
             "type": "array",
             "minItems": 2,
             "items": { "type": "string", "minLength": 3 }
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "extensions": {
+            "type": "object",
+            "additionalProperties": true
           }
         }
       }

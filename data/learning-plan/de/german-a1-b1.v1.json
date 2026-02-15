@@ -41,6 +41,46 @@
           "id": "articles-basic",
           "name": "Definite and indefinite articles",
           "example": "Das ist ein Freund."
+        },
+        {
+          "id": "personal-pronouns",
+          "name": "Personal pronouns",
+          "example": "Ich sehe dich."
+        },
+        {
+          "id": "yes-no-questions",
+          "name": "Yes/no questions",
+          "example": "Kommst du heute?"
+        },
+        {
+          "id": "wh-questions-basic",
+          "name": "W-questions basics",
+          "example": "Wo wohnst du?"
+        },
+        {
+          "id": "negation-nicht-kein",
+          "name": "Negation with nicht/kein",
+          "example": "Ich habe kein Auto."
+        },
+        {
+          "id": "possessives-basic",
+          "name": "Possessive determiners",
+          "example": "Das ist meine Tasche."
+        },
+        {
+          "id": "plural-basics",
+          "name": "Plural noun patterns",
+          "example": "Die Blumen sind rot."
+        },
+        {
+          "id": "verb-position-time",
+          "name": "Time expressions in sentence order",
+          "example": "Ich gehe heute ins Kino."
+        },
+        {
+          "id": "adjective-predicate",
+          "name": "Predicate adjectives",
+          "example": "Der Film ist interessant."
         }
       ],
       "verbTargets": [
@@ -65,14 +105,217 @@
             "ihr": "habt",
             "sie_Sie": "haben"
           }
+        },
+        {
+          "infinitive": "lieben",
+          "present": {
+            "ich": "liebe",
+            "du": "liebst",
+            "er_sie_es": "liebt",
+            "wir": "lieben",
+            "ihr": "liebt",
+            "sie_Sie": "lieben"
+          }
+        },
+        {
+          "infinitive": "moegen",
+          "present": {
+            "ich": "mag",
+            "du": "magst",
+            "er_sie_es": "mag",
+            "wir": "moegen",
+            "ihr": "moegt",
+            "sie_Sie": "moegen"
+          }
+        },
+        {
+          "infinitive": "heissen",
+          "present": {
+            "ich": "heisse",
+            "du": "heisst",
+            "er_sie_es": "heisst",
+            "wir": "heissen",
+            "ihr": "heisst",
+            "sie_Sie": "heissen"
+          }
+        },
+        {
+          "infinitive": "wohnen",
+          "present": {
+            "ich": "wohne",
+            "du": "wohnst",
+            "er_sie_es": "wohnt",
+            "wir": "wohnen",
+            "ihr": "wohnt",
+            "sie_Sie": "wohnen"
+          }
+        },
+        {
+          "infinitive": "kommen",
+          "present": {
+            "ich": "komme",
+            "du": "kommst",
+            "er_sie_es": "kommt",
+            "wir": "kommen",
+            "ihr": "kommt",
+            "sie_Sie": "kommen"
+          }
+        },
+        {
+          "infinitive": "gehen",
+          "present": {
+            "ich": "gehe",
+            "du": "gehst",
+            "er_sie_es": "geht",
+            "wir": "gehen",
+            "ihr": "geht",
+            "sie_Sie": "gehen"
+          }
+        },
+        {
+          "infinitive": "machen",
+          "present": {
+            "ich": "mache",
+            "du": "machst",
+            "er_sie_es": "macht",
+            "wir": "machen",
+            "ihr": "macht",
+            "sie_Sie": "machen"
+          }
+        },
+        {
+          "infinitive": "finden",
+          "present": {
+            "ich": "finde",
+            "du": "findest",
+            "er_sie_es": "findet",
+            "wir": "finden",
+            "ihr": "findet",
+            "sie_Sie": "finden"
+          }
+        },
+        {
+          "infinitive": "suchen",
+          "present": {
+            "ich": "suche",
+            "du": "suchst",
+            "er_sie_es": "sucht",
+            "wir": "suchen",
+            "ihr": "sucht",
+            "sie_Sie": "suchen"
+          }
+        },
+        {
+          "infinitive": "lernen",
+          "present": {
+            "ich": "lerne",
+            "du": "lernst",
+            "er_sie_es": "lernt",
+            "wir": "lernen",
+            "ihr": "lernt",
+            "sie_Sie": "lernen"
+          }
+        },
+        {
+          "infinitive": "brauchen",
+          "present": {
+            "ich": "brauche",
+            "du": "brauchst",
+            "er_sie_es": "braucht",
+            "wir": "brauchen",
+            "ihr": "braucht",
+            "sie_Sie": "brauchen"
+          }
+        },
+        {
+          "infinitive": "kaufen",
+          "present": {
+            "ich": "kaufe",
+            "du": "kaufst",
+            "er_sie_es": "kauft",
+            "wir": "kaufen",
+            "ihr": "kauft",
+            "sie_Sie": "kaufen"
+          }
+        },
+        {
+          "infinitive": "kochen",
+          "present": {
+            "ich": "koche",
+            "du": "kochst",
+            "er_sie_es": "kocht",
+            "wir": "kochen",
+            "ihr": "kocht",
+            "sie_Sie": "kochen"
+          }
+        },
+        {
+          "infinitive": "trinken",
+          "present": {
+            "ich": "trinke",
+            "du": "trinkst",
+            "er_sie_es": "trinkt",
+            "wir": "trinken",
+            "ihr": "trinkt",
+            "sie_Sie": "trinken"
+          }
+        },
+        {
+          "infinitive": "essen",
+          "present": {
+            "ich": "esse",
+            "du": "isst",
+            "er_sie_es": "isst",
+            "wir": "essen",
+            "ihr": "esst",
+            "sie_Sie": "essen"
+          }
+        },
+        {
+          "infinitive": "treffen",
+          "present": {
+            "ich": "treffe",
+            "du": "triffst",
+            "er_sie_es": "trifft",
+            "wir": "treffen",
+            "ihr": "trefft",
+            "sie_Sie": "treffen"
+          }
+        },
+        {
+          "infinitive": "warten",
+          "present": {
+            "ich": "warte",
+            "du": "wartest",
+            "er_sie_es": "wartet",
+            "wir": "warten",
+            "ihr": "wartet",
+            "sie_Sie": "warten"
+          }
+        },
+        {
+          "infinitive": "planen",
+          "present": {
+            "ich": "plane",
+            "du": "planst",
+            "er_sie_es": "plant",
+            "wir": "planen",
+            "ihr": "plant",
+            "sie_Sie": "planen"
+          }
         }
       ],
       "vocabThemes": [
         "love and valentines day",
         "relationship",
         "friends and dating",
+        "introducing yourself",
+        "family",
         "supermarket",
-        "activities"
+        "food and drinks",
+        "activities",
+        "weekend plans",
+        "weather small talk"
       ],
       "exercisePatterns": [
         "Fill in missing verb forms with romantic mini-dialogues.",
@@ -86,7 +329,86 @@
       "completionChecks": [
         "Learner can produce five correct affection and invitation sentences.",
         "Learner can ask and answer three Valentine's themed personal questions."
-      ]
+      ],
+      "lessonCadence": {
+        "targetLessons": 20,
+        "lessonsPerTopic": 2
+      },
+      "moduleVersion": "1.0.0",
+      "topics": [
+        {
+          "id": "de-a1-1-love-and-valentines-day",
+          "label": "love and valentines day",
+          "aliases": [
+            "love and valentines day"
+          ]
+        },
+        {
+          "id": "de-a1-1-relationship",
+          "label": "relationship",
+          "aliases": [
+            "relationship"
+          ]
+        },
+        {
+          "id": "de-a1-1-friends-and-dating",
+          "label": "friends and dating",
+          "aliases": [
+            "friends and dating"
+          ]
+        },
+        {
+          "id": "de-a1-1-introducing-yourself",
+          "label": "introducing yourself",
+          "aliases": [
+            "introducing yourself"
+          ]
+        },
+        {
+          "id": "de-a1-1-family",
+          "label": "family",
+          "aliases": [
+            "family"
+          ]
+        },
+        {
+          "id": "de-a1-1-supermarket",
+          "label": "supermarket",
+          "aliases": [
+            "supermarket"
+          ]
+        },
+        {
+          "id": "de-a1-1-food-and-drinks",
+          "label": "food and drinks",
+          "aliases": [
+            "food and drinks"
+          ]
+        },
+        {
+          "id": "de-a1-1-activities",
+          "label": "activities",
+          "aliases": [
+            "activities"
+          ]
+        },
+        {
+          "id": "de-a1-1-weekend-plans",
+          "label": "weekend plans",
+          "aliases": [
+            "weekend plans"
+          ]
+        },
+        {
+          "id": "de-a1-1-weather-small-talk",
+          "label": "weather small talk",
+          "aliases": [
+            "weather small talk"
+          ]
+        }
+      ],
+      "metadata": {},
+      "extensions": {}
     },
     {
       "moduleId": "de-a1-2",
@@ -97,7 +419,9 @@
         "min": 15,
         "max": 20
       },
-      "prerequisites": ["de-a1-1"],
+      "prerequisites": [
+        "de-a1-1"
+      ],
       "lessonObjectives": [
         "Handle common supermarket and appointment conversations.",
         "Use modal verbs in short requests.",
@@ -113,6 +437,46 @@
           "id": "accusative-basic",
           "name": "Accusative object basics",
           "example": "Ich kaufe einen Apfel."
+        },
+        {
+          "id": "separable-verbs-intro",
+          "name": "Separable verbs introduction",
+          "example": "Ich rufe dich heute an."
+        },
+        {
+          "id": "time-adverbs",
+          "name": "Time adverbs and position",
+          "example": "Wir treffen uns morgen."
+        },
+        {
+          "id": "imperative-basic",
+          "name": "Imperative basics",
+          "example": "Kommen Sie bitte hierher."
+        },
+        {
+          "id": "dative-intro",
+          "name": "Dative with indirect objects",
+          "example": "Ich gebe dir das Ticket."
+        },
+        {
+          "id": "prepositions-acc-dat-intro",
+          "name": "Prepositions with accusative/dative",
+          "example": "Ich gehe in den Supermarkt."
+        },
+        {
+          "id": "sentence-connectors-und-aber",
+          "name": "Sentence connectors und/aber",
+          "example": "Ich komme, aber ich bin spat."
+        },
+        {
+          "id": "comparative-basic",
+          "name": "Comparative forms",
+          "example": "Der Bus ist schneller als der Zug."
+        },
+        {
+          "id": "question-answers-short",
+          "name": "Short answers and clarification",
+          "example": "Ja, gern. Nein, leider nicht."
         }
       ],
       "verbTargets": [
@@ -122,9 +486,53 @@
             "ich": "muss",
             "du": "musst",
             "er_sie_es": "muss",
-            "wir": "mussen",
-            "ihr": "musst",
-            "sie_Sie": "mussen"
+            "wir": "muessen",
+            "ihr": "muesst",
+            "sie_Sie": "muessen"
+          }
+        },
+        {
+          "infinitive": "koennen",
+          "present": {
+            "ich": "kann",
+            "du": "kannst",
+            "er_sie_es": "kann",
+            "wir": "koennen",
+            "ihr": "koennt",
+            "sie_Sie": "koennen"
+          }
+        },
+        {
+          "infinitive": "wollen",
+          "present": {
+            "ich": "will",
+            "du": "willst",
+            "er_sie_es": "will",
+            "wir": "wollen",
+            "ihr": "wollt",
+            "sie_Sie": "wollen"
+          }
+        },
+        {
+          "infinitive": "sollen",
+          "present": {
+            "ich": "soll",
+            "du": "sollst",
+            "er_sie_es": "soll",
+            "wir": "sollen",
+            "ihr": "sollt",
+            "sie_Sie": "sollen"
+          }
+        },
+        {
+          "infinitive": "duerfen",
+          "present": {
+            "ich": "darf",
+            "du": "darfst",
+            "er_sie_es": "darf",
+            "wir": "duerfen",
+            "ihr": "duerft",
+            "sie_Sie": "duerfen"
           }
         },
         {
@@ -137,13 +545,173 @@
             "ihr": "kauft",
             "sie_Sie": "kaufen"
           }
+        },
+        {
+          "infinitive": "bezahlen",
+          "present": {
+            "ich": "bezahle",
+            "du": "bezahlst",
+            "er_sie_es": "bezahlt",
+            "wir": "bezahlen",
+            "ihr": "bezahlt",
+            "sie_Sie": "bezahlen"
+          }
+        },
+        {
+          "infinitive": "helfen",
+          "present": {
+            "ich": "helfe",
+            "du": "hilfst",
+            "er_sie_es": "hilft",
+            "wir": "helfen",
+            "ihr": "helft",
+            "sie_Sie": "helfen"
+          }
+        },
+        {
+          "infinitive": "nehmen",
+          "present": {
+            "ich": "nehme",
+            "du": "nimmst",
+            "er_sie_es": "nimmt",
+            "wir": "nehmen",
+            "ihr": "nehmt",
+            "sie_Sie": "nehmen"
+          }
+        },
+        {
+          "infinitive": "geben",
+          "present": {
+            "ich": "gebe",
+            "du": "gibst",
+            "er_sie_es": "gibt",
+            "wir": "geben",
+            "ihr": "gebt",
+            "sie_Sie": "geben"
+          }
+        },
+        {
+          "infinitive": "fahren",
+          "present": {
+            "ich": "fahre",
+            "du": "faehrst",
+            "er_sie_es": "faehrt",
+            "wir": "fahren",
+            "ihr": "fahrt",
+            "sie_Sie": "fahren"
+          }
+        },
+        {
+          "infinitive": "steigen",
+          "present": {
+            "ich": "steige",
+            "du": "steigst",
+            "er_sie_es": "steigt",
+            "wir": "steigen",
+            "ihr": "steigt",
+            "sie_Sie": "steigen"
+          }
+        },
+        {
+          "infinitive": "bestellen",
+          "present": {
+            "ich": "bestelle",
+            "du": "bestellst",
+            "er_sie_es": "bestellt",
+            "wir": "bestellen",
+            "ihr": "bestellt",
+            "sie_Sie": "bestellen"
+          }
+        },
+        {
+          "infinitive": "arbeiten",
+          "present": {
+            "ich": "arbeite",
+            "du": "arbeitest",
+            "er_sie_es": "arbeitet",
+            "wir": "arbeiten",
+            "ihr": "arbeitet",
+            "sie_Sie": "arbeiten"
+          }
+        },
+        {
+          "infinitive": "beginnen",
+          "present": {
+            "ich": "beginne",
+            "du": "beginnst",
+            "er_sie_es": "beginnt",
+            "wir": "beginnen",
+            "ihr": "beginnt",
+            "sie_Sie": "beginnen"
+          }
+        },
+        {
+          "infinitive": "enden",
+          "present": {
+            "ich": "ende",
+            "du": "endest",
+            "er_sie_es": "endet",
+            "wir": "enden",
+            "ihr": "endet",
+            "sie_Sie": "enden"
+          }
+        },
+        {
+          "infinitive": "reservieren",
+          "present": {
+            "ich": "reserviere",
+            "du": "reservierst",
+            "er_sie_es": "reserviert",
+            "wir": "reservieren",
+            "ihr": "reserviert",
+            "sie_Sie": "reservieren"
+          }
+        },
+        {
+          "infinitive": "besuchen",
+          "present": {
+            "ich": "besuche",
+            "du": "besuchst",
+            "er_sie_es": "besucht",
+            "wir": "besuchen",
+            "ihr": "besucht",
+            "sie_Sie": "besuchen"
+          }
+        },
+        {
+          "infinitive": "anrufen",
+          "present": {
+            "ich": "rufe an",
+            "du": "rufst an",
+            "er_sie_es": "ruft an",
+            "wir": "rufen an",
+            "ihr": "ruft an",
+            "sie_Sie": "rufen an"
+          }
+        },
+        {
+          "infinitive": "bringen",
+          "present": {
+            "ich": "bringe",
+            "du": "bringst",
+            "er_sie_es": "bringt",
+            "wir": "bringen",
+            "ihr": "bringt",
+            "sie_Sie": "bringen"
+          }
         }
       ],
       "vocabThemes": [
         "supermarket",
         "office",
         "public transportation",
-        "animals"
+        "animals",
+        "appointments",
+        "home and furniture",
+        "health and pharmacy",
+        "bank and post office",
+        "daily routines",
+        "weather"
       ],
       "exercisePatterns": [
         "Build request sentences with modal verbs.",
@@ -157,7 +725,86 @@
       "completionChecks": [
         "Learner can ask for products and prices naturally.",
         "Learner can use mussen and konnen in five examples."
-      ]
+      ],
+      "lessonCadence": {
+        "targetLessons": 20,
+        "lessonsPerTopic": 2
+      },
+      "moduleVersion": "1.0.0",
+      "topics": [
+        {
+          "id": "de-a1-2-supermarket",
+          "label": "supermarket",
+          "aliases": [
+            "supermarket"
+          ]
+        },
+        {
+          "id": "de-a1-2-office",
+          "label": "office",
+          "aliases": [
+            "office"
+          ]
+        },
+        {
+          "id": "de-a1-2-public-transportation",
+          "label": "public transportation",
+          "aliases": [
+            "public transportation"
+          ]
+        },
+        {
+          "id": "de-a1-2-animals",
+          "label": "animals",
+          "aliases": [
+            "animals"
+          ]
+        },
+        {
+          "id": "de-a1-2-appointments",
+          "label": "appointments",
+          "aliases": [
+            "appointments"
+          ]
+        },
+        {
+          "id": "de-a1-2-home-and-furniture",
+          "label": "home and furniture",
+          "aliases": [
+            "home and furniture"
+          ]
+        },
+        {
+          "id": "de-a1-2-health-and-pharmacy",
+          "label": "health and pharmacy",
+          "aliases": [
+            "health and pharmacy"
+          ]
+        },
+        {
+          "id": "de-a1-2-bank-and-post-office",
+          "label": "bank and post office",
+          "aliases": [
+            "bank and post office"
+          ]
+        },
+        {
+          "id": "de-a1-2-daily-routines",
+          "label": "daily routines",
+          "aliases": [
+            "daily routines"
+          ]
+        },
+        {
+          "id": "de-a1-2-weather",
+          "label": "weather",
+          "aliases": [
+            "weather"
+          ]
+        }
+      ],
+      "metadata": {},
+      "extensions": {}
     },
     {
       "moduleId": "de-a2-1",
@@ -168,7 +815,9 @@
         "min": 15,
         "max": 20
       },
-      "prerequisites": ["de-a1-2"],
+      "prerequisites": [
+        "de-a1-2"
+      ],
       "lessonObjectives": [
         "Manage travel and city navigation conversations.",
         "Use separable verbs in common mobility contexts.",
@@ -184,6 +833,46 @@
           "id": "perfekt-intro",
           "name": "Perfekt with haben",
           "example": "Ich habe ein Ticket gekauft."
+        },
+        {
+          "id": "dative-articles",
+          "name": "Dative articles and pronouns",
+          "example": "Ich helfe dem Fahrer."
+        },
+        {
+          "id": "two-way-prepositions",
+          "name": "Two-way prepositions basics",
+          "example": "Ich stelle die Tasche auf den Tisch."
+        },
+        {
+          "id": "subordinate-clauses-basic",
+          "name": "Subordinate clauses basics",
+          "example": "Ich bleibe hier, weil es regnet."
+        },
+        {
+          "id": "reflexive-intro",
+          "name": "Reflexive verbs intro",
+          "example": "Ich erinnere mich an den Termin."
+        },
+        {
+          "id": "comparative-superlative",
+          "name": "Comparative and superlative",
+          "example": "Der Zug ist am schnellsten."
+        },
+        {
+          "id": "past-time-markers",
+          "name": "Past time markers",
+          "example": "Gestern habe ich lange gearbeitet."
+        },
+        {
+          "id": "weil-denn-contrast",
+          "name": "weil vs denn",
+          "example": "Ich gehe zu Fuss, denn der Bus kommt nicht."
+        },
+        {
+          "id": "adjective-declension-intro",
+          "name": "Adjective declension intro",
+          "example": "Ich brauche ein guenstiges Ticket."
         }
       ],
       "verbTargets": [
@@ -199,14 +888,212 @@
           }
         },
         {
+          "infinitive": "aussteigen",
+          "present": {
+            "ich": "steige aus",
+            "du": "steigst aus",
+            "er_sie_es": "steigt aus",
+            "wir": "steigen aus",
+            "ihr": "steigt aus",
+            "sie_Sie": "steigen aus"
+          }
+        },
+        {
+          "infinitive": "umsteigen",
+          "present": {
+            "ich": "steige um",
+            "du": "steigst um",
+            "er_sie_es": "steigt um",
+            "wir": "steigen um",
+            "ihr": "steigt um",
+            "sie_Sie": "steigen um"
+          }
+        },
+        {
           "infinitive": "fahren",
           "present": {
             "ich": "fahre",
-            "du": "fahrst",
-            "er_sie_es": "fahrt",
+            "du": "faehrst",
+            "er_sie_es": "faehrt",
             "wir": "fahren",
             "ihr": "fahrt",
             "sie_Sie": "fahren"
+          }
+        },
+        {
+          "infinitive": "reisen",
+          "present": {
+            "ich": "reise",
+            "du": "reist",
+            "er_sie_es": "reist",
+            "wir": "reisen",
+            "ihr": "reist",
+            "sie_Sie": "reisen"
+          }
+        },
+        {
+          "infinitive": "buchen",
+          "present": {
+            "ich": "buche",
+            "du": "buchst",
+            "er_sie_es": "bucht",
+            "wir": "buchen",
+            "ihr": "bucht",
+            "sie_Sie": "buchen"
+          }
+        },
+        {
+          "infinitive": "vergessen",
+          "present": {
+            "ich": "vergesse",
+            "du": "vergisst",
+            "er_sie_es": "vergisst",
+            "wir": "vergessen",
+            "ihr": "vergesst",
+            "sie_Sie": "vergessen"
+          }
+        },
+        {
+          "infinitive": "erinnern",
+          "present": {
+            "ich": "erinnere",
+            "du": "erinnerst",
+            "er_sie_es": "erinnert",
+            "wir": "erinnern",
+            "ihr": "erinnert",
+            "sie_Sie": "erinnern"
+          }
+        },
+        {
+          "infinitive": "schicken",
+          "present": {
+            "ich": "schicke",
+            "du": "schickst",
+            "er_sie_es": "schickt",
+            "wir": "schicken",
+            "ihr": "schickt",
+            "sie_Sie": "schicken"
+          }
+        },
+        {
+          "infinitive": "warten",
+          "present": {
+            "ich": "warte",
+            "du": "wartest",
+            "er_sie_es": "wartet",
+            "wir": "warten",
+            "ihr": "wartet",
+            "sie_Sie": "warten"
+          }
+        },
+        {
+          "infinitive": "erklaeren",
+          "present": {
+            "ich": "erklaere",
+            "du": "erklaerst",
+            "er_sie_es": "erklaert",
+            "wir": "erklaeren",
+            "ihr": "erklaert",
+            "sie_Sie": "erklaeren"
+          }
+        },
+        {
+          "infinitive": "zeigen",
+          "present": {
+            "ich": "zeige",
+            "du": "zeigst",
+            "er_sie_es": "zeigt",
+            "wir": "zeigen",
+            "ihr": "zeigt",
+            "sie_Sie": "zeigen"
+          }
+        },
+        {
+          "infinitive": "finden",
+          "present": {
+            "ich": "finde",
+            "du": "findest",
+            "er_sie_es": "findet",
+            "wir": "finden",
+            "ihr": "findet",
+            "sie_Sie": "finden"
+          }
+        },
+        {
+          "infinitive": "verlieren",
+          "present": {
+            "ich": "verliere",
+            "du": "verlierst",
+            "er_sie_es": "verliert",
+            "wir": "verlieren",
+            "ihr": "verliert",
+            "sie_Sie": "verlieren"
+          }
+        },
+        {
+          "infinitive": "brauchen",
+          "present": {
+            "ich": "brauche",
+            "du": "brauchst",
+            "er_sie_es": "braucht",
+            "wir": "brauchen",
+            "ihr": "braucht",
+            "sie_Sie": "brauchen"
+          }
+        },
+        {
+          "infinitive": "helfen",
+          "present": {
+            "ich": "helfe",
+            "du": "hilfst",
+            "er_sie_es": "hilft",
+            "wir": "helfen",
+            "ihr": "helft",
+            "sie_Sie": "helfen"
+          }
+        },
+        {
+          "infinitive": "suchen",
+          "present": {
+            "ich": "suche",
+            "du": "suchst",
+            "er_sie_es": "sucht",
+            "wir": "suchen",
+            "ihr": "sucht",
+            "sie_Sie": "suchen"
+          }
+        },
+        {
+          "infinitive": "planen",
+          "present": {
+            "ich": "plane",
+            "du": "planst",
+            "er_sie_es": "plant",
+            "wir": "planen",
+            "ihr": "plant",
+            "sie_Sie": "planen"
+          }
+        },
+        {
+          "infinitive": "anfangen",
+          "present": {
+            "ich": "fange an",
+            "du": "faengst an",
+            "er_sie_es": "faengt an",
+            "wir": "fangen an",
+            "ihr": "fangt an",
+            "sie_Sie": "fangen an"
+          }
+        },
+        {
+          "infinitive": "aufhoeren",
+          "present": {
+            "ich": "hoere auf",
+            "du": "hoerst auf",
+            "er_sie_es": "hoert auf",
+            "wir": "hoeren auf",
+            "ihr": "hoert auf",
+            "sie_Sie": "hoeren auf"
           }
         }
       ],
@@ -214,7 +1101,13 @@
         "vacation",
         "public transportation",
         "job search",
-        "activities"
+        "activities",
+        "city navigation",
+        "hotel and accommodation",
+        "phone and internet",
+        "emergencies",
+        "cultural events",
+        "weekend trips"
       ],
       "exercisePatterns": [
         "Station dialogue roleplay.",
@@ -228,7 +1121,86 @@
       "completionChecks": [
         "Learner can ask for routes and schedules.",
         "Learner can report three past actions in Perfekt."
-      ]
+      ],
+      "lessonCadence": {
+        "targetLessons": 20,
+        "lessonsPerTopic": 2
+      },
+      "moduleVersion": "1.0.0",
+      "topics": [
+        {
+          "id": "de-a2-1-vacation",
+          "label": "vacation",
+          "aliases": [
+            "vacation"
+          ]
+        },
+        {
+          "id": "de-a2-1-public-transportation",
+          "label": "public transportation",
+          "aliases": [
+            "public transportation"
+          ]
+        },
+        {
+          "id": "de-a2-1-job-search",
+          "label": "job search",
+          "aliases": [
+            "job search"
+          ]
+        },
+        {
+          "id": "de-a2-1-activities",
+          "label": "activities",
+          "aliases": [
+            "activities"
+          ]
+        },
+        {
+          "id": "de-a2-1-city-navigation",
+          "label": "city navigation",
+          "aliases": [
+            "city navigation"
+          ]
+        },
+        {
+          "id": "de-a2-1-hotel-and-accommodation",
+          "label": "hotel and accommodation",
+          "aliases": [
+            "hotel and accommodation"
+          ]
+        },
+        {
+          "id": "de-a2-1-phone-and-internet",
+          "label": "phone and internet",
+          "aliases": [
+            "phone and internet"
+          ]
+        },
+        {
+          "id": "de-a2-1-emergencies",
+          "label": "emergencies",
+          "aliases": [
+            "emergencies"
+          ]
+        },
+        {
+          "id": "de-a2-1-cultural-events",
+          "label": "cultural events",
+          "aliases": [
+            "cultural events"
+          ]
+        },
+        {
+          "id": "de-a2-1-weekend-trips",
+          "label": "weekend trips",
+          "aliases": [
+            "weekend trips"
+          ]
+        }
+      ],
+      "metadata": {},
+      "extensions": {}
     },
     {
       "moduleId": "de-a2-2",
@@ -239,7 +1211,9 @@
         "min": 15,
         "max": 20
       },
-      "prerequisites": ["de-a2-1"],
+      "prerequisites": [
+        "de-a2-1"
+      ],
       "lessonObjectives": [
         "Discuss office routines and social plans.",
         "Use subordinate clauses with weil and dass.",
@@ -255,6 +1229,46 @@
           "id": "reflexive-verbs",
           "name": "Reflexive verbs in present",
           "example": "Ich interessiere mich fur Musik."
+        },
+        {
+          "id": "perfekt-sein-verbs",
+          "name": "Perfekt with sein verbs",
+          "example": "Ich bin frueh angekommen."
+        },
+        {
+          "id": "relative-clauses-intro",
+          "name": "Relative clauses intro",
+          "example": "Das ist der Kollege, der mir hilft."
+        },
+        {
+          "id": "word-order-connectors",
+          "name": "Word order with connectors",
+          "example": "Danach gehe ich nach Hause."
+        },
+        {
+          "id": "zu-infinitive-intro",
+          "name": "zu + infinitive",
+          "example": "Ich versuche, frueh zu schlafen."
+        },
+        {
+          "id": "genitive-intro",
+          "name": "Genitive basics",
+          "example": "Das ist das Auto meines Nachbarn."
+        },
+        {
+          "id": "indefinite-pronouns",
+          "name": "Indefinite pronouns",
+          "example": "Jemand hat angerufen."
+        },
+        {
+          "id": "adjective-comparison-advanced",
+          "name": "Advanced adjective comparison",
+          "example": "Dieses Projekt ist deutlich wichtiger."
+        },
+        {
+          "id": "reported-requests-intro",
+          "name": "Reported requests",
+          "example": "Sie sagt, ich soll morgen kommen."
         }
       ],
       "verbTargets": [
@@ -270,6 +1284,28 @@
           }
         },
         {
+          "infinitive": "sich interessieren",
+          "present": {
+            "ich": "interessiere mich",
+            "du": "interessierst dich",
+            "er_sie_es": "interessiert sich",
+            "wir": "interessieren uns",
+            "ihr": "interessiert euch",
+            "sie_Sie": "interessieren sich"
+          }
+        },
+        {
+          "infinitive": "sich erinnern",
+          "present": {
+            "ich": "erinnere mich",
+            "du": "erinnerst dich",
+            "er_sie_es": "erinnert sich",
+            "wir": "erinnern uns",
+            "ihr": "erinnert euch",
+            "sie_Sie": "erinnern sich"
+          }
+        },
+        {
           "infinitive": "arbeiten",
           "present": {
             "ich": "arbeite",
@@ -279,13 +1315,195 @@
             "ihr": "arbeitet",
             "sie_Sie": "arbeiten"
           }
+        },
+        {
+          "infinitive": "erklaeren",
+          "present": {
+            "ich": "erklaere",
+            "du": "erklaerst",
+            "er_sie_es": "erklaert",
+            "wir": "erklaeren",
+            "ihr": "erklaert",
+            "sie_Sie": "erklaeren"
+          }
+        },
+        {
+          "infinitive": "organisieren",
+          "present": {
+            "ich": "organisiere",
+            "du": "organisierst",
+            "er_sie_es": "organisiert",
+            "wir": "organisieren",
+            "ihr": "organisiert",
+            "sie_Sie": "organisieren"
+          }
+        },
+        {
+          "infinitive": "vereinbaren",
+          "present": {
+            "ich": "vereinbare",
+            "du": "vereinbarst",
+            "er_sie_es": "vereinbart",
+            "wir": "vereinbaren",
+            "ihr": "vereinbart",
+            "sie_Sie": "vereinbaren"
+          }
+        },
+        {
+          "infinitive": "teilnehmen",
+          "present": {
+            "ich": "nehme teil",
+            "du": "nimmst teil",
+            "er_sie_es": "nimmt teil",
+            "wir": "nehmen teil",
+            "ihr": "nehmt teil",
+            "sie_Sie": "nehmen teil"
+          }
+        },
+        {
+          "infinitive": "entscheiden",
+          "present": {
+            "ich": "entscheide",
+            "du": "entscheidest",
+            "er_sie_es": "entscheidet",
+            "wir": "entscheiden",
+            "ihr": "entscheidet",
+            "sie_Sie": "entscheiden"
+          }
+        },
+        {
+          "infinitive": "besprechen",
+          "present": {
+            "ich": "bespreche",
+            "du": "besprichst",
+            "er_sie_es": "bespricht",
+            "wir": "besprechen",
+            "ihr": "besprecht",
+            "sie_Sie": "besprechen"
+          }
+        },
+        {
+          "infinitive": "empfehlen",
+          "present": {
+            "ich": "empfehle",
+            "du": "empfiehlst",
+            "er_sie_es": "empfiehlt",
+            "wir": "empfehlen",
+            "ihr": "empfehlt",
+            "sie_Sie": "empfehlen"
+          }
+        },
+        {
+          "infinitive": "verbessern",
+          "present": {
+            "ich": "verbessere",
+            "du": "verbesserst",
+            "er_sie_es": "verbessert",
+            "wir": "verbessern",
+            "ihr": "verbessert",
+            "sie_Sie": "verbessern"
+          }
+        },
+        {
+          "infinitive": "glauben",
+          "present": {
+            "ich": "glaube",
+            "du": "glaubst",
+            "er_sie_es": "glaubt",
+            "wir": "glauben",
+            "ihr": "glaubt",
+            "sie_Sie": "glauben"
+          }
+        },
+        {
+          "infinitive": "hoffen",
+          "present": {
+            "ich": "hoffe",
+            "du": "hoffst",
+            "er_sie_es": "hofft",
+            "wir": "hoffen",
+            "ihr": "hofft",
+            "sie_Sie": "hoffen"
+          }
+        },
+        {
+          "infinitive": "meinen",
+          "present": {
+            "ich": "meine",
+            "du": "meinst",
+            "er_sie_es": "meint",
+            "wir": "meinen",
+            "ihr": "meint",
+            "sie_Sie": "meinen"
+          }
+        },
+        {
+          "infinitive": "diskutieren",
+          "present": {
+            "ich": "diskutiere",
+            "du": "diskutierst",
+            "er_sie_es": "diskutiert",
+            "wir": "diskutieren",
+            "ihr": "diskutiert",
+            "sie_Sie": "diskutieren"
+          }
+        },
+        {
+          "infinitive": "antworten",
+          "present": {
+            "ich": "antworte",
+            "du": "antwortest",
+            "er_sie_es": "antwortet",
+            "wir": "antworten",
+            "ihr": "antwortet",
+            "sie_Sie": "antworten"
+          }
+        },
+        {
+          "infinitive": "vergleichen",
+          "present": {
+            "ich": "vergleiche",
+            "du": "vergleichst",
+            "er_sie_es": "vergleicht",
+            "wir": "vergleichen",
+            "ihr": "vergleicht",
+            "sie_Sie": "vergleichen"
+          }
+        },
+        {
+          "infinitive": "planen",
+          "present": {
+            "ich": "plane",
+            "du": "planst",
+            "er_sie_es": "plant",
+            "wir": "planen",
+            "ihr": "plant",
+            "sie_Sie": "planen"
+          }
+        },
+        {
+          "infinitive": "unterstuetzen",
+          "present": {
+            "ich": "unterstuetze",
+            "du": "unterstuetzt",
+            "er_sie_es": "unterstuetzt",
+            "wir": "unterstuetzen",
+            "ihr": "unterstuetzt",
+            "sie_Sie": "unterstuetzen"
+          }
         }
       ],
       "vocabThemes": [
         "office",
         "relationship",
         "friends",
-        "business"
+        "business",
+        "teamwork",
+        "conflict resolution",
+        "housing and landlords",
+        "parenting and school",
+        "health and wellbeing",
+        "civic services"
       ],
       "exercisePatterns": [
         "Combine clauses with weil/dass.",
@@ -299,7 +1517,86 @@
       "completionChecks": [
         "Learner can justify choices using weil.",
         "Learner can describe work and social plans coherently."
-      ]
+      ],
+      "lessonCadence": {
+        "targetLessons": 20,
+        "lessonsPerTopic": 2
+      },
+      "moduleVersion": "1.0.0",
+      "topics": [
+        {
+          "id": "de-a2-2-office",
+          "label": "office",
+          "aliases": [
+            "office"
+          ]
+        },
+        {
+          "id": "de-a2-2-relationship",
+          "label": "relationship",
+          "aliases": [
+            "relationship"
+          ]
+        },
+        {
+          "id": "de-a2-2-friends",
+          "label": "friends",
+          "aliases": [
+            "friends"
+          ]
+        },
+        {
+          "id": "de-a2-2-business",
+          "label": "business",
+          "aliases": [
+            "business"
+          ]
+        },
+        {
+          "id": "de-a2-2-teamwork",
+          "label": "teamwork",
+          "aliases": [
+            "teamwork"
+          ]
+        },
+        {
+          "id": "de-a2-2-conflict-resolution",
+          "label": "conflict resolution",
+          "aliases": [
+            "conflict resolution"
+          ]
+        },
+        {
+          "id": "de-a2-2-housing-and-landlords",
+          "label": "housing and landlords",
+          "aliases": [
+            "housing and landlords"
+          ]
+        },
+        {
+          "id": "de-a2-2-parenting-and-school",
+          "label": "parenting and school",
+          "aliases": [
+            "parenting and school"
+          ]
+        },
+        {
+          "id": "de-a2-2-health-and-wellbeing",
+          "label": "health and wellbeing",
+          "aliases": [
+            "health and wellbeing"
+          ]
+        },
+        {
+          "id": "de-a2-2-civic-services",
+          "label": "civic services",
+          "aliases": [
+            "civic services"
+          ]
+        }
+      ],
+      "metadata": {},
+      "extensions": {}
     },
     {
       "moduleId": "de-b1-1",
@@ -310,7 +1607,9 @@
         "min": 15,
         "max": 20
       },
-      "prerequisites": ["de-a2-2"],
+      "prerequisites": [
+        "de-a2-2"
+      ],
       "lessonObjectives": [
         "Narrate experiences with stronger cohesion.",
         "Express and defend opinions in everyday topics.",
@@ -326,6 +1625,46 @@
           "id": "past-refinement",
           "name": "Perfekt vs Prateritum awareness",
           "example": "Ich war gestern im Buro."
+        },
+        {
+          "id": "passive-intro",
+          "name": "Passive voice introduction",
+          "example": "Der Antrag wird geprueft."
+        },
+        {
+          "id": "konjunktiv2-wishes",
+          "name": "Konjunktiv II for wishes and hypotheticals",
+          "example": "Ich wuerde gern in Deutschland arbeiten."
+        },
+        {
+          "id": "relative-clauses-advanced",
+          "name": "Advanced relative clauses",
+          "example": "Die Firma, bei der ich arbeite, erweitert das Team."
+        },
+        {
+          "id": "nominalization-intro",
+          "name": "Nominalization in formal style",
+          "example": "Die Bewerbung ist in Bearbeitung."
+        },
+        {
+          "id": "prepositional-verbs",
+          "name": "Prepositional verbs",
+          "example": "Ich bereite mich auf das Gespraech vor."
+        },
+        {
+          "id": "adjective-endings-b1",
+          "name": "Adjective endings in mixed contexts",
+          "example": "Ich brauche einen gueltigen offiziellen Nachweis."
+        },
+        {
+          "id": "temporal-clauses",
+          "name": "Temporal clauses",
+          "example": "Sobald ich Zeit habe, melde ich mich."
+        },
+        {
+          "id": "indirect-questions",
+          "name": "Indirect questions",
+          "example": "Konnen Sie mir sagen, wann der Termin ist?"
         }
       ],
       "verbTargets": [
@@ -341,14 +1680,212 @@
           }
         },
         {
-          "infinitive": "erklaren",
+          "infinitive": "erklaeren",
           "present": {
-            "ich": "erklare",
-            "du": "erklarst",
-            "er_sie_es": "erklart",
-            "wir": "erklaren",
-            "ihr": "erklart",
-            "sie_Sie": "erklaren"
+            "ich": "erklaere",
+            "du": "erklaerst",
+            "er_sie_es": "erklaert",
+            "wir": "erklaeren",
+            "ihr": "erklaert",
+            "sie_Sie": "erklaeren"
+          }
+        },
+        {
+          "infinitive": "entscheiden",
+          "present": {
+            "ich": "entscheide",
+            "du": "entscheidest",
+            "er_sie_es": "entscheidet",
+            "wir": "entscheiden",
+            "ihr": "entscheidet",
+            "sie_Sie": "entscheiden"
+          }
+        },
+        {
+          "infinitive": "verhindern",
+          "present": {
+            "ich": "verhindere",
+            "du": "verhinderst",
+            "er_sie_es": "verhindert",
+            "wir": "verhindern",
+            "ihr": "verhindert",
+            "sie_Sie": "verhindern"
+          }
+        },
+        {
+          "infinitive": "entwickeln",
+          "present": {
+            "ich": "entwickle",
+            "du": "entwickelst",
+            "er_sie_es": "entwickelt",
+            "wir": "entwickeln",
+            "ihr": "entwickelt",
+            "sie_Sie": "entwickeln"
+          }
+        },
+        {
+          "infinitive": "verhandeln",
+          "present": {
+            "ich": "verhandle",
+            "du": "verhandelst",
+            "er_sie_es": "verhandelt",
+            "wir": "verhandeln",
+            "ihr": "verhandelt",
+            "sie_Sie": "verhandeln"
+          }
+        },
+        {
+          "infinitive": "berichten",
+          "present": {
+            "ich": "berichte",
+            "du": "berichtest",
+            "er_sie_es": "berichtet",
+            "wir": "berichten",
+            "ihr": "berichtet",
+            "sie_Sie": "berichten"
+          }
+        },
+        {
+          "infinitive": "begruenden",
+          "present": {
+            "ich": "begruende",
+            "du": "begruendest",
+            "er_sie_es": "begruendet",
+            "wir": "begruenden",
+            "ihr": "begruendet",
+            "sie_Sie": "begruenden"
+          }
+        },
+        {
+          "infinitive": "beantragen",
+          "present": {
+            "ich": "beantrage",
+            "du": "beantragst",
+            "er_sie_es": "beantragt",
+            "wir": "beantragen",
+            "ihr": "beantragt",
+            "sie_Sie": "beantragen"
+          }
+        },
+        {
+          "infinitive": "ablehnen",
+          "present": {
+            "ich": "lehne ab",
+            "du": "lehnst ab",
+            "er_sie_es": "lehnt ab",
+            "wir": "lehnen ab",
+            "ihr": "lehnt ab",
+            "sie_Sie": "lehnen ab"
+          }
+        },
+        {
+          "infinitive": "zustimmen",
+          "present": {
+            "ich": "stimme zu",
+            "du": "stimmst zu",
+            "er_sie_es": "stimmt zu",
+            "wir": "stimmen zu",
+            "ihr": "stimmt zu",
+            "sie_Sie": "stimmen zu"
+          }
+        },
+        {
+          "infinitive": "widersprechen",
+          "present": {
+            "ich": "widerspreche",
+            "du": "widersprichst",
+            "er_sie_es": "widerspricht",
+            "wir": "widersprechen",
+            "ihr": "widersprecht",
+            "sie_Sie": "widersprechen"
+          }
+        },
+        {
+          "infinitive": "vorbereiten",
+          "present": {
+            "ich": "bereite vor",
+            "du": "bereitest vor",
+            "er_sie_es": "bereitet vor",
+            "wir": "bereiten vor",
+            "ihr": "bereitet vor",
+            "sie_Sie": "bereiten vor"
+          }
+        },
+        {
+          "infinitive": "recherchieren",
+          "present": {
+            "ich": "recherchiere",
+            "du": "recherchierst",
+            "er_sie_es": "recherchiert",
+            "wir": "recherchieren",
+            "ihr": "recherchiert",
+            "sie_Sie": "recherchieren"
+          }
+        },
+        {
+          "infinitive": "vergleichen",
+          "present": {
+            "ich": "vergleiche",
+            "du": "vergleichst",
+            "er_sie_es": "vergleicht",
+            "wir": "vergleichen",
+            "ihr": "vergleicht",
+            "sie_Sie": "vergleichen"
+          }
+        },
+        {
+          "infinitive": "beschreiben",
+          "present": {
+            "ich": "beschreibe",
+            "du": "beschreibst",
+            "er_sie_es": "beschreibt",
+            "wir": "beschreiben",
+            "ihr": "beschreibt",
+            "sie_Sie": "beschreiben"
+          }
+        },
+        {
+          "infinitive": "empfehlen",
+          "present": {
+            "ich": "empfehle",
+            "du": "empfiehlst",
+            "er_sie_es": "empfiehlt",
+            "wir": "empfehlen",
+            "ihr": "empfehlt",
+            "sie_Sie": "empfehlen"
+          }
+        },
+        {
+          "infinitive": "teilnehmen",
+          "present": {
+            "ich": "nehme teil",
+            "du": "nimmst teil",
+            "er_sie_es": "nimmt teil",
+            "wir": "nehmen teil",
+            "ihr": "nehmt teil",
+            "sie_Sie": "nehmen teil"
+          }
+        },
+        {
+          "infinitive": "erledigen",
+          "present": {
+            "ich": "erledige",
+            "du": "erledigst",
+            "er_sie_es": "erledigt",
+            "wir": "erledigen",
+            "ihr": "erledigt",
+            "sie_Sie": "erledigen"
+          }
+        },
+        {
+          "infinitive": "unterschreiben",
+          "present": {
+            "ich": "unterschreibe",
+            "du": "unterschreibst",
+            "er_sie_es": "unterschreibt",
+            "wir": "unterschreiben",
+            "ihr": "unterschreibt",
+            "sie_Sie": "unterschreiben"
           }
         }
       ],
@@ -356,7 +1893,13 @@
         "job search",
         "business",
         "public transportation",
-        "office"
+        "office",
+        "bureaucracy",
+        "banking and finance",
+        "insurance",
+        "contracts and forms",
+        "news and media",
+        "community life"
       ],
       "exercisePatterns": [
         "Opinion prompt and concise defense.",
@@ -370,7 +1913,86 @@
       "completionChecks": [
         "Learner can present one reasoned opinion with connectors.",
         "Learner can narrate a practical past event clearly."
-      ]
+      ],
+      "lessonCadence": {
+        "targetLessons": 20,
+        "lessonsPerTopic": 2
+      },
+      "moduleVersion": "1.0.0",
+      "topics": [
+        {
+          "id": "de-b1-1-job-search",
+          "label": "job search",
+          "aliases": [
+            "job search"
+          ]
+        },
+        {
+          "id": "de-b1-1-business",
+          "label": "business",
+          "aliases": [
+            "business"
+          ]
+        },
+        {
+          "id": "de-b1-1-public-transportation",
+          "label": "public transportation",
+          "aliases": [
+            "public transportation"
+          ]
+        },
+        {
+          "id": "de-b1-1-office",
+          "label": "office",
+          "aliases": [
+            "office"
+          ]
+        },
+        {
+          "id": "de-b1-1-bureaucracy",
+          "label": "bureaucracy",
+          "aliases": [
+            "bureaucracy"
+          ]
+        },
+        {
+          "id": "de-b1-1-banking-and-finance",
+          "label": "banking and finance",
+          "aliases": [
+            "banking and finance"
+          ]
+        },
+        {
+          "id": "de-b1-1-insurance",
+          "label": "insurance",
+          "aliases": [
+            "insurance"
+          ]
+        },
+        {
+          "id": "de-b1-1-contracts-and-forms",
+          "label": "contracts and forms",
+          "aliases": [
+            "contracts and forms"
+          ]
+        },
+        {
+          "id": "de-b1-1-news-and-media",
+          "label": "news and media",
+          "aliases": [
+            "news and media"
+          ]
+        },
+        {
+          "id": "de-b1-1-community-life",
+          "label": "community life",
+          "aliases": [
+            "community life"
+          ]
+        }
+      ],
+      "metadata": {},
+      "extensions": {}
     },
     {
       "moduleId": "de-b1-2",
@@ -381,7 +2003,9 @@
         "min": 15,
         "max": 20
       },
-      "prerequisites": ["de-b1-1"],
+      "prerequisites": [
+        "de-b1-1"
+      ],
       "lessonObjectives": [
         "Handle nuanced work and civic communication.",
         "Use passive intro and modal nuance in practical scenarios.",
@@ -396,7 +2020,47 @@
         {
           "id": "modal-nuance",
           "name": "Nuanced modal intent",
-          "example": "Das konnte hilfreich sein."
+          "example": "Das koennte hilfreich sein."
+        },
+        {
+          "id": "konjunktiv2-polite",
+          "name": "Polite requests with Konjunktiv II",
+          "example": "Koennten Sie mir bitte helfen?"
+        },
+        {
+          "id": "participle-adjectives",
+          "name": "Participle adjectives",
+          "example": "Die vorgeschlagene Loesung ist sinnvoll."
+        },
+        {
+          "id": "advanced-connectors",
+          "name": "Advanced connectors and argument flow",
+          "example": "Darueber hinaus ist das kostenneutral."
+        },
+        {
+          "id": "nominalization",
+          "name": "Nominal style in formal communication",
+          "example": "Nach der Pruefung erfolgt die Freigabe."
+        },
+        {
+          "id": "reporting-speech-intro",
+          "name": "Reported speech intro",
+          "example": "Er sagt, er komme spaeter."
+        },
+        {
+          "id": "conditionals-basic",
+          "name": "Conditional structures",
+          "example": "Wenn ich mehr Zeit haette, wuerde ich teilnehmen."
+        },
+        {
+          "id": "sentence-brackets-advanced",
+          "name": "Advanced sentence brackets",
+          "example": "Wir haben den Antrag gestern eingereicht."
+        },
+        {
+          "id": "argument-structure",
+          "name": "Structured argumentation",
+          "example": "Zuerst ..., danach ..., abschliessend ..."
         }
       ],
       "verbTargets": [
@@ -421,13 +2085,217 @@
             "ihr": "verhandelt",
             "sie_Sie": "verhandeln"
           }
+        },
+        {
+          "infinitive": "verbessern",
+          "present": {
+            "ich": "verbessere",
+            "du": "verbesserst",
+            "er_sie_es": "verbessert",
+            "wir": "verbessern",
+            "ihr": "verbessert",
+            "sie_Sie": "verbessern"
+          }
+        },
+        {
+          "infinitive": "erweitern",
+          "present": {
+            "ich": "erweitere",
+            "du": "erweiterst",
+            "er_sie_es": "erweitert",
+            "wir": "erweitern",
+            "ihr": "erweitert",
+            "sie_Sie": "erweitern"
+          }
+        },
+        {
+          "infinitive": "veroeffentlichen",
+          "present": {
+            "ich": "veroeffentliche",
+            "du": "veroeffentlichst",
+            "er_sie_es": "veroeffentlicht",
+            "wir": "veroeffentlichen",
+            "ihr": "veroeffentlicht",
+            "sie_Sie": "veroeffentlichen"
+          }
+        },
+        {
+          "infinitive": "ankuendigen",
+          "present": {
+            "ich": "kuendige an",
+            "du": "kuendigst an",
+            "er_sie_es": "kuendigt an",
+            "wir": "kuendigen an",
+            "ihr": "kuendigt an",
+            "sie_Sie": "kuendigen an"
+          }
+        },
+        {
+          "infinitive": "beantragen",
+          "present": {
+            "ich": "beantrage",
+            "du": "beantragst",
+            "er_sie_es": "beantragt",
+            "wir": "beantragen",
+            "ihr": "beantragt",
+            "sie_Sie": "beantragen"
+          }
+        },
+        {
+          "infinitive": "bewerten",
+          "present": {
+            "ich": "bewerte",
+            "du": "bewertest",
+            "er_sie_es": "bewertet",
+            "wir": "bewerten",
+            "ihr": "bewertet",
+            "sie_Sie": "bewerten"
+          }
+        },
+        {
+          "infinitive": "ueberzeugen",
+          "present": {
+            "ich": "ueberzeuge",
+            "du": "ueberzeugst",
+            "er_sie_es": "ueberzeugt",
+            "wir": "ueberzeugen",
+            "ihr": "ueberzeugt",
+            "sie_Sie": "ueberzeugen"
+          }
+        },
+        {
+          "infinitive": "vermitteln",
+          "present": {
+            "ich": "vermittle",
+            "du": "vermittelst",
+            "er_sie_es": "vermittelt",
+            "wir": "vermitteln",
+            "ihr": "vermittelt",
+            "sie_Sie": "vermitteln"
+          }
+        },
+        {
+          "infinitive": "investieren",
+          "present": {
+            "ich": "investiere",
+            "du": "investierst",
+            "er_sie_es": "investiert",
+            "wir": "investieren",
+            "ihr": "investiert",
+            "sie_Sie": "investieren"
+          }
+        },
+        {
+          "infinitive": "gruenden",
+          "present": {
+            "ich": "gruende",
+            "du": "gruendest",
+            "er_sie_es": "gruendet",
+            "wir": "gruenden",
+            "ihr": "gruendet",
+            "sie_Sie": "gruenden"
+          }
+        },
+        {
+          "infinitive": "leiten",
+          "present": {
+            "ich": "leite",
+            "du": "leitest",
+            "er_sie_es": "leitet",
+            "wir": "leiten",
+            "ihr": "leitet",
+            "sie_Sie": "leiten"
+          }
+        },
+        {
+          "infinitive": "gestalten",
+          "present": {
+            "ich": "gestalte",
+            "du": "gestaltest",
+            "er_sie_es": "gestaltet",
+            "wir": "gestalten",
+            "ihr": "gestaltet",
+            "sie_Sie": "gestalten"
+          }
+        },
+        {
+          "infinitive": "analysieren",
+          "present": {
+            "ich": "analysiere",
+            "du": "analysierst",
+            "er_sie_es": "analysiert",
+            "wir": "analysieren",
+            "ihr": "analysiert",
+            "sie_Sie": "analysieren"
+          }
+        },
+        {
+          "infinitive": "praesentieren",
+          "present": {
+            "ich": "praesentiere",
+            "du": "praesentierst",
+            "er_sie_es": "praesentiert",
+            "wir": "praesentieren",
+            "ihr": "praesentiert",
+            "sie_Sie": "praesentieren"
+          }
+        },
+        {
+          "infinitive": "absichern",
+          "present": {
+            "ich": "sichere ab",
+            "du": "sicherst ab",
+            "er_sie_es": "sichert ab",
+            "wir": "sichern ab",
+            "ihr": "sichert ab",
+            "sie_Sie": "sichern ab"
+          }
+        },
+        {
+          "infinitive": "abstimmen",
+          "present": {
+            "ich": "stimme ab",
+            "du": "stimmst ab",
+            "er_sie_es": "stimmt ab",
+            "wir": "stimmen ab",
+            "ihr": "stimmt ab",
+            "sie_Sie": "stimmen ab"
+          }
+        },
+        {
+          "infinitive": "beschweren",
+          "present": {
+            "ich": "beschwere",
+            "du": "beschwerst",
+            "er_sie_es": "beschwert",
+            "wir": "beschweren",
+            "ihr": "beschwert",
+            "sie_Sie": "beschweren"
+          }
+        },
+        {
+          "infinitive": "loesen",
+          "present": {
+            "ich": "loese",
+            "du": "loest",
+            "er_sie_es": "loest",
+            "wir": "loesen",
+            "ihr": "loest",
+            "sie_Sie": "loesen"
+          }
         }
       ],
       "vocabThemes": [
         "business",
         "office",
         "relationship",
-        "vacation"
+        "vacation",
+        "negotiation and conflict resolution",
+        "customer service",
+        "project planning",
+        "civic participation",
+        "education and upskilling",
+        "future goals"
       ],
       "exercisePatterns": [
         "Convert active to passive.",
@@ -441,7 +2309,92 @@
       "completionChecks": [
         "Learner can respond appropriately in a professional scenario.",
         "Learner can produce two correct passive constructions."
-      ]
+      ],
+      "lessonCadence": {
+        "targetLessons": 20,
+        "lessonsPerTopic": 2
+      },
+      "moduleVersion": "1.0.0",
+      "topics": [
+        {
+          "id": "de-b1-2-business",
+          "label": "business",
+          "aliases": [
+            "business"
+          ]
+        },
+        {
+          "id": "de-b1-2-office",
+          "label": "office",
+          "aliases": [
+            "office"
+          ]
+        },
+        {
+          "id": "de-b1-2-relationship",
+          "label": "relationship",
+          "aliases": [
+            "relationship"
+          ]
+        },
+        {
+          "id": "de-b1-2-vacation",
+          "label": "vacation",
+          "aliases": [
+            "vacation"
+          ]
+        },
+        {
+          "id": "de-b1-2-negotiation-and-conflict-resolution",
+          "label": "negotiation and conflict resolution",
+          "aliases": [
+            "negotiation and conflict resolution"
+          ]
+        },
+        {
+          "id": "de-b1-2-customer-service",
+          "label": "customer service",
+          "aliases": [
+            "customer service"
+          ]
+        },
+        {
+          "id": "de-b1-2-project-planning",
+          "label": "project planning",
+          "aliases": [
+            "project planning"
+          ]
+        },
+        {
+          "id": "de-b1-2-civic-participation",
+          "label": "civic participation",
+          "aliases": [
+            "civic participation"
+          ]
+        },
+        {
+          "id": "de-b1-2-education-and-upskilling",
+          "label": "education and upskilling",
+          "aliases": [
+            "education and upskilling"
+          ]
+        },
+        {
+          "id": "de-b1-2-future-goals",
+          "label": "future goals",
+          "aliases": [
+            "future goals"
+          ]
+        }
+      ],
+      "metadata": {},
+      "extensions": {}
     }
-  ]
+  ],
+  "planMeta": {
+    "structureVersion": "1.1.0",
+    "notes": "Forward-compatible shape: keep legacy vocabThemes and add structured topics + extensions.",
+    "extensions": {}
+  },
+  "extensions": {}
 }

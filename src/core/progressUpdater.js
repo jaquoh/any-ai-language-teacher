@@ -1,6 +1,13 @@
 import { clamp, isoNow, normalizeKey } from "./normalizers.js";
 import { recomputeHistoryWithWeights } from "./scoringEngine.js";
-import { selectNextModuleId, selectNextTopic } from "./topicSelector.js";
+import {
+  buildDefaultFocusForTopic,
+  resolveModuleCadence,
+  selectNextModuleId,
+  selectNextTopic,
+  shouldSkipGrammarForTopic,
+} from "./topicSelector.js";
+import { getModuleTopicLabels } from "./planModel.js";
 
 const UNKNOWN_AI_SOURCE = {
   model: "unknown",
@@ -28,11 +35,21 @@ function sanitizeAiSource(aiSource) {
   };
 }
 
+function sanitizeDurationMin(durationMin) {
+  const value = Number(durationMin);
+  if (Number.isInteger(value) && value > 0 && value <= 240) {
+    return value;
+  }
+  return null;
+}
+
 export function hydrateLessonHistoryAiSource(lessonHistory = []) {
   return lessonHistory.map((entry) => {
     const { timeSpentMin: _timeSpentMin, resultAddedAt: _resultAddedAt, ...rest } = entry;
+    const durationMin = sanitizeDurationMin(entry.durationMin);
     return {
       ...rest,
+      ...(durationMin ? { durationMin } : {}),
       aiSource: sanitizeAiSource(entry.aiSource),
     };
   });
@@ -160,6 +177,7 @@ export function applyLessonResult(progress, lessonResult, plan) {
 
   const importedAt = isoNow();
   const aiSource = sanitizeAiSource(lessonResult.aiSource);
+  const durationMin = sanitizeDurationMin(lessonResult.durationMin);
   const draft = structuredClone(progress);
 
   draft.importedResultIds.push(lessonResult.resultId);
@@ -194,6 +212,7 @@ export function applyLessonResult(progress, lessonResult, plan) {
   draft.lessonHistory.push({
     resultId: lessonResult.resultId,
     timestamp: lessonResult.lessonTimestamp,
+    ...(durationMin ? { durationMin } : {}),
     aiSource,
     moduleId: lessonResult.moduleId,
     topic: lessonResult.topic,
@@ -220,28 +239,41 @@ export function applyLessonResult(progress, lessonResult, plan) {
   draft.planRef.currentModuleId = nextModuleId;
 
   const module = (plan.modules || []).find((item) => item.moduleId === nextModuleId) || plan.modules[0];
+  const moduleTopics = getModuleTopicLabels(module);
   const selectedTopic = selectNextTopic({
-    moduleTopics: module?.vocabThemes || [],
+    module,
+    moduleId: nextModuleId,
+    moduleTopics,
     lessonHistory: draft.lessonHistory,
     mistakePatterns: draft.mistakePatterns,
     recommendedTopic: lessonResult.recommendedNextFocus.topic,
+    lessonsPerTopic: resolveModuleCadence(module, moduleTopics.length).lessonsPerTopic,
+  });
+  const defaultFocus = buildDefaultFocusForTopic({ module, topic: selectedTopic });
+  const skipGrammar = shouldSkipGrammarForTopic({
+    module,
+    moduleId: nextModuleId,
+    topic: selectedTopic,
+    lessonHistory: draft.lessonHistory,
   });
 
   draft.nextLesson = {
-    moduleId: lessonResult.recommendedNextFocus.moduleId || nextModuleId,
+    moduleId: nextModuleId,
     topic: selectedTopic,
     grammarFocus:
-      lessonResult.recommendedNextFocus.grammar?.length
+      skipGrammar
+        ? []
+        : lessonResult.recommendedNextFocus.grammar?.length
         ? lessonResult.recommendedNextFocus.grammar
-        : (module?.grammarTargets || []).slice(0, 2).map((item) => item.id),
+        : defaultFocus.grammarFocus,
     verbFocus:
       lessonResult.recommendedNextFocus.verbs?.length
         ? lessonResult.recommendedNextFocus.verbs
-        : (module?.verbTargets || []).slice(0, 2).map((item) => item.infinitive),
+        : defaultFocus.verbFocus,
     vocabularyFocus:
       lessonResult.recommendedNextFocus.vocabulary?.length
         ? lessonResult.recommendedNextFocus.vocabulary
-        : (module?.vocabThemes || []).slice(0, 5),
+        : defaultFocus.vocabularyFocus,
     notes: lessonResult.recommendedNextFocus.notes,
   };
 

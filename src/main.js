@@ -1,4 +1,5 @@
 import "./styles.css";
+import "preline";
 import validLessonResultSample from "../examples/lesson-result.valid.sample.json";
 import invalidLessonResultSample from "../examples/lesson-result.invalid.sample.json";
 import confetti from "canvas-confetti";
@@ -20,9 +21,53 @@ import { applyScoreWeights, hydrateLessonHistoryAiSource } from "./core/progress
 import { buildNextLessonPacket, renderNextLessonPrompt } from "./core/promptGenerator.js";
 import { importLessonResult } from "./core/importEngine.js";
 import { speakText } from "./core/speech.js";
+import { getCurrentTheme, initTheme, toggleTheme } from "./core/theme.js";
 import { validateBySchema } from "./core/validator.js";
 
 const root = document.querySelector("#app");
+let isCoreLoopCollapsed = false;
+let coreLoopFeedback = null;
+
+function setCoreLoopFeedback(message, ok = true) {
+  coreLoopFeedback = {
+    message,
+    ok,
+    at: Date.now(),
+  };
+}
+
+function emptyLessonLoop() {
+  return {
+    promptReady: false,
+    lessonDone: false,
+    resultImported: false,
+    lastCompletedAt: null,
+  };
+}
+
+function isLessonLoopComplete(loopState) {
+  return Boolean(loopState?.promptReady && loopState?.lessonDone && loopState?.resultImported);
+}
+
+function celebrateLoopSuccess() {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  try {
+    confetti({
+      spread: 95,
+      ticks: 260,
+      gravity: 0.9,
+      scalar: 1.1,
+      particleCount: 130,
+      origin: { y: 0.65 },
+      colors: ["#22c55e", "#16a34a", "#4ade80", "#f59e0b", "#d82960"],
+    });
+  } catch (_) {
+    // Non-blocking visual effect.
+  }
+}
 
 function celebrateImportSuccess() {
   if (typeof window === "undefined") {
@@ -61,16 +106,6 @@ function celebrateImportSuccess() {
   } catch (_) {
     // Non-blocking visual effect.
   }
-}
-
-function notify(message, ok = true) {
-  updateState({
-    importStatus: {
-      ok,
-      message,
-      errors: [],
-    },
-  });
 }
 
 async function copyText(content) {
@@ -117,12 +152,18 @@ const actions = {
     }
 
     const promptText = renderNextLessonPrompt(packet);
-    updateState({ promptText });
+    setCoreLoopFeedback("Prompt step completed.", true);
+    updateState({
+      promptText,
+      lessonLoop: {
+        ...emptyLessonLoop(),
+        promptReady: true,
+      },
+    });
   },
 
   async onCopyPrompt() {
-    const success = await copyText(getState().promptText);
-    notify(success ? "Prompt copied to clipboard." : "Could not copy prompt automatically.", success);
+    return copyText(getState().promptText);
   },
 
   onImportResult(input) {
@@ -145,9 +186,27 @@ const actions = {
       return;
     }
 
+    const nextLessonLoop = {
+      ...state.lessonLoop,
+      promptReady: true,
+      lessonDone: true,
+      resultImported: true,
+    };
+
+    if (isLessonLoopComplete(nextLessonLoop)) {
+      nextLessonLoop.lastCompletedAt = new Date().toISOString();
+    }
+
+    setCoreLoopFeedback(
+      isLessonLoopComplete(nextLessonLoop)
+        ? "Great loop completion. Start the next lesson by generating a fresh prompt."
+        : "Import step completed.",
+      true,
+    );
     updateState({
       progress: report.updatedProgress,
       repairPrompt: "",
+      lessonLoop: nextLessonLoop,
       importStatus: {
         ok: true,
         message: "Lesson result imported. Great work, keep the streak going.",
@@ -156,6 +215,9 @@ const actions = {
     });
 
     celebrateImportSuccess();
+    if (isLessonLoopComplete(nextLessonLoop) && !state.lessonLoop?.lastCompletedAt) {
+      celebrateLoopSuccess();
+    }
   },
 
   onLoadSample(valid = true) {
@@ -167,8 +229,7 @@ const actions = {
   },
 
   async onCopyRepairPrompt() {
-    const success = await copyText(getState().repairPrompt);
-    notify(success ? "Repair prompt copied." : "Could not copy repair prompt.", success);
+    return copyText(getState().repairPrompt);
   },
 
   onExportProgress() {
@@ -212,7 +273,13 @@ const actions = {
           return;
         }
 
-        updateState({ progress: normalizedPayload, importStatus: null, repairPrompt: "" });
+        updateState({
+          progress: normalizedPayload,
+          lessonLoop: emptyLessonLoop(),
+          importStatus: null,
+          repairPrompt: "",
+        });
+        coreLoopFeedback = null;
       } catch (error) {
         updateState({
           importStatus: {
@@ -229,6 +296,50 @@ const actions = {
 
   onResetProject() {
     resetToSample();
+    coreLoopFeedback = null;
+  },
+
+  onToggleLessonDone() {
+    const loopState = getState().lessonLoop || emptyLessonLoop();
+    if (!loopState.promptReady) {
+      setCoreLoopFeedback("Complete step 1 first: generate the prompt.", false);
+      renderApp();
+      return;
+    }
+    if (isLessonLoopComplete(loopState)) {
+      return;
+    }
+
+    const nextDone = !Boolean(loopState.lessonDone);
+    const nextLessonLoop = {
+      ...loopState,
+      lessonDone: nextDone,
+    };
+
+    if (!nextDone) {
+      nextLessonLoop.resultImported = false;
+      nextLessonLoop.lastCompletedAt = null;
+    } else if (isLessonLoopComplete(nextLessonLoop)) {
+      nextLessonLoop.lastCompletedAt = new Date().toISOString();
+    }
+
+    setCoreLoopFeedback(nextDone ? "Lesson step marked done." : "Lesson step reset to not done.", true);
+    updateState({
+      lessonLoop: nextLessonLoop,
+    });
+  },
+
+  onStartNextLoop() {
+    coreLoopFeedback = null;
+    updateState({
+      lessonLoop: emptyLessonLoop(),
+      promptText: "",
+    });
+    if (window.location.hash !== "#/prompt") {
+      window.location.hash = "#/prompt";
+    } else {
+      renderApp();
+    }
   },
 
   onSpeakText(text, targetLang) {
@@ -280,12 +391,100 @@ function renderApp() {
   const state = getState();
   const route = getCurrentRoute();
   const page = renderRouteContent(route, state);
-  root.innerHTML = renderShell(route, page.html);
+  root.innerHTML = renderShell(route, page.html, {
+    isDarkMode: getCurrentTheme() === "dark",
+    lessonLoop: state.lessonLoop,
+    nextLesson: state.progress?.nextLesson || null,
+    coreLoopCollapsed: isCoreLoopCollapsed,
+    coreLoopFeedback,
+  });
   if (page.bind) {
     page.bind(root);
   }
+  bindShellEvents();
+
+  try {
+    if (window.HSStaticMethods?.autoInit) {
+      window.HSStaticMethods.autoInit();
+    }
+  } catch (_) {
+    // Non-blocking initialization. Custom UI remains usable without JS widgets.
+  }
+}
+
+function bindShellEvents() {
+  document.body.classList.remove("overflow-hidden");
+
+  const themeButton = root.querySelector("#theme-toggle");
+  themeButton?.addEventListener("click", () => {
+    const theme = toggleTheme();
+    themeButton.textContent = theme === "dark" ? "Light mode" : "Dark mode";
+    themeButton.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+  });
+
+  const mobileMenuButton = root.querySelector("#mobile-menu-toggle");
+  const sidebar = root.querySelector("#app-sidebar");
+  const backdrop = root.querySelector("#mobile-nav-backdrop");
+
+  function closeMobileMenu() {
+    if (!sidebar || !backdrop) {
+      return;
+    }
+    sidebar.classList.add("-translate-x-full");
+    sidebar.classList.remove("translate-x-0");
+    sidebar.setAttribute("aria-hidden", "true");
+    backdrop.classList.add("hidden");
+    document.body.classList.remove("overflow-hidden");
+  }
+
+  function openMobileMenu() {
+    if (!sidebar || !backdrop) {
+      return;
+    }
+    sidebar.classList.remove("-translate-x-full");
+    sidebar.classList.add("translate-x-0");
+    sidebar.setAttribute("aria-hidden", "false");
+    backdrop.classList.remove("hidden");
+    document.body.classList.add("overflow-hidden");
+  }
+
+  mobileMenuButton?.addEventListener("click", () => {
+    if (!sidebar) {
+      return;
+    }
+
+    if (sidebar.classList.contains("-translate-x-full")) {
+      openMobileMenu();
+      return;
+    }
+
+    closeMobileMenu();
+  });
+
+  backdrop?.addEventListener("click", closeMobileMenu);
+  root.querySelectorAll("#app-sidebar a[href^='#/']").forEach((link) => {
+    link.addEventListener("click", closeMobileMenu);
+  });
+
+  root.querySelector("#core-loop-toggle")?.addEventListener("click", () => {
+    isCoreLoopCollapsed = !isCoreLoopCollapsed;
+    renderApp();
+  });
+
+  root.querySelectorAll("[data-mark-lesson-done]").forEach((button) => {
+    button.addEventListener("click", () => {
+      actions.onToggleLessonDone();
+    });
+  });
+
+  root.querySelectorAll("[data-start-next-loop]").forEach((button) => {
+    button.addEventListener("click", () => {
+      actions.onStartNextLoop();
+    });
+  });
 }
 
 window.addEventListener("hashchange", renderApp);
+initTheme();
 subscribe(renderApp);
 renderApp();
