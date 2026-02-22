@@ -8,6 +8,22 @@ import {
 import { isoNow, uniqStrings } from "./normalizers.js";
 import { getModuleTopicLabels } from "./planModel.js";
 
+function languageSpecificDifficulties(targetLanguage) {
+  const lang = String(targetLanguage || "").trim().toLowerCase();
+  if (lang.includes("german") || lang.includes("deutsch")) {
+    return [
+      "Long compound nouns (for example Aufenthaltsgenehmigungsverlaengerung): split and explain each word part.",
+      "Verb-final word order in subordinate clauses plus separable verb placement.",
+      "Case and article shifts (der/die/das with accusative and dative).",
+    ];
+  }
+
+  return [
+    "Typical word-order mistakes and unnatural literal translations from the learner's native language.",
+    "Common collocations and forms that are easy to mix up in daily conversation.",
+  ];
+}
+
 function buildLessonResultTemplate({ projectId, moduleId, topic }) {
   return {
     schemaVersion: "1.0.0",
@@ -210,6 +226,7 @@ export function renderNextLessonPrompt(packet) {
   const lessonContext = packet.lessonContext;
   const responseContract = packet.responseContract;
   const templateJson = JSON.stringify(responseContract.lessonResultTemplate, null, 2);
+  const languageDifficulties = languageSpecificDifficulties(packet.projectSnapshot.targetLanguage);
 
   return [
     "# Portable AI Teacher - Next Lesson Packet",
@@ -226,6 +243,7 @@ export function renderNextLessonPrompt(packet) {
     `- Off-topic policy: ${packet.teacherContract.offTopicPolicy}`,
     "- Include one fun micro-element linked to the topic (tip, mnemonic, short riddle, quote, or joke).",
     "- Keep the flow practical and interactive with enough learner turns before closing.",
+    "- Include language-specific pitfalls and explicitly coach them during exercises.",
     "- If grammar focus is `none`, run a fluency-first lesson using verbs and vocabulary only.",
     "",
     "## Lesson Context",
@@ -237,6 +255,9 @@ export function renderNextLessonPrompt(packet) {
     `- Verb focus: ${lessonContext.verbFocus.join(", ") || "none"}`,
     `- Vocabulary focus: ${lessonContext.vocabularyFocus.join(", ") || "none"}`,
     `- Weak areas to reinforce: ${lessonContext.weakAreas.join(", ") || "none"}`,
+    "",
+    "## Language-Specific Pitfalls To Teach",
+    ...languageDifficulties.map((item) => `- ${item}`),
     "",
     "## Mandatory Interaction Protocol",
     "- Teach as a live conversation, not a full lecture dump.",

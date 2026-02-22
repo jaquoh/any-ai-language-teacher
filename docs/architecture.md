@@ -3,7 +3,7 @@
 ## Runtime model
 - Single-page app built with Vite and vanilla JS modules.
 - Local data state in memory, with file import/export for durable persistence.
-- No backend dependencies.
+- Optional PHP/MySQL backend for login + server-side profile storage.
 
 ## Data flow
 1. Load or create `ProgressData`.

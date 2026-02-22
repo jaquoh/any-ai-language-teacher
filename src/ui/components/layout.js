@@ -224,6 +224,8 @@ export function renderShell(activeRoute, contentHtml, options = {}) {
   const nextLesson = options.nextLesson || null;
   const coreLoopCollapsed = Boolean(options.coreLoopCollapsed);
   const coreLoopFeedback = options.coreLoopFeedback || null;
+  const showAuth = Boolean(options.showAuth);
+  const userName = options.userName ? escapeHtml(options.userName) : "";
   const themeLabel = isDarkMode ? "Light mode" : "Dark mode";
 
   return `
@@ -244,7 +246,15 @@ export function renderShell(activeRoute, contentHtml, options = {}) {
             </div>
           </div>
 
-          <button id="theme-toggle" type="button" aria-pressed="${isDarkMode ? "true" : "false"}" class="inline-flex items-center rounded-lg border border-slate-300 px-3 py-2 text-xs font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">${themeLabel}</button>
+          <div class="flex items-center gap-2">
+            ${
+              showAuth
+                ? `<div class="hidden rounded-lg border border-slate-300 px-2.5 py-2 text-xs text-slate-600 dark:border-slate-700 dark:text-slate-300 sm:block">Signed in: <span class="font-semibold">${userName}</span></div>
+                   <button id="logout-button" type="button" class="inline-flex items-center rounded-lg border border-slate-300 px-3 py-2 text-xs font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">Log out</button>`
+                : ""
+            }
+            <button id="theme-toggle" type="button" aria-pressed="${isDarkMode ? "true" : "false"}" class="inline-flex items-center rounded-lg border border-slate-300 px-3 py-2 text-xs font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">${themeLabel}</button>
+          </div>
         </div>
       </header>
 

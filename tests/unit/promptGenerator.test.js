@@ -34,5 +34,7 @@ describe("promptGenerator", () => {
     expect(prompt).toContain("If the user writes `focus`");
     expect(prompt).toContain("Lesson Opening");
     expect(prompt).toContain("4 to 7 varied activities");
+    expect(prompt).toContain("Language-Specific Pitfalls To Teach");
+    expect(prompt).toContain("Long compound nouns");
   });
 });

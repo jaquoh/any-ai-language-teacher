@@ -21,6 +21,34 @@ describe("validator", () => {
     expect(result.valid).toBe(true);
   });
 
+  it("keeps immigration/interview coverage and unique verbs across modules", () => {
+    const allTopics = (learningPlan.modules || [])
+      .flatMap((module) => module.vocabThemes || [])
+      .map((topic) => String(topic || "").toLowerCase());
+
+    expect(allTopics.some((topic) => topic.includes("immigration"))).toBe(true);
+    expect(allTopics.some((topic) => topic.includes("interview"))).toBe(true);
+
+    const seen = new Set();
+    const duplicates = [];
+
+    for (const module of learningPlan.modules || []) {
+      for (const verb of module.verbTargets || []) {
+        const key = String(verb.infinitive || "").trim().toLowerCase();
+        if (!key) {
+          continue;
+        }
+        if (seen.has(key)) {
+          duplicates.push(key);
+        } else {
+          seen.add(key);
+        }
+      }
+    }
+
+    expect(duplicates).toEqual([]);
+  });
+
   it("validates progress sample", () => {
     const result = validateBySchema("progressData", progressSample);
     expect(result.valid).toBe(true);

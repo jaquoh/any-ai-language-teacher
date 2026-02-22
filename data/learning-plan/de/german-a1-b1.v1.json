@@ -314,8 +314,8 @@
         "supermarket",
         "food and drinks",
         "activities",
-        "weekend plans",
-        "weather small talk"
+        "immigration office basics",
+        "first job interview introduction"
       ],
       "exercisePatterns": [
         "Fill in missing verb forms with romantic mini-dialogues.",
@@ -393,17 +393,17 @@
           ]
         },
         {
-          "id": "de-a1-1-weekend-plans",
-          "label": "weekend plans",
+          "id": "de-a1-1-immigration-office-basics",
+          "label": "immigration office basics",
           "aliases": [
-            "weekend plans"
+            "immigration office basics"
           ]
         },
         {
-          "id": "de-a1-1-weather-small-talk",
-          "label": "weather small talk",
+          "id": "de-a1-1-first-job-interview-introduction",
+          "label": "first job interview introduction",
           "aliases": [
-            "weather small talk"
+            "first job interview introduction"
           ]
         }
       ],
@@ -536,14 +536,14 @@
           }
         },
         {
-          "infinitive": "kaufen",
+          "infinitive": "tauschen",
           "present": {
-            "ich": "kaufe",
-            "du": "kaufst",
-            "er_sie_es": "kauft",
-            "wir": "kaufen",
-            "ihr": "kauft",
-            "sie_Sie": "kaufen"
+            "ich": "tausche",
+            "du": "tauschst",
+            "er_sie_es": "tauscht",
+            "wir": "tauschen",
+            "ihr": "tauscht",
+            "sie_Sie": "tauschen"
           }
         },
         {
@@ -705,13 +705,13 @@
         "supermarket",
         "office",
         "public transportation",
-        "animals",
         "appointments",
         "home and furniture",
         "health and pharmacy",
         "bank and post office",
         "daily routines",
-        "weather"
+        "residence permit appointment",
+        "basic job interview questions"
       ],
       "exercisePatterns": [
         "Build request sentences with modal verbs.",
@@ -754,13 +754,6 @@
           ]
         },
         {
-          "id": "de-a1-2-animals",
-          "label": "animals",
-          "aliases": [
-            "animals"
-          ]
-        },
-        {
           "id": "de-a1-2-appointments",
           "label": "appointments",
           "aliases": [
@@ -796,10 +789,17 @@
           ]
         },
         {
-          "id": "de-a1-2-weather",
-          "label": "weather",
+          "id": "de-a1-2-residence-permit-appointment",
+          "label": "residence permit appointment",
           "aliases": [
-            "weather"
+            "residence permit appointment"
+          ]
+        },
+        {
+          "id": "de-a1-2-basic-job-interview-questions",
+          "label": "basic job interview questions",
+          "aliases": [
+            "basic job interview questions"
           ]
         }
       ],
@@ -910,14 +910,14 @@
           }
         },
         {
-          "infinitive": "fahren",
+          "infinitive": "ankommen",
           "present": {
-            "ich": "fahre",
-            "du": "faehrst",
-            "er_sie_es": "faehrt",
-            "wir": "fahren",
-            "ihr": "fahrt",
-            "sie_Sie": "fahren"
+            "ich": "komme an",
+            "du": "kommst an",
+            "er_sie_es": "kommt an",
+            "wir": "kommen an",
+            "ihr": "kommt an",
+            "sie_Sie": "kommen an"
           }
         },
         {
@@ -976,14 +976,14 @@
           }
         },
         {
-          "infinitive": "warten",
+          "infinitive": "abfahren",
           "present": {
-            "ich": "warte",
-            "du": "wartest",
-            "er_sie_es": "wartet",
-            "wir": "warten",
-            "ihr": "wartet",
-            "sie_Sie": "warten"
+            "ich": "fahre ab",
+            "du": "faehrst ab",
+            "er_sie_es": "faehrt ab",
+            "wir": "fahren ab",
+            "ihr": "fahrt ab",
+            "sie_Sie": "fahren ab"
           }
         },
         {
@@ -1009,14 +1009,14 @@
           }
         },
         {
-          "infinitive": "finden",
+          "infinitive": "einreichen",
           "present": {
-            "ich": "finde",
-            "du": "findest",
-            "er_sie_es": "findet",
-            "wir": "finden",
-            "ihr": "findet",
-            "sie_Sie": "finden"
+            "ich": "reiche ein",
+            "du": "reichst ein",
+            "er_sie_es": "reicht ein",
+            "wir": "reichen ein",
+            "ihr": "reicht ein",
+            "sie_Sie": "reichen ein"
           }
         },
         {
@@ -1031,47 +1031,47 @@
           }
         },
         {
-          "infinitive": "brauchen",
+          "infinitive": "mitbringen",
           "present": {
-            "ich": "brauche",
-            "du": "brauchst",
-            "er_sie_es": "braucht",
-            "wir": "brauchen",
-            "ihr": "braucht",
-            "sie_Sie": "brauchen"
+            "ich": "bringe mit",
+            "du": "bringst mit",
+            "er_sie_es": "bringt mit",
+            "wir": "bringen mit",
+            "ihr": "bringt mit",
+            "sie_Sie": "bringen mit"
           }
         },
         {
-          "infinitive": "helfen",
+          "infinitive": "nachfragen",
           "present": {
-            "ich": "helfe",
-            "du": "hilfst",
-            "er_sie_es": "hilft",
-            "wir": "helfen",
-            "ihr": "helft",
-            "sie_Sie": "helfen"
+            "ich": "frage nach",
+            "du": "fragst nach",
+            "er_sie_es": "fragt nach",
+            "wir": "fragen nach",
+            "ihr": "fragt nach",
+            "sie_Sie": "fragen nach"
           }
         },
         {
-          "infinitive": "suchen",
+          "infinitive": "pruefen",
           "present": {
-            "ich": "suche",
-            "du": "suchst",
-            "er_sie_es": "sucht",
-            "wir": "suchen",
-            "ihr": "sucht",
-            "sie_Sie": "suchen"
+            "ich": "pruefe",
+            "du": "pruefst",
+            "er_sie_es": "prueft",
+            "wir": "pruefen",
+            "ihr": "prueft",
+            "sie_Sie": "pruefen"
           }
         },
         {
-          "infinitive": "planen",
+          "infinitive": "beantworten",
           "present": {
-            "ich": "plane",
-            "du": "planst",
-            "er_sie_es": "plant",
-            "wir": "planen",
-            "ihr": "plant",
-            "sie_Sie": "planen"
+            "ich": "beantworte",
+            "du": "beantwortest",
+            "er_sie_es": "beantwortet",
+            "wir": "beantworten",
+            "ihr": "beantwortet",
+            "sie_Sie": "beantworten"
           }
         },
         {
@@ -1106,8 +1106,8 @@
         "hotel and accommodation",
         "phone and internet",
         "emergencies",
-        "cultural events",
-        "weekend trips"
+        "city registration and documents",
+        "job interview preparation"
       ],
       "exercisePatterns": [
         "Station dialogue roleplay.",
@@ -1185,17 +1185,17 @@
           ]
         },
         {
-          "id": "de-a2-1-cultural-events",
-          "label": "cultural events",
+          "id": "de-a2-1-city-registration-and-documents",
+          "label": "city registration and documents",
           "aliases": [
-            "cultural events"
+            "city registration and documents"
           ]
         },
         {
-          "id": "de-a2-1-weekend-trips",
-          "label": "weekend trips",
+          "id": "de-a2-1-job-interview-preparation",
+          "label": "job interview preparation",
           "aliases": [
-            "weekend trips"
+            "job interview preparation"
           ]
         }
       ],
@@ -1306,25 +1306,25 @@
           }
         },
         {
-          "infinitive": "arbeiten",
+          "infinitive": "koordinieren",
           "present": {
-            "ich": "arbeite",
-            "du": "arbeitest",
-            "er_sie_es": "arbeitet",
-            "wir": "arbeiten",
-            "ihr": "arbeitet",
-            "sie_Sie": "arbeiten"
+            "ich": "koordiniere",
+            "du": "koordinierst",
+            "er_sie_es": "koordiniert",
+            "wir": "koordinieren",
+            "ihr": "koordiniert",
+            "sie_Sie": "koordinieren"
           }
         },
         {
-          "infinitive": "erklaeren",
+          "infinitive": "moderieren",
           "present": {
-            "ich": "erklaere",
-            "du": "erklaerst",
-            "er_sie_es": "erklaert",
-            "wir": "erklaeren",
-            "ihr": "erklaert",
-            "sie_Sie": "erklaeren"
+            "ich": "moderiere",
+            "du": "moderierst",
+            "er_sie_es": "moderiert",
+            "wir": "moderieren",
+            "ihr": "moderiert",
+            "sie_Sie": "moderieren"
           }
         },
         {
@@ -1471,14 +1471,14 @@
           }
         },
         {
-          "infinitive": "planen",
+          "infinitive": "strukturieren",
           "present": {
-            "ich": "plane",
-            "du": "planst",
-            "er_sie_es": "plant",
-            "wir": "planen",
-            "ihr": "plant",
-            "sie_Sie": "planen"
+            "ich": "strukturiere",
+            "du": "strukturierst",
+            "er_sie_es": "strukturiert",
+            "wir": "strukturieren",
+            "ihr": "strukturiert",
+            "sie_Sie": "strukturieren"
           }
         },
         {
@@ -1501,9 +1501,9 @@
         "teamwork",
         "conflict resolution",
         "housing and landlords",
-        "parenting and school",
         "health and wellbeing",
-        "civic services"
+        "visa renewal process",
+        "interview follow-up and networking"
       ],
       "exercisePatterns": [
         "Combine clauses with weil/dass.",
@@ -1574,13 +1574,6 @@
           ]
         },
         {
-          "id": "de-a2-2-parenting-and-school",
-          "label": "parenting and school",
-          "aliases": [
-            "parenting and school"
-          ]
-        },
-        {
           "id": "de-a2-2-health-and-wellbeing",
           "label": "health and wellbeing",
           "aliases": [
@@ -1588,10 +1581,17 @@
           ]
         },
         {
-          "id": "de-a2-2-civic-services",
-          "label": "civic services",
+          "id": "de-a2-2-visa-renewal-process",
+          "label": "visa renewal process",
           "aliases": [
-            "civic services"
+            "visa renewal process"
+          ]
+        },
+        {
+          "id": "de-a2-2-interview-follow-up-and-networking",
+          "label": "interview follow-up and networking",
+          "aliases": [
+            "interview follow-up and networking"
           ]
         }
       ],
@@ -1680,25 +1680,25 @@
           }
         },
         {
-          "infinitive": "erklaeren",
+          "infinitive": "argumentieren",
           "present": {
-            "ich": "erklaere",
-            "du": "erklaerst",
-            "er_sie_es": "erklaert",
-            "wir": "erklaeren",
-            "ihr": "erklaert",
-            "sie_Sie": "erklaeren"
+            "ich": "argumentiere",
+            "du": "argumentierst",
+            "er_sie_es": "argumentiert",
+            "wir": "argumentieren",
+            "ihr": "argumentiert",
+            "sie_Sie": "argumentieren"
           }
         },
         {
-          "infinitive": "entscheiden",
+          "infinitive": "priorisieren",
           "present": {
-            "ich": "entscheide",
-            "du": "entscheidest",
-            "er_sie_es": "entscheidet",
-            "wir": "entscheiden",
-            "ihr": "entscheidet",
-            "sie_Sie": "entscheiden"
+            "ich": "priorisiere",
+            "du": "priorisierst",
+            "er_sie_es": "priorisiert",
+            "wir": "priorisieren",
+            "ihr": "priorisiert",
+            "sie_Sie": "priorisieren"
           }
         },
         {
@@ -1823,14 +1823,14 @@
           }
         },
         {
-          "infinitive": "vergleichen",
+          "infinitive": "nachweisen",
           "present": {
-            "ich": "vergleiche",
-            "du": "vergleichst",
-            "er_sie_es": "vergleicht",
-            "wir": "vergleichen",
-            "ihr": "vergleicht",
-            "sie_Sie": "vergleichen"
+            "ich": "weise nach",
+            "du": "weist nach",
+            "er_sie_es": "weist nach",
+            "wir": "weisen nach",
+            "ihr": "weist nach",
+            "sie_Sie": "weisen nach"
           }
         },
         {
@@ -1845,25 +1845,25 @@
           }
         },
         {
-          "infinitive": "empfehlen",
+          "infinitive": "abklaeren",
           "present": {
-            "ich": "empfehle",
-            "du": "empfiehlst",
-            "er_sie_es": "empfiehlt",
-            "wir": "empfehlen",
-            "ihr": "empfehlt",
-            "sie_Sie": "empfehlen"
+            "ich": "klaere ab",
+            "du": "klaerst ab",
+            "er_sie_es": "klaert ab",
+            "wir": "klaeren ab",
+            "ihr": "klaert ab",
+            "sie_Sie": "klaeren ab"
           }
         },
         {
-          "infinitive": "teilnehmen",
+          "infinitive": "einbeziehen",
           "present": {
-            "ich": "nehme teil",
-            "du": "nimmst teil",
-            "er_sie_es": "nimmt teil",
-            "wir": "nehmen teil",
-            "ihr": "nehmt teil",
-            "sie_Sie": "nehmen teil"
+            "ich": "beziehe ein",
+            "du": "beziehst ein",
+            "er_sie_es": "bezieht ein",
+            "wir": "beziehen ein",
+            "ihr": "bezieht ein",
+            "sie_Sie": "beziehen ein"
           }
         },
         {
@@ -1898,8 +1898,8 @@
         "banking and finance",
         "insurance",
         "contracts and forms",
-        "news and media",
-        "community life"
+        "immigration office correspondence",
+        "structured job interview answers"
       ],
       "exercisePatterns": [
         "Opinion prompt and concise defense.",
@@ -1977,17 +1977,17 @@
           ]
         },
         {
-          "id": "de-b1-1-news-and-media",
-          "label": "news and media",
+          "id": "de-b1-1-immigration-office-correspondence",
+          "label": "immigration office correspondence",
           "aliases": [
-            "news and media"
+            "immigration office correspondence"
           ]
         },
         {
-          "id": "de-b1-1-community-life",
-          "label": "community life",
+          "id": "de-b1-1-structured-job-interview-answers",
+          "label": "structured job interview answers",
           "aliases": [
-            "community life"
+            "structured job interview answers"
           ]
         }
       ],
@@ -2076,25 +2076,25 @@
           }
         },
         {
-          "infinitive": "verhandeln",
+          "infinitive": "durchsetzen",
           "present": {
-            "ich": "verhandle",
-            "du": "verhandelst",
-            "er_sie_es": "verhandelt",
-            "wir": "verhandeln",
-            "ihr": "verhandelt",
-            "sie_Sie": "verhandeln"
+            "ich": "setze durch",
+            "du": "setzt durch",
+            "er_sie_es": "setzt durch",
+            "wir": "setzen durch",
+            "ihr": "setzt durch",
+            "sie_Sie": "setzen durch"
           }
         },
         {
-          "infinitive": "verbessern",
+          "infinitive": "optimieren",
           "present": {
-            "ich": "verbessere",
-            "du": "verbesserst",
-            "er_sie_es": "verbessert",
-            "wir": "verbessern",
-            "ihr": "verbessert",
-            "sie_Sie": "verbessern"
+            "ich": "optimiere",
+            "du": "optimierst",
+            "er_sie_es": "optimiert",
+            "wir": "optimieren",
+            "ihr": "optimiert",
+            "sie_Sie": "optimieren"
           }
         },
         {
@@ -2131,14 +2131,14 @@
           }
         },
         {
-          "infinitive": "beantragen",
+          "infinitive": "kalkulieren",
           "present": {
-            "ich": "beantrage",
-            "du": "beantragst",
-            "er_sie_es": "beantragt",
-            "wir": "beantragen",
-            "ihr": "beantragt",
-            "sie_Sie": "beantragen"
+            "ich": "kalkuliere",
+            "du": "kalkulierst",
+            "er_sie_es": "kalkuliert",
+            "wir": "kalkulieren",
+            "ihr": "kalkuliert",
+            "sie_Sie": "kalkulieren"
           }
         },
         {
@@ -2288,14 +2288,14 @@
       "vocabThemes": [
         "business",
         "office",
-        "relationship",
-        "vacation",
         "negotiation and conflict resolution",
         "customer service",
         "project planning",
         "civic participation",
         "education and upskilling",
-        "future goals"
+        "future goals",
+        "citizenship and long-term residence",
+        "salary negotiation in interviews"
       ],
       "exercisePatterns": [
         "Convert active to passive.",
@@ -2328,20 +2328,6 @@
           "label": "office",
           "aliases": [
             "office"
-          ]
-        },
-        {
-          "id": "de-b1-2-relationship",
-          "label": "relationship",
-          "aliases": [
-            "relationship"
-          ]
-        },
-        {
-          "id": "de-b1-2-vacation",
-          "label": "vacation",
-          "aliases": [
-            "vacation"
           ]
         },
         {
@@ -2384,6 +2370,20 @@
           "label": "future goals",
           "aliases": [
             "future goals"
+          ]
+        },
+        {
+          "id": "de-b1-2-citizenship-and-long-term-residence",
+          "label": "citizenship and long-term residence",
+          "aliases": [
+            "citizenship and long-term residence"
+          ]
+        },
+        {
+          "id": "de-b1-2-salary-negotiation-in-interviews",
+          "label": "salary negotiation in interviews",
+          "aliases": [
+            "salary negotiation in interviews"
           ]
         }
       ],

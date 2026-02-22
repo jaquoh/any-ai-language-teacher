@@ -36,6 +36,19 @@ The user can move between AI providers/chats while preserving continuity.
 6. App validates strictly and updates progress.
 7. Export updated `ProgressData` JSON.
 
+## Optional login + server sync
+This app can run in two modes:
+
+- Local-only mode (default fallback): no backend required.
+- Server sync mode: enabled automatically when `/api/health.php` is available.
+
+In server sync mode:
+- users can register/login with `name + password`,
+- progress is loaded from MySQL after login,
+- progress and lesson loop are auto-saved back to the server.
+
+Backend files and setup steps are in `backend/README.md`.
+
 ## Run locally
 ```bash
 npm install

@@ -17,6 +17,7 @@ coverage/
 .env
 .env.*
 !.env.example
+backend/api/config.php
 
 # Logs
 *.log

@@ -14,6 +14,7 @@ import { renderKnowledge, bindKnowledgeEvents } from "./ui/pages/knowledge.js";
 import { renderPlan } from "./ui/pages/plan.js";
 import { renderSettings, bindSettingsEvents } from "./ui/pages/settings.js";
 import { renderAbout } from "./ui/pages/about.js";
+import { renderAuthPage, bindAuthEvents } from "./ui/pages/auth.js";
 
 import { getState, subscribe, updateState, resetToSample } from "./state/store.js";
 import { DEFAULT_WEIGHTS, normalizeWeights } from "./core/scoringEngine.js";
@@ -23,10 +24,38 @@ import { importLessonResult } from "./core/importEngine.js";
 import { speakText } from "./core/speech.js";
 import { getCurrentTheme, initTheme, toggleTheme } from "./core/theme.js";
 import { validateBySchema } from "./core/validator.js";
+import {
+  probeBackend,
+  readSession,
+  writeSession,
+  clearSession,
+  registerUser,
+  loginUser,
+  fetchProfile,
+  saveProfile,
+  logoutUser,
+  isAuthFailure,
+} from "./core/remoteProfileApi.js";
 
 const root = document.querySelector("#app");
 let isCoreLoopCollapsed = false;
 let coreLoopFeedback = null;
+let applyRemoteStateLock = false;
+let lastSyncedSignature = null;
+let syncTimer = null;
+let syncInFlight = false;
+let pendingSync = false;
+
+const authState = {
+  initialized: false,
+  backendEnabled: false,
+  isAuthenticated: false,
+  token: "",
+  userName: "",
+  mode: "login",
+  isBusy: false,
+  error: "",
+};
 
 function setCoreLoopFeedback(message, ok = true) {
   coreLoopFeedback = {
@@ -119,6 +148,159 @@ async function copyText(content) {
   }
 
   return false;
+}
+
+function stateSyncSignature(state) {
+  return JSON.stringify({
+    progress: state.progress,
+    lessonLoop: state.lessonLoop,
+  });
+}
+
+function setSession(token, userName) {
+  authState.token = token;
+  authState.userName = userName;
+  authState.isAuthenticated = Boolean(token);
+
+  if (authState.isAuthenticated) {
+    writeSession({
+      token,
+      userName,
+    });
+    return;
+  }
+
+  clearSession();
+}
+
+async function applyRemoteProfile(profile) {
+  const state = getState();
+
+  const remoteProgress =
+    profile.progressData && typeof profile.progressData === "object" ? profile.progressData : state.progress;
+  const progressValidation = validateBySchema("progressData", remoteProgress);
+  const nextProgress = progressValidation.valid ? remoteProgress : state.progress;
+  const nextLessonLoop =
+    profile.lessonLoop && typeof profile.lessonLoop === "object" ? profile.lessonLoop : emptyLessonLoop();
+  const nextSignature = JSON.stringify({
+    progress: nextProgress,
+    lessonLoop: nextLessonLoop,
+  });
+
+  lastSyncedSignature = nextSignature;
+  applyRemoteStateLock = true;
+  updateState({
+    progress: nextProgress,
+    lessonLoop: nextLessonLoop,
+    importStatus: null,
+    repairPrompt: "",
+    promptText: "",
+  });
+  applyRemoteStateLock = false;
+}
+
+async function refreshProfileFromServer() {
+  const profile = await fetchProfile(authState.token);
+  authState.userName = profile.userName || authState.userName;
+  setSession(authState.token, authState.userName);
+  await applyRemoteProfile(profile);
+}
+
+function clearSyncTimer() {
+  if (syncTimer) {
+    clearTimeout(syncTimer);
+    syncTimer = null;
+  }
+}
+
+async function executeSync() {
+  if (
+    !authState.backendEnabled ||
+    !authState.isAuthenticated ||
+    !authState.token ||
+    applyRemoteStateLock ||
+    syncInFlight
+  ) {
+    return;
+  }
+
+  const state = getState();
+  const signature = stateSyncSignature(state);
+  if (signature === lastSyncedSignature) {
+    return;
+  }
+
+  syncInFlight = true;
+  try {
+    await saveProfile(authState.token, state.progress, state.lessonLoop);
+    lastSyncedSignature = signature;
+  } catch (error) {
+    if (isAuthFailure(error)) {
+      await actions.onLogout({
+        preserveError: "Your session expired. Please log in again.",
+      });
+      return;
+    }
+  } finally {
+    syncInFlight = false;
+    if (pendingSync) {
+      pendingSync = false;
+      scheduleProfileSync();
+    }
+  }
+}
+
+function scheduleProfileSync() {
+  if (!authState.backendEnabled || !authState.isAuthenticated || applyRemoteStateLock) {
+    return;
+  }
+
+  if (syncInFlight) {
+    pendingSync = true;
+    return;
+  }
+
+  clearSyncTimer();
+  syncTimer = setTimeout(() => {
+    syncTimer = null;
+    executeSync();
+  }, 450);
+}
+
+async function initializeAuth() {
+  const previousSession = readSession();
+  if (previousSession?.token) {
+    authState.token = previousSession.token;
+    authState.userName = previousSession.userName || "";
+  }
+
+  authState.backendEnabled = await probeBackend();
+  authState.initialized = true;
+
+  if (!authState.backendEnabled) {
+    setSession("", "");
+    renderApp();
+    return;
+  }
+
+  if (!authState.token) {
+    authState.isAuthenticated = false;
+    renderApp();
+    return;
+  }
+
+  authState.isBusy = true;
+  try {
+    await refreshProfileFromServer();
+    authState.isAuthenticated = true;
+    authState.error = "";
+  } catch (_) {
+    setSession("", "");
+    authState.error = "Saved session is invalid. Please log in again.";
+  } finally {
+    authState.isBusy = false;
+    renderApp();
+  }
 }
 
 const actions = {
@@ -342,6 +524,73 @@ const actions = {
     }
   },
 
+  onSetAuthMode(nextMode) {
+    if (nextMode !== "login" && nextMode !== "register") {
+      return;
+    }
+    authState.mode = nextMode;
+    authState.error = "";
+    renderApp();
+  },
+
+  async onSubmitAuth(credentials) {
+    if (!authState.backendEnabled || authState.isBusy) {
+      return;
+    }
+
+    const name = String(credentials?.name || "").trim();
+    const password = String(credentials?.password || "");
+
+    if (!name || !password) {
+      authState.error = "Name and password are required.";
+      renderApp();
+      return;
+    }
+
+    authState.isBusy = true;
+    authState.error = "";
+    renderApp();
+
+    try {
+      const authPayload =
+        authState.mode === "register"
+          ? await registerUser({ name, password })
+          : await loginUser({ name, password });
+      setSession(authPayload.token, authPayload.userName);
+      authState.isAuthenticated = true;
+      await refreshProfileFromServer();
+      authState.error = "";
+    } catch (error) {
+      authState.error = error?.message || "Could not complete authentication.";
+      authState.isAuthenticated = false;
+    } finally {
+      authState.isBusy = false;
+      renderApp();
+    }
+  },
+
+  async onLogout(options = {}) {
+    const preserveError = options?.preserveError || "";
+    const token = authState.token;
+
+    clearSyncTimer();
+    syncInFlight = false;
+    pendingSync = false;
+    lastSyncedSignature = null;
+
+    setSession("", "");
+    authState.isAuthenticated = false;
+    authState.isBusy = false;
+    authState.mode = "login";
+    authState.error = preserveError;
+
+    resetToSample();
+    coreLoopFeedback = null;
+
+    await logoutUser(token);
+    renderApp();
+  },
+
   onSpeakText(text, targetLang) {
     const result = speakText(text, { targetLang });
     if (!result.ok) {
@@ -373,7 +622,7 @@ function renderRouteContent(route, state) {
       return { html: renderPlan(state), bind: null };
     case "settings":
       return {
-        html: renderSettings(state),
+        html: renderSettings(state, { serverSyncEnabled: authState.backendEnabled }),
         bind: (container) => bindSettingsEvents(container, state, actions),
       };
     case "about":
@@ -388,6 +637,28 @@ function renderRouteContent(route, state) {
 }
 
 function renderApp() {
+  if (!authState.initialized) {
+    root.innerHTML = `
+      <main class="min-h-screen bg-gradient-to-br from-brand-50 via-base-100 to-sky-50 px-4 py-10 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
+        <div class="mx-auto max-w-md rounded-2xl border border-slate-200 bg-base-100/95 p-6 text-center dark:border-slate-800 dark:bg-slate-950/90">
+          <h1 class="text-lg font-semibold">Starting app...</h1>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Checking server capabilities.</p>
+        </div>
+      </main>
+    `;
+    return;
+  }
+
+  if (authState.backendEnabled && !authState.isAuthenticated) {
+    root.innerHTML = renderAuthPage({
+      mode: authState.mode,
+      isBusy: authState.isBusy,
+      error: authState.error,
+    });
+    bindAuthEvents(root, actions);
+    return;
+  }
+
   const state = getState();
   const route = getCurrentRoute();
   const page = renderRouteContent(route, state);
@@ -397,6 +668,8 @@ function renderApp() {
     nextLesson: state.progress?.nextLesson || null,
     coreLoopCollapsed: isCoreLoopCollapsed,
     coreLoopFeedback,
+    showAuth: authState.backendEnabled && authState.isAuthenticated,
+    userName: authState.userName,
   });
   if (page.bind) {
     page.bind(root);
@@ -420,6 +693,9 @@ function bindShellEvents() {
     const theme = toggleTheme();
     themeButton.textContent = theme === "dark" ? "Light mode" : "Dark mode";
     themeButton.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+  });
+  root.querySelector("#logout-button")?.addEventListener("click", () => {
+    actions.onLogout();
   });
 
   const mobileMenuButton = root.querySelector("#mobile-menu-toggle");
@@ -486,5 +762,9 @@ function bindShellEvents() {
 
 window.addEventListener("hashchange", renderApp);
 initTheme();
-subscribe(renderApp);
+subscribe(() => {
+  renderApp();
+  scheduleProfileSync();
+});
 renderApp();
+initializeAuth();

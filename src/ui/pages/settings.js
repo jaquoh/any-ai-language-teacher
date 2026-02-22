@@ -110,8 +110,11 @@ function toRatioWeights(percentWeights) {
   return next;
 }
 
-export function renderSettings(state) {
+export function renderSettings(state, options = {}) {
   const weights = toPercentWeights(state.progress.scoreConfig.weights);
+  const syncMessage = options.serverSyncEnabled
+    ? "Progress auto-saves in this browser and syncs to your server profile."
+    : "Progress auto-saves in this browser (localStorage). Import/export is still available for backup and moving to another device.";
 
   const sliderBlock = WEIGHT_KEYS
     .map(
@@ -149,7 +152,7 @@ export function renderSettings(state) {
 
       ${sectionCard(
         "Project Data",
-        `<p class="text-sm opacity-80 mb-3">Progress auto-saves in this browser (localStorage). Import/export is still available for backup and moving to another device.</p>
+        `<p class="text-sm opacity-80 mb-3">${syncMessage}</p>
          <div class="flex flex-wrap gap-2">
            <button id="export-progress" class="btn btn-sm btn-primary">Export ProgressData</button>
            <button id="import-progress-trigger" class="btn btn-sm btn-outline">Import ProgressData</button>
