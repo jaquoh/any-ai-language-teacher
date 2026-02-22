@@ -3,11 +3,15 @@
 Portable language-learning workflow for any AI chat.
 
 This project lets you:
-- keep structured language progress in local JSON,
+- keep structured language progress in local JSON or server-backed account storage,
 - generate a self-contained lesson prompt for a fresh AI session,
+- use a dedicated `AI Lesson` step page with provider links + guidance,
 - import strict lesson result data,
 - update progress deterministically,
+- track progress through a core 3-step lesson loop (Prompt -> AI Lesson -> Import),
 - inspect verbs, grammar, vocabulary, weak points, and CEFR estimate,
+- manage account settings (username, password, profile image URL) when server sync is enabled,
+- use built-in FAQ/help guides for app usage and data migration between accounts,
 - play vocabulary and verb pronunciation with browser speech voices (prefers `Anna-de-DE` and `Samantha-en-US` when available).
 - celebrate successful lesson imports with confetti feedback.
 
@@ -22,8 +26,9 @@ The user can move between AI providers/chats while preserving continuity.
 
 ## Stack
 - Vite + vanilla JavaScript
-- TailwindCSS + daisyUI
+- TailwindCSS + Preline UI
 - AJV schema validation
+- Optional PHP + MySQL backend for login/profile sync
 - Vitest unit tests
 - Playwright integration tests
 
@@ -76,13 +81,20 @@ npx playwright install chromium
 ```
 
 ## How to use
-1. Start on Dashboard and keep or import a `ProgressData` file.
-2. Go to Prompt Builder and click `Generate Prompt`.
-3. Paste prompt into AI chat and do the lesson.
-4. In Import Result, paste the lesson output and click `Validate and Import`.
-5. If import fails, copy the generated repair prompt and fix JSON in AI.
-6. Review updates in Lessons, Knowledge, and Dashboard.
-7. Export `ProgressData`.
+1. Start on Dashboard.
+2. In `Prompt`, click `Generate Prompt` and copy the lesson packet.
+3. In `AI Lesson`, open your preferred AI chat and complete the lesson.
+4. Click the confirmation button to mark step 2 done and jump to `Import`.
+5. In `Import`, paste the lesson JSON and click `Validate and Import`.
+6. If import fails, use the repair prompt to fix the JSON and retry.
+7. Review progress in `Lesson Timeline`, `Knowledge`, `Plan`, and `Dashboard`.
+8. Export `ProgressData` for backup or migration.
+
+## Navigation (current UI)
+- `Dashboard`
+- `Core Loop`: `Prompt`, `AI Lesson`, `Import`
+- `Learning Process`: `Timeline`, `Knowledge`, `Plan`
+- `Preferences & Help`: `Settings`, `FAQ`, `About`
 
 ## Lesson output reliability
 The app enforces strict schema validation.
@@ -99,3 +111,8 @@ The generated prompt now requests a flexible teacher greeting style and longer l
 ## Seed content
 V1 ships with a German curriculum seed from `A1.1` through `B1.2`, including immigration-relevant rotating topics.
 The first lesson starts with a themed `love and valentines day` focus to make the opening lesson more engaging.
+
+## Deployment notes
+- Frontend can be deployed as a static build (`dist/`).
+- When an `/api/health.php` endpoint is available, the app switches into login-required server-sync mode automatically.
+- See `backend/README.md` for PHP/MySQL setup, InfinityFree notes, and database migrations.
