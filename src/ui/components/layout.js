@@ -1,14 +1,34 @@
 import { routeLabel } from "../router.js";
 
-const LINKS = [
-  { href: "#/", id: "dashboard", label: "Dashboard" },
-  { href: "#/prompt", id: "promptBuilder", label: "Prompt" },
-  { href: "#/import", id: "importResult", label: "Import" },
-  { href: "#/lessons", id: "lessons", label: "Lessons" },
-  { href: "#/knowledge", id: "knowledge", label: "Knowledge" },
-  { href: "#/plan", id: "plan", label: "Plan" },
-  { href: "#/settings", id: "settings", label: "Settings" },
-  { href: "#/about", id: "about", label: "About" },
+const NAV_SECTIONS = [
+  {
+    title: null,
+    links: [{ href: "#/", id: "dashboard", label: "Dashboard" }],
+  },
+  {
+    title: "Core Loop",
+    links: [
+      { href: "#/prompt", id: "promptBuilder", label: "Prompt" },
+      { href: "#/ai-lesson", id: "aiLesson", label: "AI Lesson" },
+      { href: "#/import", id: "importResult", label: "Import" },
+    ],
+  },
+  {
+    title: "Learning Process",
+    links: [
+      { href: "#/lessons", id: "lessons", label: "Timeline" },
+      { href: "#/knowledge", id: "knowledge", label: "Knowledge" },
+      { href: "#/plan", id: "plan", label: "Plan" },
+    ],
+  },
+  {
+    title: "Preferences & Help",
+    links: [
+      { href: "#/settings", id: "settings", label: "Settings" },
+      { href: "#/faq", id: "faq", label: "FAQ" },
+      { href: "#/about", id: "about", label: "About" },
+    ],
+  },
 ];
 
 function escapeHtml(value) {
@@ -20,19 +40,53 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
-function renderSideNav(activeRoute) {
-  const links = LINKS.map((link) => {
-    const active = activeRoute === link.id;
-    const base =
-      "flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500";
-    const activeClasses = "bg-brand-600 text-white shadow-sm shadow-brand-900/20";
-    const idleClasses =
-      "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800/80";
+function userInitials(name) {
+  const parts = String(name || "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2);
+  if (!parts.length) {
+    return "U";
+  }
+  return parts.map((part) => part[0]?.toUpperCase() || "").join("");
+}
 
-    return `<a class="${base} ${active ? activeClasses : idleClasses}" href="${link.href}">
-      <span>${link.label}</span>
-      <span class="text-[10px] opacity-70">${active ? "Here" : ""}</span>
-    </a>`;
+function renderUserAvatar(name, avatarUrl) {
+  if (avatarUrl) {
+    return `<img src="${escapeHtml(avatarUrl)}" alt="" class="size-7 rounded-full border border-slate-200 object-cover dark:border-slate-700" />`;
+  }
+  return `<span class="inline-flex size-7 items-center justify-center rounded-full border border-slate-200 bg-slate-100 text-[10px] font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200">${escapeHtml(userInitials(name))}</span>`;
+}
+
+function renderSideNav(activeRoute) {
+  const sectionsHtml = NAV_SECTIONS.map((section, sectionIndex) => {
+    const linksHtml = section.links
+      .map((link) => {
+        const active = activeRoute === link.id;
+        const base =
+          "flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500";
+        const activeClasses = "bg-brand-600 text-white shadow-sm shadow-brand-900/20";
+        const idleClasses =
+          "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800/80";
+
+        return `<a class="${base} ${active ? activeClasses : idleClasses}" href="${link.href}">
+          <span>${link.label}</span>
+          <span class="text-[10px] opacity-70">${active ? "Here" : ""}</span>
+        </a>`;
+      })
+      .join("");
+
+    return `
+      <div class="${sectionIndex > 0 ? "pt-2" : ""}">
+        ${
+          section.title
+            ? `<p class="px-2 pb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">${section.title}</p>`
+            : ""
+        }
+        <div class="space-y-1">${linksHtml}</div>
+      </div>
+    `;
   }).join("");
 
   return `
@@ -43,8 +97,8 @@ function renderSideNav(activeRoute) {
           <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Portable language learning cockpit</p>
         </div>
 
-        <nav class="flex-1 space-y-1 overflow-y-auto px-4 py-4">
-          ${links}
+        <nav class="flex-1 space-y-2 overflow-y-auto px-4 py-4">
+          ${sectionsHtml}
         </nav>
 
         <div class="border-t border-slate-200 p-4 text-xs text-slate-500 dark:border-slate-800 dark:text-slate-400">
@@ -166,7 +220,7 @@ function renderLoopStepper(loopState, nextLesson = null, isCollapsed = false, fe
           </div>
           <div class="flex items-center gap-2 overflow-x-auto pt-1">
             ${renderCompactStep("Prompt", s1, 1, "#/prompt")}
-            ${renderCompactStep("Lesson", s2, 2, null, true, step2Locked)}
+            ${renderCompactStep("Lesson", s2, 2, step2Locked ? null : "#/ai-lesson")}
             ${renderCompactStep("Import", s3, 3, "#/import")}
           </div>
         </div>
@@ -195,11 +249,19 @@ function renderLoopStepper(loopState, nextLesson = null, isCollapsed = false, fe
             <p class="text-xs text-slate-500 dark:text-slate-400">${stepOneDescription}</p>
           </a>
 
-          <button data-mark-lesson-done type="button" class="${stepClass(step2, step1 && !step2)} ${step2Locked ? "cursor-not-allowed opacity-70" : "cursor-pointer"} text-left" ${step2Locked ? "disabled" : ""}>
-            ${stepIcon(step2, 2)}
-            <p class="text-sm font-medium">Do Lesson</p>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Run the interactive lesson in your AI chat, then mark done here.</p>
-          </button>
+          ${
+            step2Locked
+              ? `<button type="button" class="${stepClass(step2, step1 && !step2)} cursor-not-allowed opacity-70 text-left" disabled>
+                   ${stepIcon(step2, 2)}
+                   <p class="text-sm font-medium">Do Lesson</p>
+                   <p class="text-xs text-slate-500 dark:text-slate-400">Complete step 1 first or start the next loop after completion.</p>
+                 </button>`
+              : `<a class="${stepClass(step2, step1 && !step2)}" href="#/ai-lesson">
+                   ${stepIcon(step2, 2)}
+                   <p class="text-sm font-medium">Do Lesson</p>
+                   <p class="text-xs text-slate-500 dark:text-slate-400">Open AI Lesson instructions, do the lesson, then continue to import.</p>
+                 </a>`
+          }
 
           <a class="${stepClass(step3, step2 && !step3)}" href="#/import">
             ${stepIcon(step3, 3)}
@@ -226,6 +288,7 @@ export function renderShell(activeRoute, contentHtml, options = {}) {
   const coreLoopFeedback = options.coreLoopFeedback || null;
   const showAuth = Boolean(options.showAuth);
   const userName = options.userName ? escapeHtml(options.userName) : "";
+  const userAvatarUrl = options.userAvatarUrl ? String(options.userAvatarUrl) : "";
   const themeLabel = isDarkMode ? "Light mode" : "Dark mode";
 
   return `
@@ -249,8 +312,25 @@ export function renderShell(activeRoute, contentHtml, options = {}) {
           <div class="flex items-center gap-2">
             ${
               showAuth
-                ? `<div class="hidden rounded-lg border border-slate-300 px-2.5 py-2 text-xs text-slate-600 dark:border-slate-700 dark:text-slate-300 sm:block">Signed in: <span class="font-semibold">${userName}</span></div>
-                   <button id="logout-button" type="button" class="inline-flex items-center rounded-lg border border-slate-300 px-3 py-2 text-xs font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">Log out</button>`
+                ? `<details class="relative">
+                     <summary id="account-menu-toggle" class="flex cursor-pointer list-none items-center gap-2 rounded-lg border border-slate-300 px-2.5 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">
+                       ${renderUserAvatar(userName, userAvatarUrl)}
+                       <span class="max-w-[8rem] truncate sm:hidden">${userName}</span>
+                       <span class="hidden max-w-[14rem] truncate sm:inline">Signed in: <span class="font-semibold">${userName}</span></span>
+                       <span aria-hidden="true" class="text-[10px] opacity-70">&#9662;</span>
+                     </summary>
+                     <div class="absolute right-0 z-50 mt-2 w-52 rounded-xl border border-slate-200 bg-base-100/95 p-2 shadow-lg backdrop-blur dark:border-slate-800 dark:bg-slate-950/95">
+                       <div class="mb-2 flex items-center gap-2 rounded-lg bg-slate-50 px-2 py-2 dark:bg-slate-900">
+                         ${renderUserAvatar(userName, userAvatarUrl)}
+                         <div class="min-w-0">
+                           <p class="truncate text-xs text-slate-500 dark:text-slate-400">Signed in</p>
+                           <p class="truncate text-sm font-semibold">${userName}</p>
+                         </div>
+                       </div>
+                       <a href="#/settings" class="mb-1 flex w-full items-center rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800">Open Settings</a>
+                       <button type="button" data-account-logout class="flex w-full items-center rounded-lg px-3 py-2 text-left text-sm text-rose-700 hover:bg-rose-50 dark:text-rose-300 dark:hover:bg-rose-950/40">Log out</button>
+                     </div>
+                   </details>`
                 : ""
             }
             <button id="theme-toggle" type="button" aria-pressed="${isDarkMode ? "true" : "false"}" class="inline-flex items-center rounded-lg border border-slate-300 px-3 py-2 text-xs font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">${themeLabel}</button>

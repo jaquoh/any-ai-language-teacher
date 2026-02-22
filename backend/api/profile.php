@@ -18,6 +18,7 @@ json_response(200, [
         'user' => [
             'id' => $auth['user_id'],
             'name' => $auth['name'],
+            'avatarUrl' => get_user_avatar_url($db, $auth['user_id']),
         ],
         'progressData' => decode_json_or_null($profile['progress_json'] ?? null),
         'lessonLoop' => decode_json_or_null($profile['lesson_loop_json'] ?? null),

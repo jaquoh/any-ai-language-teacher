@@ -8,11 +8,13 @@ import { getCurrentRoute } from "./ui/router.js";
 import { renderShell } from "./ui/components/layout.js";
 import { renderDashboard, bindDashboardEvents } from "./ui/pages/dashboard.js";
 import { renderPromptBuilder, bindPromptBuilderEvents } from "./ui/pages/prompt-builder.js";
+import { renderAiLesson, bindAiLessonEvents } from "./ui/pages/ai-lesson.js";
 import { renderImportResult, bindImportResultEvents } from "./ui/pages/import-result.js";
 import { renderLessons } from "./ui/pages/lessons.js";
 import { renderKnowledge, bindKnowledgeEvents } from "./ui/pages/knowledge.js";
 import { renderPlan } from "./ui/pages/plan.js";
 import { renderSettings, bindSettingsEvents } from "./ui/pages/settings.js";
+import { renderFaq } from "./ui/pages/faq.js";
 import { renderAbout } from "./ui/pages/about.js";
 import { renderAuthPage, bindAuthEvents } from "./ui/pages/auth.js";
 
@@ -33,6 +35,8 @@ import {
   loginUser,
   fetchProfile,
   saveProfile,
+  updateAccountProfile,
+  changeAccountPassword,
   logoutUser,
   isAuthFailure,
 } from "./core/remoteProfileApi.js";
@@ -52,9 +56,14 @@ const authState = {
   isAuthenticated: false,
   token: "",
   userName: "",
+  avatarUrl: "",
   mode: "login",
   isBusy: false,
   error: "",
+  accountProfileBusy: false,
+  accountPasswordBusy: false,
+  accountProfileMessage: null,
+  accountPasswordMessage: null,
 };
 
 function setCoreLoopFeedback(message, ok = true) {
@@ -150,6 +159,11 @@ async function copyText(content) {
   return false;
 }
 
+function clearAccountMessages() {
+  authState.accountProfileMessage = null;
+  authState.accountPasswordMessage = null;
+}
+
 function stateSyncSignature(state) {
   return JSON.stringify({
     progress: state.progress,
@@ -170,6 +184,7 @@ function setSession(token, userName) {
     return;
   }
 
+  authState.avatarUrl = "";
   clearSession();
 }
 
@@ -202,6 +217,7 @@ async function applyRemoteProfile(profile) {
 async function refreshProfileFromServer() {
   const profile = await fetchProfile(authState.token);
   authState.userName = profile.userName || authState.userName;
+  authState.avatarUrl = profile.avatarUrl || "";
   setSession(authState.token, authState.userName);
   await applyRemoteProfile(profile);
 }
@@ -524,12 +540,48 @@ const actions = {
     }
   },
 
+  onCompleteLessonAndGoImport() {
+    const loopState = getState().lessonLoop || emptyLessonLoop();
+
+    if (!loopState.promptReady) {
+      setCoreLoopFeedback("Complete step 1 first: generate the prompt.", false);
+      if (window.location.hash !== "#/prompt") {
+        window.location.hash = "#/prompt";
+      } else {
+        renderApp();
+      }
+      return;
+    }
+
+    const nextLessonLoop = {
+      ...loopState,
+      promptReady: true,
+      lessonDone: true,
+    };
+
+    if (isLessonLoopComplete(nextLessonLoop) && !nextLessonLoop.lastCompletedAt) {
+      nextLessonLoop.lastCompletedAt = new Date().toISOString();
+    }
+
+    setCoreLoopFeedback("Lesson step marked done. Continue with Import Result.", true);
+    updateState({
+      lessonLoop: nextLessonLoop,
+    });
+
+    if (window.location.hash !== "#/import") {
+      window.location.hash = "#/import";
+    } else {
+      renderApp();
+    }
+  },
+
   onSetAuthMode(nextMode) {
     if (nextMode !== "login" && nextMode !== "register") {
       return;
     }
     authState.mode = nextMode;
     authState.error = "";
+    clearAccountMessages();
     renderApp();
   },
 
@@ -560,6 +612,7 @@ const actions = {
       authState.isAuthenticated = true;
       await refreshProfileFromServer();
       authState.error = "";
+      clearAccountMessages();
     } catch (error) {
       authState.error = error?.message || "Could not complete authentication.";
       authState.isAuthenticated = false;
@@ -583,12 +636,119 @@ const actions = {
     authState.isBusy = false;
     authState.mode = "login";
     authState.error = preserveError;
+    authState.accountProfileBusy = false;
+    authState.accountPasswordBusy = false;
+    clearAccountMessages();
 
     resetToSample();
     coreLoopFeedback = null;
 
     await logoutUser(token);
     renderApp();
+  },
+
+  async onSaveAccountProfile(payload) {
+    if (!authState.backendEnabled || !authState.isAuthenticated || authState.accountProfileBusy) {
+      return;
+    }
+
+    const nextName = String(payload?.name || "").trim();
+    if (!nextName) {
+      authState.accountProfileMessage = {
+        ok: false,
+        text: "User name is required.",
+      };
+      renderApp();
+      return;
+    }
+
+    authState.accountProfileBusy = true;
+    authState.accountProfileMessage = null;
+    renderApp();
+
+    try {
+      const updated = await updateAccountProfile(authState.token, {
+        name: nextName,
+        avatarUrl: payload?.avatarUrl || "",
+      });
+      if (updated.userName) {
+        authState.userName = updated.userName;
+      }
+      authState.avatarUrl = updated.avatarUrl || "";
+      setSession(authState.token, authState.userName);
+      authState.accountProfileMessage = {
+        ok: true,
+        text: "Profile updated.",
+      };
+    } catch (error) {
+      if (isAuthFailure(error)) {
+        await actions.onLogout({
+          preserveError: "Your session expired. Please log in again.",
+        });
+        return;
+      }
+      authState.accountProfileMessage = {
+        ok: false,
+        text: error?.message || "Could not save profile.",
+      };
+    } finally {
+      authState.accountProfileBusy = false;
+      renderApp();
+    }
+  },
+
+  async onChangeAccountPassword(payload) {
+    if (!authState.backendEnabled || !authState.isAuthenticated || authState.accountPasswordBusy) {
+      return;
+    }
+
+    const currentPassword = String(payload?.currentPassword || "");
+    const newPassword = String(payload?.newPassword || "");
+    const confirmPassword = String(payload?.confirmPassword || "");
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      authState.accountPasswordMessage = {
+        ok: false,
+        text: "Fill in all password fields.",
+      };
+      renderApp();
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      authState.accountPasswordMessage = {
+        ok: false,
+        text: "New password and confirmation do not match.",
+      };
+      renderApp();
+      return;
+    }
+
+    authState.accountPasswordBusy = true;
+    authState.accountPasswordMessage = null;
+    renderApp();
+
+    try {
+      await changeAccountPassword(authState.token, currentPassword, newPassword);
+      authState.accountPasswordMessage = {
+        ok: true,
+        text: "Password updated successfully.",
+      };
+    } catch (error) {
+      if (isAuthFailure(error)) {
+        await actions.onLogout({
+          preserveError: "Your session expired. Please log in again.",
+        });
+        return;
+      }
+      authState.accountPasswordMessage = {
+        ok: false,
+        text: error?.message || "Could not update password.",
+      };
+    } finally {
+      authState.accountPasswordBusy = false;
+      renderApp();
+    }
   },
 
   onSpeakText(text, targetLang) {
@@ -611,6 +771,11 @@ function renderRouteContent(route, state) {
         html: renderImportResult(state),
         bind: (container) => bindImportResultEvents(container, actions),
       };
+    case "aiLesson":
+      return {
+        html: renderAiLesson(state),
+        bind: (container) => bindAiLessonEvents(container, actions),
+      };
     case "lessons":
       return { html: renderLessons(state), bind: null };
     case "knowledge":
@@ -622,9 +787,24 @@ function renderRouteContent(route, state) {
       return { html: renderPlan(state), bind: null };
     case "settings":
       return {
-        html: renderSettings(state, { serverSyncEnabled: authState.backendEnabled }),
+        html: renderSettings(state, {
+          serverSyncEnabled: authState.backendEnabled,
+          account:
+            authState.backendEnabled && authState.isAuthenticated
+              ? {
+                  userName: authState.userName,
+                  avatarUrl: authState.avatarUrl,
+                  profileBusy: authState.accountProfileBusy,
+                  passwordBusy: authState.accountPasswordBusy,
+                  profileMessage: authState.accountProfileMessage,
+                  passwordMessage: authState.accountPasswordMessage,
+                }
+              : null,
+        }),
         bind: (container) => bindSettingsEvents(container, state, actions),
       };
+    case "faq":
+      return { html: renderFaq(state), bind: null };
     case "about":
       return { html: renderAbout(state), bind: null };
     case "dashboard":
@@ -670,6 +850,7 @@ function renderApp() {
     coreLoopFeedback,
     showAuth: authState.backendEnabled && authState.isAuthenticated,
     userName: authState.userName,
+    userAvatarUrl: authState.avatarUrl,
   });
   if (page.bind) {
     page.bind(root);
@@ -694,8 +875,10 @@ function bindShellEvents() {
     themeButton.textContent = theme === "dark" ? "Light mode" : "Dark mode";
     themeButton.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
   });
-  root.querySelector("#logout-button")?.addEventListener("click", () => {
-    actions.onLogout();
+  root.querySelectorAll("[data-account-logout]").forEach((button) => {
+    button.addEventListener("click", () => {
+      actions.onLogout();
+    });
   });
 
   const mobileMenuButton = root.querySelector("#mobile-menu-toggle");

@@ -198,6 +198,7 @@ export async function fetchProfile(token) {
 
   return {
     userName: typeof payload?.data?.user?.name === "string" ? payload.data.user.name : "",
+    avatarUrl: typeof payload?.data?.user?.avatarUrl === "string" ? payload.data.user.avatarUrl : "",
     progressData: payload?.data?.progressData,
     lessonLoop: payload?.data?.lessonLoop,
     updatedAt: payload?.data?.updatedAt || null,
@@ -211,6 +212,33 @@ export async function saveProfile(token, progressData, lessonLoop) {
     body: {
       progressData,
       lessonLoop,
+    },
+  });
+}
+
+export async function updateAccountProfile(token, account) {
+  const payload = await request("/account.php", {
+    method: "PUT",
+    token,
+    body: {
+      name: account?.name ?? "",
+      avatarUrl: account?.avatarUrl ?? "",
+    },
+  });
+
+  return {
+    userName: typeof payload?.data?.user?.name === "string" ? payload.data.user.name : "",
+    avatarUrl: typeof payload?.data?.user?.avatarUrl === "string" ? payload.data.user.avatarUrl : "",
+  };
+}
+
+export async function changeAccountPassword(token, currentPassword, newPassword) {
+  await request("/change-password.php", {
+    method: "POST",
+    token,
+    body: {
+      currentPassword,
+      newPassword,
     },
   });
 }

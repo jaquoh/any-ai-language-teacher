@@ -1,5 +1,3 @@
-import { sectionCard } from "../components/layout.js";
-
 function escapeHtml(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -181,17 +179,15 @@ function renderTimeline(history, nextLesson, loopState) {
   const chips = ordered.length ? renderSummaryChips(ordered) : "";
 
   return `
-    <section class="rounded-2xl border border-slate-200 bg-base-100/90 p-4 dark:border-slate-800">
-      <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
-        <h3 class="text-sm font-semibold">Lesson Timeline</h3>
-        <div class="flex flex-wrap gap-2">${chips}</div>
-      </div>
-      ${ordered.length ? "" : "<p class='mb-3 text-sm text-slate-500 dark:text-slate-400'>No completed lessons yet. Start with the pending lesson below.</p>"}
-      <ol class="border-s border-slate-200 ps-1 dark:border-slate-700">
-        ${points}
-        ${pendingPoint}
-      </ol>
-    </section>
+    <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+      <h2 class="text-lg font-semibold">Lesson Timeline</h2>
+      <div class="flex flex-wrap gap-2">${chips}</div>
+    </div>
+    ${ordered.length ? "" : "<p class='mb-3 text-sm text-slate-500 dark:text-slate-400'>No completed lessons yet. Start with the pending lesson below.</p>"}
+    <ol class="border-s border-slate-200 ps-1 dark:border-slate-700">
+      ${points}
+      ${pendingPoint}
+    </ol>
   `;
 }
 
@@ -200,10 +196,9 @@ export function renderLessons(state) {
   const nextLesson = state.progress.nextLesson || null;
   const loopState = state.lessonLoop || null;
 
-  return sectionCard(
-    "Lessons",
-    `
+  return `
+    <section class="rounded-2xl border border-slate-200 bg-base-100/90 p-4 dark:border-slate-800">
       ${renderTimeline(history, nextLesson, loopState)}
-    `,
-  );
+    </section>
+  `;
 }

@@ -118,6 +118,32 @@ function validate_password(string $password): bool
     return strlen($password) >= 8 && strlen($password) <= 120;
 }
 
+function normalize_avatar_url(mixed $value): ?string
+{
+    $url = trim((string) $value);
+    if ($url === '') {
+        return null;
+    }
+    return $url;
+}
+
+function validate_avatar_url(?string $url): bool
+{
+    if ($url === null) {
+        return true;
+    }
+
+    if (strlen($url) > 512) {
+        return false;
+    }
+
+    if (!preg_match('/^https?:\/\//i', $url)) {
+        return false;
+    }
+
+    return filter_var($url, FILTER_VALIDATE_URL) !== false;
+}
+
 function extract_bearer_token(): ?string
 {
     $header = null;
@@ -143,6 +169,60 @@ function extract_bearer_token(): ?string
 function token_hash(string $token): string
 {
     return hash('sha256', $token);
+}
+
+function users_support_avatar_url(PDO $db): bool
+{
+    static $supports = null;
+
+    if (is_bool($supports)) {
+        return $supports;
+    }
+
+    try {
+        $query = $db->query("SHOW COLUMNS FROM users LIKE 'avatar_url'");
+        $supports = (bool) $query->fetch();
+    } catch (Throwable $error) {
+        $supports = false;
+    }
+
+    return $supports;
+}
+
+function get_user_avatar_url(PDO $db, int $userId): ?string
+{
+    if (!users_support_avatar_url($db)) {
+        return null;
+    }
+
+    $query = $db->prepare('SELECT avatar_url FROM users WHERE id = :user_id LIMIT 1');
+    $query->execute([
+        ':user_id' => $userId,
+    ]);
+
+    $row = $query->fetch();
+    if (!$row) {
+        return null;
+    }
+
+    return isset($row['avatar_url']) && $row['avatar_url'] !== null && $row['avatar_url'] !== ''
+        ? (string) $row['avatar_url']
+        : null;
+}
+
+function set_user_avatar_url(PDO $db, int $userId, ?string $avatarUrl): bool
+{
+    if (!users_support_avatar_url($db)) {
+        return false;
+    }
+
+    $db->prepare('UPDATE users SET avatar_url = :avatar_url WHERE id = :user_id')
+        ->execute([
+            ':avatar_url' => $avatarUrl,
+            ':user_id' => $userId,
+        ]);
+
+    return true;
 }
 
 function issue_auth_token(PDO $db, int $userId, int $ttlSeconds): string
