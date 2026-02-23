@@ -1,11 +1,11 @@
 import { sectionCard } from "../components/layout.js";
 
 const AI_CHAT_LINKS = [
-  ["chatgptfree.ai", "https://chatgptfree.ai/"],
+  ["Z.AI Chat (recommended)", "https://chat.z.ai/"],
   ["ChatGPT", "https://chatgpt.com/"],
-  ["Z.AI Chat", "https://chat.z.ai/"],
   ["NoteGPT AI Chat", "https://notegpt.io/ai-chat"],
   ["Easemate AI Chat", "https://www.easemate.ai/chatgpt-free"],
+  ["chatgptfree.ai", "https://chatgptfree.ai/"],
   ["DeepAI Chat", "https://deepai.org/chat"],
 ];
 

@@ -179,7 +179,8 @@ function renderLoopStepper(loopState, nextLesson = null, isCollapsed = false, fe
   const step2 = Boolean(loopState?.lessonDone);
   const step3 = Boolean(loopState?.resultImported);
   const completed = step1 && step2 && step3;
-  const step2Locked = !step1 || completed;
+  const step2Locked = completed;
+  const step2NeedsPromptFirst = !step1 && !completed;
   const currentStep = !step1 ? 1 : !step2 ? 2 : !step3 ? 3 : 0;
   const statusLabel = completed ? "Completed" : "In progress";
   const statusClass = completed
@@ -254,12 +255,16 @@ function renderLoopStepper(loopState, nextLesson = null, isCollapsed = false, fe
               ? `<button type="button" class="${stepClass(step2, step1 && !step2)} cursor-not-allowed opacity-70 text-left" disabled>
                    ${stepIcon(step2, 2)}
                    <p class="text-sm font-medium">Do Lesson</p>
-                   <p class="text-xs text-slate-500 dark:text-slate-400">Complete step 1 first or start the next loop after completion.</p>
+                   <p class="text-xs text-slate-500 dark:text-slate-400">Start the next loop after completion.</p>
                  </button>`
               : `<a class="${stepClass(step2, step1 && !step2)}" href="#/ai-lesson">
                    ${stepIcon(step2, 2)}
                    <p class="text-sm font-medium">Do Lesson</p>
-                   <p class="text-xs text-slate-500 dark:text-slate-400">Open AI Lesson instructions, do the lesson, then continue to import.</p>
+                   <p class="text-xs text-slate-500 dark:text-slate-400">${
+                     step2NeedsPromptFirst
+                       ? "Open AI Lesson instructions now. Generate Step 1 prompt before confirming the lesson as done."
+                       : "Open AI Lesson instructions, do the lesson, then continue to import."
+                   }</p>
                  </a>`
           }
 
@@ -312,7 +317,7 @@ export function renderShell(activeRoute, contentHtml, options = {}) {
           <div class="flex items-center gap-2">
             ${
               showAuth
-                ? `<details class="relative">
+                ? `<details class="relative" data-account-menu>
                      <summary id="account-menu-toggle" class="flex cursor-pointer list-none items-center gap-2 rounded-lg border border-slate-300 px-2.5 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">
                        ${renderUserAvatar(userName, userAvatarUrl)}
                        <span class="max-w-[8rem] truncate sm:hidden">${userName}</span>

@@ -56,13 +56,13 @@ export function renderImportResult(state) {
   return sectionCard(
     `Import LessonResultData - ${escapeHtml(lessonLabel)}`,
     `
-    <p class="text-sm opacity-80">Paste the lesson ending block (including optional recap text). The app extracts the final \`json\` fenced block and validates strictly.</p>
-    <div class="mt-4 flex flex-wrap gap-2">
+    <p class="text-sm opacity-80 mb-3">Paste the lesson ending block (including optional recap text). The app extracts the final \`json\` fenced block and validates strictly.</p>
+    <div class="mb-4 flex flex-wrap gap-2">
       <button id="import-result" class="btn btn-primary">Validate and Import</button>
       <button id="load-valid-sample" class="btn btn-outline btn-sm">Load Valid Sample</button>
       <button id="load-invalid-sample" class="btn btn-outline btn-sm">Load Invalid Sample</button>
     </div>
-    <textarea id="result-input" class="textarea textarea-bordered w-full min-h-80 font-mono text-xs mt-4" placeholder="Paste lesson summary + final JSON block here"></textarea>
+    <textarea id="result-input" class="textarea textarea-bordered w-full min-h-80 font-mono text-xs" placeholder="Paste lesson summary + final JSON block here"></textarea>
     ${statusHtml}
     ${status && !status.ok ? renderErrors(status.errors) : ""}
     ${repairHtml}

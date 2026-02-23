@@ -36,5 +36,15 @@ describe("promptGenerator", () => {
     expect(prompt).toContain("4 to 7 varied activities");
     expect(prompt).toContain("Language-Specific Pitfalls To Teach");
     expect(prompt).toContain("Long compound nouns");
+    expect(prompt).toContain("Learner native language (main instruction language)");
+    expect(prompt).toContain("interactive chat lesson in dialogue form");
+    expect(prompt).toContain("Pre-teaching overview must assume the learner may know none of the new items yet");
+    expect(prompt).toContain("Main conversation language MUST be");
+    expect(prompt).toContain("Instruction language (main language for explanations/chat)");
+    expect(prompt).toContain("Teaching target language (what the learner is learning/practicing)");
+    expect(prompt).toContain("Do NOT run the overall conversation primarily in");
+    expect(prompt).toContain("at least ~80% of your teacher explanations/instructions should stay");
+    expect(prompt).toContain("IMPORTANT anti-drift rule");
+    expect(prompt).toContain("it does NOT change your teaching language");
   });
 });

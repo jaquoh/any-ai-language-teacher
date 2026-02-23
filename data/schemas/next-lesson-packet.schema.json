@@ -18,9 +18,10 @@
     "projectSnapshot": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["projectId", "targetLanguage", "currentModuleId", "overallScore", "cefrEstimate"],
+      "required": ["projectId", "nativeLanguage", "targetLanguage", "currentModuleId", "overallScore", "cefrEstimate"],
       "properties": {
         "projectId": { "type": "string", "minLength": 3 },
+        "nativeLanguage": { "type": "string", "minLength": 2 },
         "targetLanguage": { "type": "string", "minLength": 2 },
         "currentModuleId": { "type": "string", "minLength": 3 },
         "overallScore": { "type": "number", "minimum": 0, "maximum": 100 },

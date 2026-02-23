@@ -49,6 +49,7 @@ let lastSyncedSignature = null;
 let syncTimer = null;
 let syncInFlight = false;
 let pendingSync = false;
+let cleanupAccountMenuDismiss = null;
 
 const authState = {
   initialized: false,
@@ -868,6 +869,10 @@ function renderApp() {
 
 function bindShellEvents() {
   document.body.classList.remove("overflow-hidden");
+  if (typeof cleanupAccountMenuDismiss === "function") {
+    cleanupAccountMenuDismiss();
+    cleanupAccountMenuDismiss = null;
+  }
 
   const themeButton = root.querySelector("#theme-toggle");
   themeButton?.addEventListener("click", () => {
@@ -880,6 +885,31 @@ function bindShellEvents() {
       actions.onLogout();
     });
   });
+  const accountMenu = root.querySelector("[data-account-menu]");
+  if (accountMenu) {
+    const onDocumentClick = (event) => {
+      if (!accountMenu.open) {
+        return;
+      }
+      const target = event.target;
+      if (target instanceof Node && accountMenu.contains(target)) {
+        return;
+      }
+      accountMenu.open = false;
+    };
+    const onKeyDown = (event) => {
+      if (event.key === "Escape" && accountMenu.open) {
+        accountMenu.open = false;
+      }
+    };
+
+    document.addEventListener("click", onDocumentClick, true);
+    document.addEventListener("keydown", onKeyDown);
+    cleanupAccountMenuDismiss = () => {
+      document.removeEventListener("click", onDocumentClick, true);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }
 
   const mobileMenuButton = root.querySelector("#mobile-menu-toggle");
   const sidebar = root.querySelector("#app-sidebar");
